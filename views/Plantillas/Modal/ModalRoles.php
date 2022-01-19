@@ -12,7 +12,7 @@
         <div class="tile">
               <div class="tile-body">
                 <form id="formRol" name="formRol">
-                  <input type="hidden" id="roleId" name="roleId" value="">
+                  <input type="hidden" id="idrol" name="idrol" value="">
                   <div class="form-group">
                     <label for="control-label">Nombre</label>
                     <input class="form-control" id="txtroleNomb" name="txtroleNomb" type="text"  placeholder="Nombre del rol" required=""/>
@@ -44,79 +44,3 @@
 </div>
 
 
-<div class="modal fade modalPermisos" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">X</span>
-        </button>
-      </div>
-        <div class="modal-body">
-        <div  class="text-center"><h5>Permisos</h5></div> 
-        <form action="" id="formPermisos" name="formPermisos">
-            <div class="table-responsive">
-              <table class="table table-hover  table-bordered" id="">
-                  <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Módulo</th> 
-                        <th>Leer</th>
-                        <th>Escribir</th>
-                        <th>Actualizar</th>
-                        <th>Eliminar</th>
-                      </tr>
-                  </thead>
-                    <tbody> 
-                    <tr>
-                      <td>Usuario</td>  
-                      <td>
-                          <div class="toggle-flip">
-                              <label>
-                                <input type="checkbox"><span class="flip-indecator" data-toggle-on="ON" data-toggle-off="OFF"></span>
-                              </label>
-                        </div>
-                      </td> 
-                      <td>
-                      <div class="toggle-flip">
-                              <label>
-                                <input type="checkbox"><span class="flip-indecator" data-toggle-on="ON" data-toggle-off="OFF"></span>
-                              </label>
-                        </div>
-                      </td> 
-                      <td>
-                      <div class="toggle-flip">
-                              <label>
-                                <input type="checkbox"><span class="flip-indecator" data-toggle-on="ON" data-toggle-off="OFF"></span>
-                              </label>
-                        </div>
-                      </td> 
-                      <td>
-                      <div class="toggle-flip">
-                              <label>
-                                <input type="checkbox"><span class="flip-indecator" data-toggle-on="ON" data-toggle-off="OFF"></span>
-                              </label>
-                        </div>
-                      </td> 
-                      <td>
-                      <div class="toggle-flip">
-                              <label>
-                                <input type="checkbox"><span class="flip-indecator" data-toggle-on="ON" data-toggle-off="OFF"></span>
-                              </label>
-                        </div>
-                      </td>  
-                    </tr>  
-                    </tbody>
-              </table>
-            </div>
-              <div class="text-center">
-                <button class="btn btn-success" id="btnActionForm" type="submit">
-                    <span id="btnText">Guardar</span>
-                </button>
-                <button class="btn btn-danger" data-dismiss="modal" type="submit">Salir</button>
-                </div>
-            </div>
-        </form>
-    </div>
-  </div>
-</div>

@@ -9,11 +9,60 @@
  const DB_NAME = "SISO";
  const DB_USER = "root";
  const DB_PASSWORD = "";
- const DB_CHARSET = "charset=utf8";
+ const DB_CHARSET = "utf8";
 
  const SPD = ".";
  const SPM = ",";
  const SMONEY = "$";
- 
+ const CURRENCY = "USD";
+
+ //paypal pruebas hay que comentar estas lineas
+ const URLPAYPAL = "https://api-m.sandbox.paypal.com/";
+ const IDCLIENTE = "AQ9KaFiNiIkdFN7_k_bfFi641QbFYIfnEuFyjQrtJ2qJJb0XWxVyxQ4SvtGBnnRNGRXoqNgb2sCXAtpF";
+ const SECRET = "EGIEn2rsj9qvUflqxgLV4nVqGIIlVXrWt4KYt4DBUD9l63BuPBthd-lZxiokDjJQo_d_7F_y9_XfFDCO";
+
+ //paypal producción
+ //const IDCLIENTE= "Abz1N2rxQgncLiAayTDCG4gOQVpbBxQwWCboqqb-hLPe6nSha2N66zBnkyv4Qg0yuZ7ZUz-5U3nMYb6j";
+ //const URLPAYPAL = "https://api-m.paypal.com";
+ //const SECRET = "EIk2jqgFPlI54cJ9FbBshSEmTWFx7JjX9JSM2uqILEW3jQujfqyqqqxwRWhdBHY01avt-re0rWIxyyej";
+
+
+ const NOMBRE_REMITENTE = "SISO";
+ const EMAIL_REMITENTE ="no-reply@siso.com";
+ const NOMBRE_EMPRESA = "SISO";
+ const WEB_EMPRESA = "www.siso.com";
+
+ const DIRECCION = "Carrera 78 F # 38-A 10 Bogotá";
+ const TELEMPRESA = "57+3214241953";
+ const EMAIL_EMPRESA = "harold_uruena@yahoo.com";
+ const EMAIL_PEDIDOS = "harold_uruena@yahoo.com";
+
+const CAT_SLIDER = "5,6,12";
+const CAT_BANNER = "12,5,6";
+
+const KEY ='HRD';
+const METHODENCRIPT ="AES-128-ECB";
+const COSTOENVIO = 2500;
+
+//roles
+const RADMINISTRADOR = 3;
+const RCLIENTES = 6;
+
+// MODULOS
+const MCATEGORIAS = 1;
+const MDASHBOARD = 2;
+const MPROVEEDORES = 3;
+const MUSUARIOS = 4;
+const MMODULOS = 5;
+const MCONFIGURACION = 6;
+const MROLES = 7;
+const MCLIENTES = 8;
+const MPRODUCTOS = 9;
+const MCOMERCIAL = 10;
+const MVENTAS = 11;
+const MPEDIDOS = 12;
+const MFACTURAS = 14;
+
+const STATUS = array('Completo','Aprobado','Cancelado','Reembolsado','Pendiente','Entregado');
 
 ?>

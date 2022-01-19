@@ -2,77 +2,91 @@
     <aside class="app-sidebar">
       <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="<?= media(); ?>/images/avatar.png" alt="User Image">
         <div>
-          <p class="app-sidebar__user-name">Harold urueña</p>
-          <p class="app-sidebar__user-designation">admin</p>
+          <p class="app-sidebar__user-name"><?= $_SESSION['userData']['nombres']; ?></p>
+          <p class="app-sidebar__user-designation"><?= $_SESSION['userData']['roleNomb']; ?></p> 
         </div>
       </div>
       <ul class="app-menu">
-        <li>
-            <a class="app-menu__item" href="<?= base_url(); ?>/dashboard">
-                <i class="app-menu__icon fa fa-dashboard"></i>
-                <span class="app-menu__label">Dashboard</span>
-            </a>
-        </li>
+         <?php if(!empty($_SESSION['permisos'][3]['r'])) { ?>
+          <li>
+              <a class="app-menu__item" href="<?= base_url(); ?>/dashboard">
+                  <i class="app-menu__icon fa fa-dashboard"></i>
+                  <span class="app-menu__label">Dashboard</span>
+              </a>
+          </li>
+        <?php } ?> 
+        <?php if(!empty($_SESSION['permisos'][1]['r']) || !empty($_SESSION['permisos'][4]['r'])|| !empty($_SESSION['permisos'][7]['r']) || !empty($_SESSION['permisos'][5]['r'])){ ?>
         <li class="treeview">
             <a class="app-menu__item" href="#" data-toggle="treeview">
                 <i class="app-menu__icon fa fa-cog" aria-hidden="true"></i>
                 <span class="app-menu__label">Configuración</span>
                 <i class="treeview-indicator fa fa-angle-right"></i>
             </a>
-          <ul class="treeview-menu">
-            <li><a class="treeview-item" href="<?= base_url(); ?>usuarios"><i class="icon fa fa-circle-o"></i>Usuarios</a></li>
-            <li><a class="treeview-item" href="<?= base_url(); ?>roles"><i class="icon fa fa-circle-o"></i>roles</a></li>
-            <li><a class="treeview-item" href="<?= base_url(); ?>permisos"><i class="icon fa fa-circle-o"></i>Permisos</a></li>
-            <li><a class="treeview-item" href="<?= base_url(); ?>categorias"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
-          </ul>
+              <ul class="treeview-menu">
+                <li><a class="treeview-item" href="<?= base_url(); ?>usuarios"><i class="icon fa fa-circle-o"></i>Usuarios</a></li>
+                <li><a class="treeview-item" href="<?= base_url(); ?>roles"><i class="icon fa fa-circle-o"></i>roles</a></li>
+                <li><a class="treeview-item" href="<?= base_url(); ?>modulos"><i class="icon fa fa-circle-o"></i>Modulos</a></li>
+                <li><a class="treeview-item" href="<?= base_url(); ?>categorias"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
+              </ul>
         </li>
-        
+        <?php } ?>
+        <?php if(!empty($_SESSION['permisos'][8]['r'])){ ?>
         <li>
             <a class="app-menu__item" href="<?= base_url(); ?>clientes">
-                <i class="app-menu__icon fa fa-user-circle" aria-hidden="true"></i>
+                <i class="app-menu__icon fa fa fa-users" aria-hidden="true"></i>
                 <span class="app-menu__label">Clientes</span>
             </a>
         </li>
-
+        <?php } ?>
+        <?php if(!empty($_SESSION['permisos'][9]['r'])){ ?>
         <li>
             <a class="app-menu__item" href="<?= base_url(); ?>productos">
                 <i class="app-menu__icon fa fa-shopping-cart" aria-hidden="true"></i>
                 <span class="app-menu__label">Productos</span>
             </a>
         </li>
-       
+        <?php } ?>
+        <?php if(!empty($_SESSION['permisos'][11]['r']) || !empty($_SESSION['permisos'][12]['r'])) { ?>
         <li class="treeview">
             <a class="app-menu__item" href="#" data-toggle="treeview">
-                <i class="app-menu__icon fa fa-cog" aria-hidden="true"></i>
+                <i class="app-menu__icon fa fa-archive" aria-hidden="true"></i>
                 <span class="app-menu__label">Comercial</span>
                 <i class="treeview-indicator fa fa-angle-right"></i>
             </a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="<?= base_url(); ?>pedidos"><i class="icon fa fa-circle-o"></i>Pedidios</a></li>
+            <li><a class="treeview-item" href="<?= base_url(); ?>pedidos"><i class="icon fa fa-circle-o"></i>Pedidos</a></li>
+              <?php if(!empty($_SESSION['permisos'][6]['r'])){ ?>
             <li><a class="treeview-item" href="<?= base_url(); ?>ventas"><i class="icon fa fa-circle-o"></i>Ventas</a></li>
-            <!-- <li><a class="treeview-item" href="<?= base_url(); ?>/permisos"><i class="icon fa fa-circle-o"></i>Permisos</a></li>
-            <li><a class="treeview-item" href="<?= base_url(); ?>/categorias"><i class="icon fa fa-circle-o"></i>Categorias</a></li> -->
+             <?php } ?>
           </ul>
         </li>
+        <?php } ?>
+        <?php if(!empty($_SESSION['permisos'][3]['r'])){ ?>
         <li class="treeview">
             <a class="app-menu__item" href="#" data-toggle="treeview">
-                <i class="app-menu__icon fa fa-cog" aria-hidden="true"></i>
+                <i class="app-menu__icon fa fa-user" aria-hidden="true"></i>
                 <span class="app-menu__label">Provedores</span>
                 <i class="treeview-indicator fa fa-angle-right"></i>
             </a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="<?= base_url(); ?>proveedores"><i class="icon fa fa-circle-o"></i>Proveedores</a></li>
             <li><a class="treeview-item" href="<?= base_url(); ?>facturas"><i class="icon fa fa-circle-o"></i>Facturas</a></li>
-            <!-- <li><a class="treeview-item" href="<?= base_url(); ?>/permisos"><i class="icon fa fa-circle-o"></i>Permisos</a></li>
-            <li><a class="treeview-item" href="<?= base_url(); ?>/categorias"><i class="icon fa fa-circle-o"></i>Categorias</a></li> -->
           </ul>
         </li>
-        <!-- <li>
-            <a class="app-menu__item" href="<?= base_url(); ?>/proveedores">
-                <i class="app-menu__icon fa fa-check-circle" aria-hidden="true"></i>
-                <span class="app-menu__label">Proveedores</span>
+        <?php } ?>
+         <?php if(!empty($_SESSION['permisos'][14]['r'])){ ?>
+        <li class="treeview">
+            <a class="app-menu__item" href="#" data-toggle="treeview">
+                <i class="app-menu__icon fa fa-archive" aria-hidden="true"></i>
+                <span class="app-menu__label">Tienda</span>
+                <i class="treeview-indicator fa fa-angle-right"></i>
             </a>
-        </li> -->
+          <ul class="treeview-menu">
+            <li><a class="treeview-item" href="<?= base_url(); ?>tienda"><i class="icon fa fa-circle-o"></i>Tienda</a></li>
+            <li><a class="treeview-item" href="<?= base_url(); ?>home"><i class="icon fa fa-circle-o"></i>Home</a></li>
+          </ul>
+        </li>
+        <?php } ?>
         <li>
             <a class="app-menu__item" href="<?= base_url(); ?>logout">
                 <i class="app-menu__icon fa fa-sign-in" aria-hidden="true"></i>

@@ -5,8 +5,10 @@
     <main class="app-content">
       <div class="app-title">
         <div>
-          <h1><i class="fa fa-user-plus" aria-hidden="true"></i> <?= $data['page_title'] ?>
+          <h1><i class="fa fa-box" aria-hidden="true"></i> <?= $data['page_title'] ?>
+           <?php if($_SESSION['permisosMod']['w']){ ?>
           <button class="btn btn-primary" type="button" onclick="openModal();"><i class="fa fa-plus-square" aria-hidden="true"></i>Nuevo</button>
+           <?php } ?>
           </h1>
           <p>Aqui puedes crear un nuevo producto</p>
         </div>
@@ -15,7 +17,6 @@
           <li class="breadcrumb-item"><a href="<?= base_url(); ?>/productos"><?= $data['page_title'] ?></a></li>
         </ul>
       </div>
-  
         <div class="row">
           <div class="col-md-12">
             <div class="tile">
@@ -26,9 +27,11 @@
                       <tr>
                         <th>#</th>
                         <th>Categoría</th> 
-                        <th>Nombre producto</th>
+                        <th>Producto</th> 
                         <th>Detalle</th>
-                        <th>Cantidad</th>
+                        <th>Stock</th>
+                        <th>Precio</th>
+                        <th>Código</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
@@ -43,4 +46,4 @@
     </main>
     
   <?php footerAdmin($data); ?>
-  <script src="<?= media(); ?>/js/functions_productos.js"></script>
+  

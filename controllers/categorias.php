@@ -1,161 +1,180 @@
 <?php
-
-class Categorias extends Controllers
-{
-    
-public function __construct()
-{
-    parent::__construct();
-    session_start();
+class Categorias extends Controllers{
+    public function __construct()
+    {
+        parent::__construct();
+        session_start();
+        session_regenerate_id(true);
         if(empty($_SESSION['login']))
         {
-			header('Location: '.base_url().'/login');
-	    }
+            header('Location: '.base_url().'/login');
+        }
+        getPermisos(1);
+    }
 
-}
-public function Categorias()
-{
-    
-    $data['page_tag'] = "Categorias";
-    $data['page_title'] ="Categorías <small></small>";
-    $data['page_name'] = "Categorías";
-    $data['page_functions_js'] = "functions_categorias.js";
-    ///$data['page_content'] = "Informacion de la pagina";
-    $this->views->getView($this,"categorias", $data);
-}
-            
-    public function getCategorias()
-        {
-        $arrData = $this->model->selectCategorias();
+    public function Categorias() {
+        if(empty($_SESSION['permisosMod']['r'])){
+            header("Location:".base_url().'/dashboard');
+        }
+        $data['page_tag'] = "Categorias";
+        $data['page_title'] = "CATEGORIAS <small></small>";
+        $data['page_name'] = "categorias";
+        $data['page_functions_js'] = "functions_categorias.js";
+        $this->views->getView($this,"categorias",$data);
+    }
 
-        for($i = 0; $i < count($arrData); $i++)
-        {
-            if($arrData[$i]['status'] == 1)
-            {
-                $arrData[$i]['status'] = '<span class="badge badge-success">Activo</span>';
-            }else{
-                $arrData[$i]['status'] = '<span class="badge badge-danger">Inactivo</span>';
+    public function setCategoria(){
+        if($_POST){
+            if(empty($_POST['txtcateNomb']) || empty($_POST['txtcateDesc']) || empty($_POST['listStatus'])){
+                $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
+            }else{     
+                $intIdcategoria = intval($_POST['cateCodi']);
+                $strCategoria =  strClean($_POST['txtcateNomb']);
+                $strDescipcion = strClean($_POST['txtcateDesc']);
+                $intStatus = intval($_POST['listStatus']);
+
+                $foto           = $_FILES['foto'];
+                $nombre_foto    = $foto['name'];
+                $type           = $foto['type'];
+                $url_temp       = $foto['tmp_name'];
+                $imgPortada     = 'portada_categoria.png';
+                $request_categoria = "";
+                if($nombre_foto != ''){
+                    $imgPortada = 'img_'.md5(date('d-m-Y H:m:s')).'.jpg';
+                }
+
+                if($intIdcategoria == 0) {
+                    //Crear
+                    if($_SESSION['permisosMod']['w']){
+                        $request_categoria = $this->model->insertCategoria($strCategoria, $strDescipcion,$imgPortada,$intStatus);
+                        $option = 1;
+                    }
+                }else{
+                    //Actualizar
+                    if($_SESSION['permisosMod']['u']){
+                        if($nombre_foto == ''){
+                            if($_POST['foto_actual'] != 'portada_categoria.png' && $_POST['foto_remove'] == 0 ){
+                                $imgPortada = $_POST['foto_actual'];
+                            }
+                        }
+                        $request_categoria = $this->model->updateCategoria($intIdcategoria,$strCategoria, $strDescipcion,$imgPortada,$intStatus);
+                        $option = 2;
+                    }
+                }
+                if($request_categoria > 0 ){
+                    if($option == 1)
+                    {
+                        $arrResponse = array('status' => true, 'msg' => 'Datos guardados correctamente.');
+                        if($nombre_foto != ''){
+                            uploadImage($foto,$imgPortada);
+                          }
+                    }else{
+                        $arrResponse = array('status' => true, 'msg' => 'Datos Actualizados correctamente.');
+                        if($nombre_foto != ''){ 
+                            uploadImage($foto,$imgPortada);
+                         }
+
+                        if(($nombre_foto == '' && $_POST['foto_remove'] == 1 
+                            && $_POST['foto_actual'] != 'portada_categoria.png')
+                            || ($nombre_foto != '' && $_POST['foto_actual'] != 'portada_categoria.png')){
+                            deleteFile($_POST['foto_actual']);
+                        }
+                    }
+                }else if($request_categoria == 'exist'){
+                    $arrResponse = array('status' => false, 'msg' => '¡Atención! La categoría ya existe.');
+                }else{
+                    $arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
+                }
             }
-
-            $arrData[$i]['options'] = '<div class="text-center">
-            <button class="btn btn-secondary btn-sm btnPermisoRol" cc="'.$arrData[$i]['cateCodi'].'" title="Permisos"><i class="fa fa-address-book-o" aria-hidden="true"></i></button> 
-            <button class="btn btn-primary btn-sm btnEditCategorias" cc="'.$arrData[$i]['cateCodi'].'" title="Editar"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-            <button class="btn btn-danger btn-sm fntDelCategoria" cc="'.$arrData[$i]['cateCodi'].'" title="Eliminar"><i class="fa fa-trash-o" aria-hidden="true"></i></button> 
-            </div>';
-            }
-
-        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
+            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+        }
         die();
     }
 
-    public function getCategoria( int $idCategoria)
-    {
-        $intIdcate = intval(strClean($idCategoria));
+    public function getCategorias(){
+        if($_SESSION['permisosMod']['r']){
+            $arrData = $this->model->selectCategorias();
+            for ($i=0; $i < count($arrData); $i++) {
+                $btnView = '';
+                $btnEdit = '';
+                $btnDelete = '';
 
-        if($intIdcate > 0)
-            {
-
-       $arrData = $this->model->selectCategoria($intIdcate);
-       if(empty($arrData))
-           { 
-
-           $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
-
-           }else{
-
-           $arrResponse = array('status' => true, 'data' => $arrData);
-
-        }
-
-        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-                              }
-                        die();
-              }
-
-            public function setCategoria()
-            {
-                   
-            $intIdcate = intval($_POST['cateCodi']);
-            $strcateNomb = strClean($_POST['txtcateNomb']);
-            $strcateDesc = strClean($_POST['txtcateDesc']);
-            $intStatus = intval($_POST['listStatus']);
-        
-            if($intIdcate == 0)
-            {
-                $request_cate = $this->model->insertCategoria($strcateNomb, $strcateDesc, $intStatus);
-                $option = 1;
-
-            }else{
-                $request_cate = $this->model->updateCategoria( $strcateNomb, $strcateDesc, $intStatus);
-                $option = 2;
-
-            }
-
-            if($request_cate > 0)
-            {
-                if($option == 1)
+                if($arrData[$i]['status'] == 1)
                 {
-
-                    $arrResponse = array('status' => true, 'msg' => 'Datos guardados con exito.');
+                    $arrData[$i]['status'] = '<span class="badge badge-success">Activo</span>';
                 }else{
-
-                    $arrResponse = array('status' => true, 'msg' => 'Datos Actualizado con exito.');
+                    $arrData[$i]['status'] = '<span class="badge badge-danger">Inactivo</span>';
                 }
 
-                }else if ($request_cate == 'exist') 
-                {
-
-                $arrResponse = array('status' => false, 'msg' => 'La categoría ya existe.');
-
-            }else{
-
-                $arrResponse = array("status" => false, "msg" => 'No se pueden guardar los datos.');
-
+                if($_SESSION['permisosMod']['r']){
+                    $btnView = '<button class="btn btn-info btn-sm" onClick="fntViewInfo('.$arrData[$i]['cateCodi'].')" title="Ver categoría"><i class="far fa-eye"></i></button>';
+                }
+                if($_SESSION['permisosMod']['u']){
+                    $btnEdit = '<button class="btn btn-primary  btn-sm" onClick="fntEditInfo(this,'.$arrData[$i]['cateCodi'].')" title="Editar categoría"><i class="fas fa-pencil-alt"></i></button>';
+                }
+                if($_SESSION['permisosMod']['d']){  
+                    $btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelInfo('.$arrData[$i]['cateCodi'].')" title="Eliminar categoría"><i class="far fa-trash-alt"></i></button>';
+                }
+                $arrData[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
             }
-
-            echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-                die();
-}
-
-
-public function delCategoria()
-{
-    if($_POST){
-
-        $intIdcate = intval($_POST['cateCodi']);
-        $requestDelete =  $this->model->deleteCategoria($intIdcate);
-        if($requestDelete == 'ok'){
-
-            $arrResponse = array('status' => true, 'msg' => 'se ha eliminado con exito la categoría');
-
-        }elseif ($requestDelete == 'exist') {
-
-            $arrResponse = array('status' => false, 'msg' => 'No es posible eliminar el categoría');
-
-        }else{
-
-            $arrResponse = array('status' => false, 'msg' => 'Error al tratar de eliminar la categoría');
-
+            echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
         }
-
-        echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        die();
     }
 
-    die();
-}
-
-public function getSelectCategorias(){
-    $htmlOptions = "";
-    $arrData = $this->model->selectCategorias();
-    if(count($arrData) > 0){
-        for($i=0; $i < count($arrData); $i++){
-            $htmlOptions .= '<option value="'.$arrData[$i]['cateCodi'].'">'.$arrData[$i]['cateNomb'].'</option>';
+    public function getCategoria($cateCodi){
+        if($_SESSION['permisosMod']['r']){
+            $intIdcategoria = intval($cateCodi);
+            if($intIdcategoria > 0)
+            {
+                $arrData = $this->model->selectCategoria($intIdcategoria);
+                if(empty($arrData))
+                {
+                    $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
+                }else{
+                    $arrData['url_portada'] = media().'/images/uploads/'.$arrData['portada'];
+                    $arrResponse = array('status' => true, 'data' => $arrData);
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
         }
+        die();
     }
-    echo $htmlOptions;
-    die();
-}
 
-}
+    public function delCategoria(){
+        if($_POST){
+            if($_SESSION['permisosMod']['d']){
+                $intIdcategoria = intval($_POST['cateCodi']);
+                $requestDelete = $this->model->deleteCategoria($intIdcategoria);
+                if($requestDelete == 'ok')
+                {
+                    $arrResponse = array('status' => true, 'msg' => 'Se ha eliminado la categoría');
+                }else if($requestDelete == 'exist'){
+                    $arrResponse = array('status' => false, 'msg' => 'No es posible eliminar una categoría con productos asociados.');
+                }else{
+                    $arrResponse = array('status' => false, 'msg' => 'Error al eliminar la categoría.');
+                }
+                echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+            }
+        }
+        die();
+    }
 
-  ?>
+    public function getSelectCategorias(){
+        $htmlOptions = "";
+        $arrData = $this->model->selectCategorias();
+        if(count($arrData) > 0 ){
+            for ($i=0; $i < count($arrData); $i++) { 
+                if($arrData[$i]['status'] == 1 ){
+                $htmlOptions .= '<option value="'.$arrData[$i]['cateCodi'].'">'.$arrData[$i]['cateNomb'].'</option>';
+                }
+            }
+        }
+        echo $htmlOptions;
+        die();  
+    }
+
+    }
+
+
+ ?>

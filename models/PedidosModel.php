@@ -1,74 +1,157 @@
 <?php 
-class PedidosModel extends Mysql
-{
-  public function __construct()
-  {
+class PedidosModel extends Mysql{
+  public function __construct(){
     parent::__construct();
   }
+  public function selectPedidos($idpersona = null){
+      $where = "";
+      if($idpersona != null){
+        $where = " WHERE p.personaid = ".$idpersona;
+      }
+      $sql = "SELECT p.idpedido,
+              p.referenciacobro,
+              p.idtransaccionpaypal,
+              DATE_FORMAT(p.fecha, '%d/%m/%Y') as fecha,
+              p.monto,
+              tp.tipopago,
+              tp.idtipopago,
+              p.status 
+          FROM pedidos p 
+          INNER JOIN tipopago tp
+          ON p.tipopagoid = tp.idtipopago $where ";
+      $request = $this->select_all($sql);
+      return $request;
 
+    } 
 
-  public function insertPedidos( string $pediNomb , 
-  int $pediPrec,  int $pediCant, int $status){
-   
-    $this->strprodNomb = $pediNomb;
-    $this->intprodPrec = $pediPrec;
-    $this->strprodStock = $pediCant;
-    $this->intStatus = $status;
-    $return = 0;
-
-     $sql = "SELECT * FROM productos WHERE prodCodi =
-     '{$this->strprodNomb}'";
-     $request = $this->select_all($sql);
-    
-    if(empty($request)){
-      $query_insert = "INSERT INTO pedidos (pediNombProd,  pediCant, pediPrec,
-         status) value(?,?,?,?)";
-      $arrData = array(
-        
-        $this->strprodNomb,
-        $this->intprodPrec,
-        $this->strprodStock,
-        $this->intStatus
-      );
-      $request_insert = $this->insert($query_insert, $arrData);
-      $return = $request_insert;
-    }else{
-      $return ="exist";
+  public function selectPedido(int $idpedido, $idpersona = NULL){
+      $busqueda = "";
+      if($idpersona != NULL){
+        $busqueda = " AND p.personaid =".$idpersona;
+      }
+      $request = array();
+      $sql = "SELECT p.idpedido,
+              p.referenciacobro,
+              p.idtransaccionpaypal,
+              p.personaid,
+              DATE_FORMAT(p.fecha, '%d/%m/%Y') as fecha,
+              p.costo_envio,
+              p.monto,
+              p.tipopagoid,
+              t.tipopago,
+              p.direccion_envio,
+              p.status
+          FROM pedidos as p
+          INNER JOIN tipopago t
+          ON p.tipopagoid = t.idtipopago
+          WHERE p.idpedido =  $idpedido ".$busqueda;
+      $requestPedido = $this->select($sql);
+      if(!empty($requestPedido)){
+        $idpersona = $requestPedido['personaid'];
+        $sql_cliente = "SELECT idpersona,
+                    nombres,
+                    apellidos,
+                    telefono,
+                    email,
+                    nit,
+                    nombrefiscal,
+                    direccionfiscal 
+                FROM personas WHERE idpersona = $idpersona ";
+        $requestcliente = $this->select($sql_cliente);
+        $sql_detalle = "SELECT p.prodId,
+                      p.prodNomb as producto,
+                      d.precio,
+                      d.cantidad
+                  FROM detalle_pedido d
+                  INNER JOIN productos p
+                  ON d.productoid = p.prodId
+                  WHERE d.pedidoid = $idpedido";
+        $requestProductos = $this->select_all($sql_detalle);
+        $request = array('cliente' => $requestcliente,
+                'orden' => $requestPedido,
+                'detalle' => $requestProductos
+                 );
+      }
+      return $request;
     }
-    return $return;
-  } 
 
-  public function selectPedidos(){
-    $sql ="SELECT prodCodi,  prodNomb, prodPrec, prodMode, prodStock,
-    status
-    FROM productos  WHERE status != 0"  ;
-    //echo $sql;exit;
-    $request = $this->select_all($sql);
-    return $request;
+  public function selectTransPaypal(string $idtransaccion, $idpersona = NULL){
+    $busqueda= "";
+    if($idpersona != NULL){
+      $busqueda = "AND personaid =".$idpersona;
+    }
+    $objTransaccion = array();
+    $sql = "SELECT datospaypal FROM pedidos WHERE idtransaccionpaypal = '{$idtransaccion}' ".$busqueda;
+    $requestData = $this->select($sql);
+    if(!empty($requestData)){
+      ///dep($requestData);exit();
+        $objData = json_decode($requestData['datospaypal']);
+        //dep($objData);exit();
+        $urlOrden = $objData->links[0]->href;
+        $objTransaccion = CurlConnectionGet($urlOrden,"application/json",getTokenPaypal());
+      }
+      return $objTransaccion;
   }
 
-  public function selectPedido(int $prodCodi ){
-    $this->prodCodi = $prodCodi ;
-    $sql ="SELECT p.prodCodi , p.prodNomb, p.prodMarc, p.prodStock, 
-    p.prodMode, c.cateNomb, p.prodPrec, p.status, DATE_FORMAT(p.prodFech, '%d-%m-%Y') 
-    as fechaRegistro
-    FROM productos p
-    INNER JOIN categorias c
-    ON   p.prodCodiCate = c.cateCodi
-   WHERE p.status != 0 and prodCodi ={$this->prodCodi}";
-    ///echo $sql;exit; 
-    $request = $this->select($sql);
-    return $request;
-  }
+  public function reembolsoPaypal(string $idtransaccion, string $observacion){
+      $response = false;
+      $sql = "SELECT idpedido,datospaypal FROM pedidos WHERE idtransaccionpaypal = '{$idtransaccion}' ";
+      $requestData = $this->select($sql);
+      if(!empty($requestData)){
+        $objData = json_decode($requestData['datospaypal']);
+        $urlReembolso = $objData->purchase_units[0]->payments->captures[0]->links[1]->href;
+        $objTransaccion = CurlConnectionPost($urlReembolso,"application/json",getTokenPaypal());
+        if(isset($objTransaccion->status) and  $objTransaccion->status == "COMPLETED"){
+          $idpedido = $requestData['idpedido'];
+          $idtrasaccion = $objTransaccion->id;
+          $status = $objTransaccion->status;
+          $jsonData = json_encode($objTransaccion);
+          $observacion = $observacion;
+          $query_insert  = "INSERT INTO reembolsos (pedidoid,
+                            idtransaccion,
+                            datosreembolso,
+                            observacion,
+                            status) 
+                    VALUES(?,?,?,?,?)";
+          $arrData = array($idpedido,
+                      $idtrasaccion,
+                      $jsonData,
+                      $observacion,
+                      $status
+                    );
+          $request_insert = $this->insert($query_insert,$arrData);
+          if($request_insert > 0){
+                $updatePedido  = "UPDATE pedidos SET status = ? WHERE idpedido = $idpedido";
+                $arrPedido = array("Reembolsado");
+                $request = $this->update($updatePedido,$arrPedido);
+                $response = true;
+              }
+        }
+        return $response;
+      }
+    }
 
-  public function AgregarProducto(int $prodCodi ){
-    $this->prodCodi = $prodCodi ;
-    $sql ="SELECT prodCodi , prodNomb, prodStock, 
-     prodPrec, status FROM productos 
-    WHERE prodCodi = $this->prodCodi";
-    ///echo $sql;exit; 
-    $request = $this->select($sql);
-    return $request;
+public function updatePedido(int $idpedido, $transaccion = NULL, $idtipopago = NULL, string $estado){
+  if($transaccion == NULL){
+    $query_insert  = "UPDATE pedidos SET status = ?  WHERE idpedido = $idpedido ";
+        $arrData = array($estado);
+  }else{
+    $query_insert  = "UPDATE pedidos SET referenciacobro = ?, tipopagoid = ?,status = ? WHERE idpedido = $idpedido";
+        $arrData = array($transaccion,
+                $idtipopago,
+              $estado
+            );
   }
+  $request_insert = $this->update($query_insert,$arrData);
+      return $request_insert;
+}
+
 }
 ?>
+ 
+
+  
+
+  
+
+  

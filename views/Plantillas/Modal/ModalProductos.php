@@ -1,6 +1,6 @@
 
-<div class="modal fade" id="ModalProductos" name="ModalProductos" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+<div class="modal fade" id="modalProductos" name="modalProductos" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header headerRegister">
         <h5 class="modal-title" id="titleModal">Nuevo producto</h5>
@@ -8,64 +8,101 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">  
-        <form id="formProductos" name="formProductos">
-            <input type="hidden" id="idproductos" name="idproductos" class="form-horizontal" value="">
-            <p class="text-primary">Todos los campos son obligatorios.</p>
-             
-             <div class="form-row">
-              <div class="form-group col-md-6">
-                     <label for="listProd">Categoía</label>
-                     <select class="form-control" data-live-search="true"  id="listProd"  name="listProd"  required> 
-                     </select>
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="txtprodNomb">Nombre producto</label>
-                     <input type="text" class="form-control" id="txtprodNomb" name="txtprodNomb" required="">
-                 </div>
-             </div>
+      <div class="modal-body">
+            <form id="formProductos" name="formProductos" class="form-horizontal">
+              <input type="hidden" id="prodId" name="prodId" value="">
+              <p class="text-primary">Los campos con asterisco (<span class="required">*</span>) son obligatorios.</p>
+              <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="control-label">Nombre Producto <span class="required">*</span></label>
+                      <input class="form-control" id="txtNombre" name="txtNombre" type="text" required="">
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Descripción Producto</label>
+                      <textarea class="form-control" id="txtDescripcion" name="txtDescripcion" ></textarea>
+                    </div>
+                    
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Código <span class="required">*</span></label>
+                        <input class="form-control" id="txtCodigo" name="txtCodigo" type="text" placeholder="Código de barra" required="">
+                        <br>
+                        <div id="divBarCode" class="notBlock textcenter">
+                            <div id="printCode">
+                                <svg id="barcode"></svg> 
+                            </div>
+                            <button class="btn btn-success btn-sm" type="button" onClick="fntPrintBarcode('#printCode')"><i class="fas fa-print"></i> Imprimir</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Precio <span class="required">*</span></label>
+                            <input class="form-control" id="txtPrecio" name="txtPrecio" type="text" required="">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Stock <span class="required">*</span></label>
+                            <input class="form-control" id="txtStock" name="txtStock" type="text" required="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="listProd">Categoría <span class="required">*</span></label>
+                            <select class="form-control"  id="listProd" name="listProd"></select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="listStatus">Estado <span class="required">*</span></label>
+                            <select class="form-control " id="listStatus" name="listStatus" required="">
+                              <option value="1">Activo</option>
+                              <option value="2">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
 
-             <div class="form-row">
-                 <div class="form-group col-md-6">
-                     <label for="txtprodPrec">Precio</label>
-                     <input type="text" class="form-control" id="txtprodPrec" name="txtprodPrec" required="">
+                    <div class="row">
+                       <div class="form-group col-md-6">
+                           <button id="btnActionForm" class="btn btn-primary btn-lg btn-block" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span></button>
+                       </div> 
+                       <div class="form-group col-md-6">
+                           <button class="btn btn-danger btn-lg btn-block" type="button" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cerrar</button>
+                       </div> 
+                    </div>  
+                </div>
+              </div>
+              
+              <div class="tile-footer">
+                 <div class="form-group col-md-12">
+                     <div id="containerGallery">
+                         <span>Agregar foto (440 x 545)</span>
+                         <button class="btnAddImage btn btn-info btn-sm" type="button">
+                             <i class="fas fa-plus"></i>
+                         </button>
+                     </div>
+                     <hr>
+                     <div id="containerImages">
+                       <!--  <div id="div24">
+                             <div class="prevImage">
+                                 <img src="<?= media(); ?>/images/uploads/portada_categoria.png">
+                             </div>
+                             <input type="file" name="foto" id="img1" class="inputUploadfile">
+                             <label for="img1" class="btnUploadfile"><i class="fas fa-upload "></i></label>
+                             <button class="btnDeleteImage" type="button" onclick="fntDelItem('div24')"><i class="fas fa-trash-alt"></i></button>
+                         </div>
+                         <div id="div24">
+                             <div class="prevImage">
+                                 <img class="loading" src="<?= media(); ?>/images/loading.svg">
+                             </div>
+                             <input type="file" name="foto" id="img1" class="inputUploadfile">
+                             <label for="img1" class="btnUploadfile"><i class="fas fa-upload "></i></label>
+                             <button class="btnDeleteImage" type="button" onclick="fntDelItem('div24')"><i class="fas fa-trash-alt"></i></button>
+                         </div> -->
+                        
+                     </div>
                  </div>
-                 <div class="form-group col-md-6">
-                     <label for="txtprodMode">Detalle</label>
-                     <input type="text" class="form-control" id="txtprodMode" name="txtprodMode" required="">
-                 </div>
-             </div>
-             <div class="form-row">
-                 <div class="form-group col-md-6">
-                     <label for="txtprodMarc">Marca</label>
-                     <input type="text" class="form-control" id="txtprodMarc" name="txtprodMarc" required="">
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="txtprodStock">Cantidad</label>
-                     <input type="text" class="form-control" id="txtprodStock" name="txtprodStock" required="">
-                 </div>
-             </div>
-             <div class="form-row">
-                 <div class="form-group col-md-6">
-                     <label for="listNitProv">Nit proveedor</label>
-                     <select class="form-control" data-live-search="true"  id="listNitProv"  name="listNitProv"  required> 
-                     </select>
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="listStatus">Status</label>
-                     <select class="form-control" class="selectpicker" data-style="btn-success"  id="listStatus" name="listStatus" required>
-                         <option value="1">Activo</option>
-                         <option value="2">Inactivo</option>
-                     </select>
-                 </div>
-             </div> 
-            <div class="tile-footer">
-            <button class="btn btn-primary" id="btnActionForm" type="submit">
-                <span id="btnText">Guardar</span>
-            </button>
-            <button class="btn btn-secondary" data-dismiss="modal" type="submit">Cancelar</button>
-            </div>
-        </form>
+                                
+              </div>
+            </form>
       </div>
     </div>
   </div>
@@ -73,7 +110,7 @@
 
 
 
-<div class="modal fade" id="ModalViewUser"  tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="ModalViewProducto"  tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header primary" style="background-color:#009688">
@@ -86,32 +123,37 @@
        <table class="table table-bordered">
         <tbody>
             <tr>
-                <td>Categoría</td>
-                <td id=celIdentificacion></td>
+                <td>Código</td>
+                <td id=celCodigo></td>
             </tr>
             <tr>
-               <td>Nombre Producto</td>
-                <td id=celNombres></td>
+               <td>Categoría</td>celNombre
+                <td id=celCategoria></td>
+            </tr>
+            <tr>
+                <td>Nombre producto</td>
+                <td id=celNombre></td>
             </tr>
             <tr>
                 <td>Precio</td>
-                <td id=celApellidos></td>
+                <td id=celPrecio></td>
             </tr>
             <tr>
-                <td>Descripción</td>
-                <td id=celTelefono></td>
-            </tr>
-            <tr>
-                <td>Cantidad</td>
-                <td id=celEmail></td>
+                <td>Stock</td>
+                <td id=celStock></td>
             </tr>
             <tr>
                 <td>Estado</td>
-                <td id=celEstado></td>
+                <td id=celStatus></td>
+            </tr>celStatus
+            <tr>
+                <td>Descripción</td>
+                <td id=celDescripcion></td>
             </tr>
             <tr>
-                <td>Fech registro</td>
-                <td id=celFechaRegistro></td>
+              <td>Fotos de referencia:</td>
+              <td id="celFotos">
+              </td>
             </tr>
         </tbody>
        </table>

@@ -2,11 +2,14 @@
  headerAdmin($data); 
  getModal('ModalRoles', $data);
  ?>
+   <div id="contentAjax"></div>
     <main class="app-content">
       <div class="app-title">
         <div>
           <h1><i class="fa fa-user-plus" aria-hidden="true"></i> <?= $data['page_title'] ?>
+         <?php if($_SESSION['permisosMod']['w']){ ?>
           <button class="btn btn-primary" type="button" onclick="openModal();"><i class="fa fa-plus-square" aria-hidden="true"></i>Nuevo</button>
+            <?php } ?>
           </h1>
           <p>Aqui puedes crear un nuevo rol</p>
         </div>
@@ -42,6 +45,6 @@
         </div>
     </main>
    
-  <?php footerAdmin($data); ?>
+  <?php footerAdmin($data); ?> 
 
-  <script src="<?= media(); ?>/js/functions_roles.js"></script>
+ 

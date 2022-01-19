@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded',function(){
                 .column(1, {page: 'current'})//para sumar solo la pagina actual
                 .data()
                 .reduce(function (a, b) {
-                    return parseInt(a) + parseInt(b);
+                    return parseInt(a) + parseInt(b);S
                 }, 0 );
 
             $(this.api().column(3).footer()).html(total);
@@ -28,10 +28,10 @@ document.addEventListener('DOMContentLoaded',function(){
 			"dataSrc":""
 		},
 		"columns":[
-		{"data":"pediCodi"}, 
-		{"data":"pediNombProd"},
-		{"data":"pediCant"},
-		{"data":"pediPrec"},
+		{"data":""}, 
+		{"data":""},
+		{"data":""},
+		{"data":""},
 	// 	{"render": function(data, type, row) {
 	// 		const resume = {
 	// 			prodNomb: row.prodNomb,
@@ -64,21 +64,14 @@ document.addEventListener('DOMContentLoaded',function(){
 		"order":[[0,"desc"]]
 		
 	});
-
-	
 	////insertar productos
 	var formPedidos = document.querySelector("#formPedidos");
 	formPedidos.onsubmit = function(e) {
 	  e.preventDefault();
-	   
 	  //document.querySelector("#txtprodNomb").innerHTML = objData.data.prodNomb;
-	  
 	  var intCant = document.querySelector('#txtCant').value;
 	  var intprodNomb = document.querySelector('#txtprodNomb').value;
 	  var intprodPrec = document.querySelector('#txtprodPrec').value;
-	  
-		
-	  
 	  if( intCant == '')
 	  {
 		  swal("Atencion", "Todos los campos son obligatorios", "error");
@@ -89,7 +82,6 @@ document.addEventListener('DOMContentLoaded',function(){
 		var formData = new FormData(formPedidos);
 		request.open("POST", ajaxUrl, true);
 		request.send(formData);
-
 		request.onreadystatechange = function(){
 			if(request.readyState == 4 && request.status == 200){
 				var objData = JSON.parse(request.responseText);
@@ -109,7 +101,6 @@ document.addEventListener('DOMContentLoaded',function(){
 
 }, false);
 
-
 window.addEventListener('load', function(){
 	fntSelectCategoria();
 	fntViewProductos();
@@ -123,9 +114,7 @@ function fntSelectCategoria(){
 	var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 	request.open("GET", ajaxUrl, true);
 	request.send();
-
-	request.onreadystatechange = function() {
-		
+	request.onreadystatechange = function() {	
 		if(request.readyState == 4 && request.status == 200){
 			document.querySelector('#listProd').innerHTML = request.responseText;
 			document.querySelector('#listProd').value = 1;
@@ -134,7 +123,7 @@ function fntSelectCategoria(){
 		}
 	}
 }
-Z
+
 
 ///funcion para cargar select  carrito
 
@@ -170,9 +159,7 @@ function fntCarritoProductos() {
 	});
 }
 
-
 //////funcion para ver producto ok
-
 function fntViewProductos() {
 	var btnViewProductos = document.querySelectorAll(".btnViewProductos");
 	btnViewProductos.forEach(function(btnViewProductos){
@@ -208,15 +195,6 @@ function fntViewProductos() {
 	});
 
 }
-
-
-
-
-
-
-
-
-
   function openModal(){
 	document.querySelector('#idproductos').value="";
 	document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister"); 

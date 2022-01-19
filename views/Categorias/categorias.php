@@ -1,14 +1,15 @@
 <?php
  headerAdmin($data); 
- getModal('ModalCategorias', $data);
+ getModal('modalCategorias', $data);
  ?>
     <main class="app-content">
       <div class="app-title">
-        <div>
-          <h1><i class="fa fa-user-plus" aria-hidden="true"></i> <?= $data['page_title'] ?>
-          <button class="btn btn-primary" type="button" onclick="openModal();"><i class="fa fa-plus-square" aria-hidden="true"></i>Nuevo</button>
-          </h1>
-          <p>Aqui puedes crear un nueva categoría</p>
+      <div>
+            <h1><i class="fas fa-box-tissue"></i> <?= $data['page_title'] ?>
+                <?php if($_SESSION['permisosMod']['w']){ ?>
+                <button class="btn btn-primary" type="button" onclick="openModal();" ><i class="fas fa-plus-circle"></i> Nuevo</button>
+              <?php } ?>
+            </h1>
         </div>
         <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -42,4 +43,4 @@
     </main>
   
   <?php footerAdmin($data); ?>
-  <script src="<?= media(); ?>js/<?= $data['page_functions_js']; ?>"></script>
+ 

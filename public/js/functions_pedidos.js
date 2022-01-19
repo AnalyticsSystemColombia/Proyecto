@@ -1,217 +1,214 @@
-////cargar la tabla de la categoria
-var tablepedidos;
+let tablePedidos;
+let rowTable;
+tablePedidos = $('#tablePedidos').dataTable( {
+    "aProcessing":true,
+    "aServerSide":true,
+    "language": {
+        "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+    },
+    "ajax":{
+        "url": " "+base_url+"/Pedidos/getPedidos",
+        "dataSrc":""
+    },
+    "columns":[
+        {"data":"idpedido"},
+        {"data":"transaccion"},
+        {"data":"fecha"},
+        {"data":"monto"},
+        {"data":"tipopago"},
+        {"data":"status"},
+        {"data":"options"}
+    ],
+    "columnDefs": [
+                    { 'className': "textcenter", "targets": [ 3 ] },
+                    { 'className': "textright", "targets": [ 4 ] },
+                    { 'className': "textcenter", "targets": [ 5 ] }
+                  ],       
+    'dom': 'lBfrtip',
+    'buttons': [
+        {
+            "extend": "copyHtml5",
+            "text": "<i class='far fa-copy'></i> Copiar",
+            "titleAttr":"Copiar",
+            "className": "btn btn-secondary",
+            "exportOptions": { 
+                "columns": [ 0, 1, 2, 3, 4, 5] 
+            }
+        },{
+            "extend": "excelHtml5",
+            "text": "<i class='fas fa-file-excel'></i> Excel",
+            "titleAttr":"Esportar a Excel",
+            "className": "btn btn-success",
+            "exportOptions": { 
+                "columns": [ 0, 1, 2, 3, 4, 5] 
+            }
+        },{
+            "extend": "pdfHtml5",
+            "text": "<i class='fas fa-file-pdf'></i> PDF",
+            "titleAttr":"Esportar a PDF",
+            "className": "btn btn-danger",
+            "exportOptions": { 
+                "columns": [ 0, 1, 2, 3, 4, 5] 
+            }
+        },{
+            "extend": "csvHtml5",
+            "text": "<i class='fas fa-file-csv'></i> CSV",
+            "titleAttr":"Esportar a CSV",
+            "className": "btn btn-info",
+            "exportOptions": { 
+                "columns": [ 0, 1, 2, 3, 4, 5] 
+            }
+        }
+    ],
+    "resonsieve":"true",
+    "bDestroy": true,
+    "iDisplayLength": 10,
+    "order":[[0,"desc"]]  
+});
 
-document.addEventListener('DOMContentLoaded',function(){
-	////var formUsuarios = document.querySelector("formUsuarios");
-	tablepedidos = $('#tablepedidos').DataTable({
-		"aProcessing":true,
-		"aServerSide":true,
-		"language": {
-			"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-		},
-		"ajax":{
-			"url": " "+base_url+"/Pedidos/getPedidos",
-			"dataSrc":""
-		},
-		"columns":[
-		{"data":"prodCodi"}, 
-		{"data":"prodNomb"},
-		{"data":"prodPrec"},
-		{"data":"prodStock"},
-	// 	{"render": function(data, type, row) {
-	// 		const resume = {
-	// 			prodNomb: row.prodNomb,
-	// 			prodPrec: row.prodPrec,
-	// 			prodStock: row.prodStock,
-	// 		}
-	// 		return `<div class="col-xs-1 col-sm-1 col-md-1">
-	// 					<div class="thumbnail">
-	// 						<div class="caption">
-	// 							<h6 style="text-center">${resume.prodNomb}</h6>
-	// 							<p>Precio: $${resume.prodPrec}</p>
-	// 							<p>Cantidad: ${resume.prodStock}</p>
-	// 							<p class="text-center">
-	// 								<a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>&nbsp; Detalles</a>&nbsp;&nbsp;
-	// 								<button value="" class="btn btn-success btn-sm botonCarrito"><i class="fa fa-shopping-cart"></i>&nbsp; Añadir</button>
-	// 							</p>
-	// 						</div>
-	// 					</div>
-	// 	            </div>`; 
-	//    }
-	
-    //},
-{"data":"options"},
-		],
-
-		"resonsieve":"true",
-		"bDestroy":true,
-		"iDisplayLength": 10,
-		"order":[[0,"desc"]]
-		
-	});
-
-	
-	////insertar productos
-	var formPedidos = document.querySelector("#formPedidos");
-	formPedidos.onsubmit = function(e) {
-	  e.preventDefault();
-	   
-	  //document.querySelector("#txtprodNomb").innerHTML = objData.data.prodNomb;
-	  
-	  var intCant = document.querySelector('#txtCant').value;
-	  var intprodNomb = document.querySelector('#txtprodNomb').value;
-	  var intprodPrec = document.querySelector('#txtprodPrec').value;
-	  
-		
-	  
-	  if( intCant == '')
-	  {
-		  swal("Atencion", "Todos los campos son obligatorios", "error");
-		  return false;
-	  }
-		var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-		var ajaxUrl = base_url+'/Pedidos/setPedidos';
-		var formData = new FormData(formPedidos);
-		request.open("POST", ajaxUrl, true);
-		request.send(formData);
-
-		request.onreadystatechange = function(){
-			if(request.readyState == 4 && request.status == 200){
-				var objData = JSON.parse(request.responseText);
-				if(objData.status){
-					$('#ModalPedido').modal('hide');
-					formElement.reset();
-					swal("Pedidos", objData.msg ,"success");
-					tablepedido.api().ajax.reload(function(){
-
-					});
-				}else{
-					swal("Error", objData.msg , "error");
-				}
-			}
-		}
-	}
-
-}, false);
-
-
-window.addEventListener('load', function(){
-	fntSelectCategoria();
-	fntViewProductos();
-	fntCarritoProductos();
-}, false);
-
-///funcion para cargar select categorias
-
-function fntSelectCategoria(){
-	var ajaxUrl = base_url+'/Categorias/getSelectCategorias';
-	var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-	request.open("GET", ajaxUrl, true);
-	request.send();
-
-	request.onreadystatechange = function() {
-		
-		if(request.readyState == 4 && request.status == 200){
-			document.querySelector('#listProd').innerHTML = request.responseText;
-			document.querySelector('#listProd').value = 1;
-			// $('#listRolid').selectpicker('refresh');
-			// $('.selectpicker').addClass('col-lg-13').selectpicker('setStyle');
-		}
-	}
-}
-Z
-
-///funcion para cargar select  carrito
-
-function fntCarritoProductos() {
-	var btnCarrito = document.querySelectorAll(".btnCarrito");
-	btnCarrito.forEach(function(btnCarrito){
-	btnCarrito.addEventListener('click', function(){
-
-	var prodCodi = this.getAttribute("pr");
-	var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('microsoft.XMLHTTP');
-	var ajaxUrl = base_url+'/Pedidos/getAgregar/'+prodCodi;
-	request.open("GET",ajaxUrl,true);
-	request.send();
-	request.onreadystatechange = function(){
-	if(request.status == 200){
-		var objData = JSON.parse(request.responseText);
-		if(objData.status){
-		
-		document.querySelector("#txtprodNomb").innerHTML = objData.data.prodNomb;
-		document.querySelector("#txtprodPrec").innerHTML = objData.data.prodPrec;
-		document.querySelector("#txtprodStock").innerHTML = objData.data.prodStock;
-		
-		$('#ModalAgregar').modal('show');
-
-	}else{
-		swal("Error", objData.msg , "error");
-			}
-		}
-				
-	}
-	
-		});
-	});
+function fntTransaccion(idtransaccion){
+    let request = (window.XMLHttpRequest) ? 
+                    new XMLHttpRequest() : 
+                    new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Pedidos/getTransaccion/'+idtransaccion;
+    divLoading.style.display = "flex";
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            let objData = JSON.parse(request.responseText);
+            if(objData.status){   
+                document.querySelector("#divModal").innerHTML = objData.html;
+                $('#modalReembolso').modal('show');
+            }else{
+                swal("Error", objData.msg , "error");
+            }
+            divLoading.style.display = "none";
+            return false;
+        }
+    }
 }
 
+function fntReembolsar(){
+    let idtransaccion = document.querySelector("#idtransaccion").value;
+    let observacion = document.querySelector("#txtObservacion").value;
+    if(idtransaccion == '' || observacion == ''){
+        swal("", "Complete los datos para continuar." , "error");
+        return false;
+    }
 
-//////funcion para ver producto ok
+    swal({
+        title: "Hacer Reembolso",
+        text: "¿Realmente quiere realizar el reembolso?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Si, eliminar!",
+        cancelButtonText: "No, cancelar!",
+        closeOnConfirm: true,
+        closeOnCancel: true
+    }, function(isConfirm) { 
 
-function fntViewProductos() {
-	var btnViewProductos = document.querySelectorAll(".btnViewProductos");
-	btnViewProductos.forEach(function(btnViewProductos){
-		btnViewProductos.addEventListener('click', function(){
-		var prodCodi = this.getAttribute("pr");
-		var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('microsoft.XMLHTTP');
-		var ajaxUrl = base_url+'/Pedidos/getProducto/'+prodCodi;
-		request.open("GET",ajaxUrl,true);
-		request.send();
-		request.onreadystatechange = function(){
-			if(request.status == 200){
-				var objData = JSON.parse(request.responseText);
-				if(objData.status){
-					var estadoUsuario = objData.data.status == 1 ?
-					'<span class="badge badge-success">Activo</span>':
-					'<span class="badge badge-danger">Inactivo</span>';
-					document.querySelector("#celIdentificacion").innerHTML = objData.data.cateNomb;
-					document.querySelector("#celNombres").innerHTML = objData.data.prodNomb;
-					document.querySelector("#celApellidos").innerHTML = objData.data.prodPrec;
-					document.querySelector("#celTelefono").innerHTML = objData.data.prodMode;
-					document.querySelector("#celEmail").innerHTML = objData.data.prodStock;
-					document.querySelector("#celEstado").innerHTML = estadoUsuario;
-					document.querySelector("#celFechaRegistro").innerHTML = objData.data.fechaRegistro;
-					$('#ModalViewProductos').modal('show');
+        if(isConfirm){ 
+            $('#modalReembolso').modal('hide');
+            divLoading.style.display = "flex";
+            let request = (window.XMLHttpRequest) ? 
+                    new XMLHttpRequest() : 
+                    new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url+'/Pedidos/setReembolso';
+            let formData = new FormData();
+            formData.append('idtransaccion',idtransaccion);
+            formData.append('observacion',observacion);
+            request.open("POST",ajaxUrl,true);
+            request.send(formData);
+            request.onreadystatechange = function(){
+                if(request.readyState != 4) return;
+                if(request.status == 200){
+                    let objData = JSON.parse(request.responseText);
+                    if(objData.status){  
+                        window.location.reload();
+                    }else{
+                        swal("Error", objData.msg , "error");
+                    }
+                    divLoading.style.display = "none";
+                    return false;
+                }
+            }
+        }
 
-				}else{
-					swal("Error", objData.msg , "error");
-				}
-			}
-		}
-		
-		});
-	});
-
+    });
 }
 
+function fntEditInfo(element,idpedido){
+    rowTable = element.parentNode.parentNode.parentNode;
+    let request = (window.XMLHttpRequest) ? 
+                    new XMLHttpRequest() : 
+                    new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Pedidos/getPedido/'+idpedido;
+    divLoading.style.display = "flex";
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            let objData = JSON.parse(request.responseText);
+            if(objData.status)
+            {
+                document.querySelector("#divModal").innerHTML = objData.html;
+                $('#modalFormPedido').modal('show');
+               
+                fntUpdateInfo();
+            }else{
+                swal("Error", objData.msg , "error");
+            }
+            divLoading.style.display = "none";
+            return false;
 
-
-
-
-
-
-
-
-  function openModal(){
-	document.querySelector('#idproductos').value="";
-	document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister"); 
-	document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-primary"); 
-	document.querySelector('#btnText').innerHTML = "Guardar";
-	document.querySelector('#titleModal').innerHTML = "Agregar al carrito";
-	document.querySelector("#formPedidos").reset();
-
-	$('#ModalPedidos').modal('show');
+        }
+    }
 }
 
+function fntUpdateInfo(){
+    let formUpdatePedido = document.querySelector("#formUpdatePedido");
+    formUpdatePedido.onsubmit = function(e) {
+        e.preventDefault();
+        let transaccion;
+        if(document.querySelector("#txtTransaccion")){
+            transaccion = document.querySelector("#txtTransaccion").value;
+            if(transaccion == ""){
+                swal("", "Complete los datos para continuar." , "error");
+                return false;
+            }
+        }
 
+        let request = (window.XMLHttpRequest) ? 
+                    new XMLHttpRequest() : 
+                    new ActiveXObject('Microsoft.XMLHTTP');
+        let ajaxUrl = base_url+'/Pedidos/setPedido/';
+        divLoading.style.display = "flex";
+        let formData = new FormData(formUpdatePedido);
+        request.open("POST",ajaxUrl,true);
+        request.send(formData);
+        request.onreadystatechange = function(){
+            if(request.readyState != 4) return;
+            if(request.status == 200){
+                let objData = JSON.parse(request.responseText);
+                if(objData.status){
+                     swal("", objData.msg ,"success");
+                     $('#modalFormPedido').modal('hide');
+                    if(document.querySelector("#txtTransaccion")){
+                        rowTable.cells[1].textContent = document.querySelector("#txtTransaccion").value;
+                        rowTable.cells[4].textContent = document.querySelector("#listTipopago").selectedOptions[0].innerText;
+                        rowTable.cells[5].textContent = document.querySelector("#listEstado").value;
+                    }else{
+                        rowTable.cells[5].textContent = document.querySelector("#listEstado").value;
+                    }
+                }else{
+                    swal("Error", objData.msg , "error");
+                } 
 
+                divLoading.style.display = "none";
+                return false;
+            }
+        }
+
+    }
+}

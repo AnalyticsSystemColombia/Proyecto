@@ -3,21 +3,20 @@
 class Proveedores extends Controllers
 {
 	
-	public function __construct()
-	{
+	public function __construct(){
 		parent::__construct();
-		session_start();
-        if(empty($_SESSION['login']))
-        {
+		 session_start();
+         if(empty($_SESSION['login'])) {
 			header('Location: '.base_url().'/login');
-	    }
-
+	     }
+		 getPermisos(3);
 	}
 	public function Proveedores()
 	{
 		$data['page_tag'] = "Proveedores";
 		$data['page_title'] ="Proveedores";
 		$data['page_name'] = "Proveedores";
+		$data['page_functions_js'] = "functions_proveedores.js";
 		////$data['page_content'] = "Informacion de la pagina"; sirve para dar informacion.
 		$this->views->getView($this,"Proveedores", $data);
 	}
@@ -30,7 +29,6 @@ class Proveedores extends Controllers
 		empty($_POST['txtprovDeta']) || empty($_POST['listStatus']) ) 
 		{
 			$arrResponse = array("status" => false, "msg" => 'Datos incorrectos');
-
 		}else{
 			$strIdentificacion = strClean($_POST['txtprovNit']);
 			$strNombre = ucwords (strClean($_POST['txtprovNomb']));
@@ -40,7 +38,6 @@ class Proveedores extends Controllers
 			$strprovDeta = ucwords (strClean($_POST['txtprovDeta']));
 			$intStatus = intval(strClean($_POST['listStatus']));
 
-			
 			$request_user = $this->model->insertProveedor($strIdentificacion,
 			$strNombre,
 			$strApellido,

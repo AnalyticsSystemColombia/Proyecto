@@ -1,218 +1,442 @@
 ////cargar la tabla de la categoria
-var tableProductos;
+document.write(`<script src="${base_url}Public/js/plugins/JsBarcode.all.min.js"></script>`);
+let tableProductos;
+let rowTable = "";
+$(document).on('focusin', function(e) {
+    if ($(e.target).closest(".tox-dialog").length) {
+        e.stopImmediatePropagation();
+    }
+});
 
-document.addEventListener('DOMContentLoaded',function(){
-	////var formUsuarios = document.querySelector("formUsuarios");
-	tableProductos = $('#tableProductos').DataTable({
-		"aProcessing":true,
-		"aServerSide":true,
-		"language": {
-			"url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-		},
-		"ajax":{
-			"url": " "+base_url+"/Productos/getProductos",
-			"dataSrc":""
-		},
-		"columns":[
-		{"data":"prodCodi"},
-		{"data":"cateNomb"},
-		{"data":"prodNomb"},
-		{"data":"prodMode"},
-		{"data":"prodStock"},
-		{"data":"options"}
-		],
-		"resonsieve":"true",
-		"bDestroy":true,
-		"iDisplayLength": 10,
-		"order":[[0,"desc"]]
-	});
+tableProductos = $('#tableProductos').dataTable({
+    "aProcessing":true,
+    "aServerSide":true,
+    "language": {
+        "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+    },
+    "ajax":{
+        "url": " "+base_url+"/Productos/getProductos",
+        "dataSrc":""
+    },
+    "columns":[
+        {"data":"prodId"},
+        {"data":"categoria"},
+        {"data":"prodNomb"},
+        {"data":"descripcion"},
+        {"data":"prodStock"},
+        {"data":"prodPrec"},
+        {"data":"codigo"},
+        {"data":"options"},
+    ],
+    "columnDefs": [
+                    { 'className': "textcenter", "targets": [ 3 ] },
+                    { 'className': "textcenter", "targets": [ 4 ] },
+                    { 'className': "textcenter", "targets": [ 5 ] }
+                  ],       
+    'dom': 'lBfrtip',
+    'buttons': [
+        {
+            "extend": "copyHtml5",
+            "text": "<i class='far fa-copy'></i> Copiar",
+            "titleAttr":"Copiar",
+            "className": "btn btn-secondary",
+            "exportOptions": { 
+                "columns": [ 0, 1, 2, 3, 4, 5] 
+            }
+        },{
+            "extend": "excelHtml5",
+            "text": "<i class='fas fa-file-excel'></i> Excel",
+            "titleAttr":"Esportar a Excel",
+            "className": "btn btn-success",
+            "exportOptions": { 
+                "columns": [ 0, 1, 2, 3, 4, 5] 
+            }
+        },{
+            "extend": "pdfHtml5",
+            "text": "<i class='fas fa-file-pdf'></i> PDF",
+            "titleAttr":"Esportar a PDF",
+            "className": "btn btn-danger",
+            "exportOptions": { 
+                "columns": [ 0, 1, 2, 3, 4, 5] 
+            }
+        },{
+            "extend": "csvHtml5",
+            "text": "<i class='fas fa-file-csv'></i> CSV",
+            "titleAttr":"Esportar a CSV",
+            "className": "btn btn-info",
+            "exportOptions": { 
+                "columns": [ 0, 1, 2, 3, 4, 5] 
+            }
+        }
+    ],
+    "resonsieve":"true",
+    "bDestroy": true,
+    "iDisplayLength": 10,
+    "order":[[0,"desc"]]  
+});
 
 	////insertar productos
-	
-	formProductos.onsubmit = function(e) {
-	  e.preventDefault();
-	  
+window.addEventListener('load', function() {
+    if(document.querySelector("#formProductos")){
+        let formProductos = document.querySelector("#formProductos");
+        formProductos.onsubmit = function(e) {
+            e.preventDefault();
+            let strNombre = document.querySelector('#txtNombre').value;
+            let intCodigo = document.querySelector('#txtCodigo').value;
+            let strPrecio = document.querySelector('#txtPrecio').value;
+            let intStock = document.querySelector('#txtStock').value;
+            let intlistProd = document.querySelector('#listProd').value;
 
-	  var intlistProd = document.querySelector('#listProd').value;
-	  var strprodNomb = document.querySelector('#txtprodNomb').value;
-	  var intprodPrec = document.querySelector('#txtprodPrec').value;
-	  var strprodMode = document.querySelector('#txtprodMode').value;
-	  var strprodMarc = document.querySelector('#txtprodMarc').value;
-	  var intprodStock = document.querySelector('#txtprodStock').value;
-	  var listNitProv = document.querySelector('#listNitProv').value;
-	  var intStatus = document.querySelector('#listStatus').value;
+            let intStatus = document.querySelector('#listStatus').value;
+            if(strNombre == '' || intCodigo == '' || strPrecio == '' || intStock == '' )
+            {
+                swal("Atención", "Todos los campos son obligatorios." , "error");
+                return false;
+            }
+            if(intCodigo.length < 5){
+                swal("Atención", "El código debe ser mayor que 5 dígitos." , "error");
+                return false;
+            }
+            divLoading.style.display = "flex";
+            tinyMCE.triggerSave();
+            let request = (window.XMLHttpRequest) ? 
+                            new XMLHttpRequest() : 
+                            new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url+'/Productos/setProducto'; 
+            let formData = new FormData(formProductos);
+            request.open("POST",ajaxUrl,true);
+            request.send(formData);
+            request.onreadystatechange = function(){
+                if(request.readyState == 4 && request.status == 200){
+                    let objData = JSON.parse(request.responseText);
+                    if(objData.status)
+                    {
+                        swal("", objData.msg ,"success");
+                        document.querySelector("#prodId").value = objData.prodId;
+                        document.querySelector("#containerGallery").classList.remove("notBlock");
 
-	  if(intlistProd == '' || strprodNomb  == '' || intprodPrec == '' ||  strprodMode == '' || strprodMarc == '' || intprodStock == '' || listNitProv == ''|| intStatus== '')
-	  {
-		  swal("Atencion", "Todos los campos son obligatorios", "error");
-		  return false;
-	  }
-		var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-		var ajaxUrl = base_url+'/Productos/setProducto';
-		var formData = new FormData(formProductos);
-		request.open("POST", ajaxUrl, true);
-		request.send(formData);
+                        if(rowTable == ""){
+                            tableProductos.api().ajax.reload();
+                        }else{
+                           htmlStatus = intStatus == 1 ? 
+                            '<span class="badge badge-success">Activo</span>' : 
+                            '<span class="badge badge-danger">Inactivo</span>';
+                            rowTable.cells[1].textContent = intCodigo;
+                            rowTable.cells[2].textContent = strNombre;
+                            rowTable.cells[3].textContent = intStock;
+                            rowTable.cells[4].textContent = document.querySelector("#listProd").selectedOptions[0].text;
+                            rowTable.cells[5].textContent = smony+strPrecio;
+                            rowTable.cells[6].innerHTML =  htmlStatus;
+                            rowTable = ""; 
+                        }
+                    }else{
+                        swal("Error", objData.msg , "error");
+                    }
+                }
+                divLoading.style.display = "none";
+                return false;
+            }
+        }
+    }
 
-		request.onreadystatechange = function(){
-			if(request.readyState == 4 && request.status == 200){
-				var objData = JSON.parse(request.responseText);
-				if(objData.status){
-					$('#ModalProductos').modal('hide');
-					formElement.reset();
-					swal("Productos", objData.msg ,"success");
-					tableProductos.api().ajax.reload(function(){
+    if(document.querySelector(".btnAddImage")){
+       let btnAddImage =  document.querySelector(".btnAddImage");
+       btnAddImage.onclick = function(e){
+        let key = Date.now();
+        let newElement = document.createElement("div");
+        newElement.id= "div"+key;
+        newElement.innerHTML = `
+            <div class="prevImage"></div>
+            <input type="file" name="foto" id="img${key}" class="inputUploadfile">
+            <label for="img${key}" class="btnUploadfile"><i class="fas fa-upload "></i></label>
+            <button class="btnDeleteImage notBlock" type="button" onclick="fntDelItem('#div${key}')"><i class="fas fa-trash-alt"></i></button>`;
+        document.querySelector("#containerImages").appendChild(newElement);
+        document.querySelector("#div"+key+" .btnUploadfile").click();
+        fntInputFile();
+       }
+    }
 
-					});
-				}else{
-					swal("Error", objData.msg , "error");
-				}
-			}
-		}
-	}
-
+    fntInputFile();
+    fntCategorias();
 }, false);
 
-
-
-window.addEventListener('load', function(){
-	fntSelectCategoria();
-	fntViewProductos();
-	fntEditProductos();
-	fntSelectProveedores();
-}, false);
-
-///funcion para cargar select categorias
-
-function fntSelectCategoria(){
-	var ajaxUrl = base_url+'/Categorias/getSelectCategorias';
-	var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-	request.open("GET", ajaxUrl, true);
-	request.send();
-
-	request.onreadystatechange = function() {
-		
-		if(request.readyState == 4 && request.status == 200){
-			document.querySelector('#listProd').innerHTML = request.responseText;
-			document.querySelector('#listProd').value = 1;
-			// $('#listRolid').selectpicker('refresh');
-			// $('.selectpicker').addClass('col-lg-13').selectpicker('setStyle');
-		}
-	}
-}
-///funcion para cargar select  provvedores
-
-function fntSelectProveedores(){
-	var ajaxUrl = base_url+'/Proveedores/getSelectProveedores';
-	var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-	request.open("GET", ajaxUrl, true);
-	request.send();
-
-	request.onreadystatechange = function() {
-		
-		if(request.readyState == 4 && request.status == 200){
-			document.querySelector('#listNitProv').innerHTML = request.responseText;
-			document.querySelector('#listNitProv').value = 1;
-			// $('#listRolid').selectpicker('refresh');
-			// $('.selectpicker').addClass('col-lg-13').selectpicker('setStyle');
-		}
-	}
+if(document.querySelector("#txtCodigo")){
+    let inputCodigo = document.querySelector("#txtCodigo");
+    inputCodigo.onkeyup = function() {
+        if(inputCodigo.value.length >= 5){
+            document.querySelector('#divBarCode').classList.remove("notBlock");
+            fntBarcode();
+       }else{
+            document.querySelector('#divBarCode').classList.add("notBlock");
+       }
+    };
 }
 
-function fntViewProductos() {
-	var btnViewProductos = document.querySelectorAll(".btnViewProductos");
-	btnViewProductos.forEach(function(btnViewProductos){
-		btnViewProductos.addEventListener('click', function(){
-		var prodCodi = this.getAttribute("pr");
-		var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('microsoft.XMLHTTP');
-		var ajaxUrl = base_url+'/Productos/getProducto/'+prodCodi;
-		request.open("GET",ajaxUrl,true);
-		request.send();
-		request.onreadystatechange = function(){
-			if(request.status == 200){
-				var objData = JSON.parse(request.responseText);
-				if(objData.status){
-					var estadoUsuario = objData.data.status == 1 ?
-					'<span class="badge badge-success">Activo</span>':
-					'<span class="badge badge-danger">Inactivo</span>';
-					document.querySelector("#celIdentificacion").innerHTML = objData.data.cateNomb;
-					document.querySelector("#celNombres").innerHTML = objData.data.prodNomb;
-					document.querySelector("#celApellidos").innerHTML = objData.data.prodPrec;
-					document.querySelector("#celTelefono").innerHTML = objData.data.prodMode;
-					document.querySelector("#celEmail").innerHTML = objData.data.prodStock;
-					document.querySelector("#celEstado").innerHTML = estadoUsuario;
-					document.querySelector("#celFechaRegistro").innerHTML = objData.data.fechaRegistro;
-					$('#ModalViewUser').modal('show');
+tinymce.init({
+    selector: '#txtDescripcion',
+    width: "100%",
+    height: 400,    
+    statubar: true,
+    plugins: [
+        "advlist autolink link image lists charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+        "save table contextmenu directionality emoticons template paste textcolor"
+    ],
+    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
+});
+///funcion para cargar 
+function fntInputFile(){
+    let inputUploadfile = document.querySelectorAll(".inputUploadfile");
+    inputUploadfile.forEach(function(inputUploadfile) {
+        inputUploadfile.addEventListener('change', function(){
+            let prodId = document.querySelector("#prodId").value;
+            let parentId = this.parentNode.getAttribute("id");
+            let idFile = this.getAttribute("id");            
+            let uploadFoto = document.querySelector("#"+idFile).value;
+            let fileimg = document.querySelector("#"+idFile).files;
+            let prevImg = document.querySelector("#"+parentId+" .prevImage");
+            let nav = window.URL || window.webkitURL;
+            if(uploadFoto !=''){
+                let type = fileimg[0].type;
+                let name = fileimg[0].name;
+                if(type != 'image/jpeg' && type != 'image/jpg' && type != 'image/png'){
+                    prevImg.innerHTML = "Archivo no válido";
+                    uploadFoto.value = "";
+                    return false;
+                }else{
+                    let objeto_url = nav.createObjectURL(this.files[0]);
+                    prevImg.innerHTML = `<img class="loading" src="${base_url}/Public/images/loading.svg" >`;
 
-				}else{
-					swal("Error", objData.msg , "error");
-				}
-			}
-		}
-		
-		});
-	});
+                    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+                    let ajaxUrl = base_url+'/Productos/setImagen'; 
+                    let formData = new FormData();
+                    formData.append('prodId',prodId);
+                    formData.append("foto", this.files[0]);
+                    request.open("POST",ajaxUrl,true);
+                    request.send(formData);
+                    request.onreadystatechange = function(){
+                       // console.log(request.responseText);
+                        if(request.readyState != 4) return;
+                        if(request.status == 200){
+                            let objData = JSON.parse(request.responseText);
+                            if(objData.status){
+                                prevImg.innerHTML = `<img src="${objeto_url}">`;
+                                document.querySelector("#"+parentId+" .btnDeleteImage").setAttribute("imgname",objData.imgname);
+                                document.querySelector("#"+parentId+" .btnUploadfile").classList.add("notBlock");
+                                document.querySelector("#"+parentId+" .btnDeleteImage").classList.remove("notBlock");
+                            }else{
+                                swal("Error", objData.msg , "error");
+                            }
+                        }
+                    }
+
+                }
+            }
+
+        });
+    });
 }
 
+function fntDelItem(element){
+    let nameImg = document.querySelector(element+' .btnDeleteImage').getAttribute("imgname");
+    let prodId = document.querySelector("#prodId").value;
+    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Productos/delFile'; 
 
-function fntEditProductos() {
-	var btnEditProductos = document.querySelectorAll(".btnEditProductos");
-	btnEditProductos.forEach(function(btnEditProductos){
-		btnEditProductos.addEventListener('click', function(){
-			
-		document.querySelector('#titleModal').innerHTML = "Actualizar producto";
-		document.querySelector('.modal-header').classList.replace("headerRegister", "headerUpdate"); 
-		document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info"); 
-		document.querySelector('#btnText').innerHTML = "Actualizar";
-		
-
-	var prodCodi = this.getAttribute("pr");
-	var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('microsoft.XMLHTTP');
-	var ajaxUrl = base_url+'/Productos/getProducto/'+prodCodi;
-	request.open("GET",ajaxUrl,true);
-	request.send();
-	request.onreadystatechange = function(){
-	if(request.status == 200){
-		var objData = JSON.parse(request.responseText);
-		if(objData.status)
-		{
-		document.querySelector("#idproductos").value = objData.data.prodCodi;
-		document.querySelector("#listProd").value = objData.data.prodCodiCate;
-		document.querySelector("#txtprodNomb").value = objData.data.prodNomb;
-		document.querySelector("#txtprodPrec").value = objData.data.prodPrec;
-		document.querySelector("#txtprodMarc").value = objData.data.prodMarc;
-		document.querySelector("#txtprodStock").value = objData.data.prodStock;
-		document.querySelector("#txtprodMode").value = objData.data.prodMode;
-		document.querySelector("#listNitProv").value = objData.data.provNomb;
-		document.querySelector("#listStatus").value = objData.data.status;
-		
-
-		}
-	}
-		
-	$('#ModalProductos').modal('show');
-
-			
-	}
-	
-		});
-	});
+    let formData = new FormData();
+    formData.append('prodid',prodId);
+    formData.append("file",nameImg);
+    request.open("POST",ajaxUrl,true);
+    request.send(formData);
+    request.onreadystatechange = function(){
+        if(request.readyState != 4) return;
+        if(request.status == 200){
+            let objData = JSON.parse(request.responseText);
+            if(objData.status)
+            {
+                let itemRemove = document.querySelector(element);
+                itemRemove.parentNode.removeChild(itemRemove);
+            }else{
+                swal("", objData.msg , "error");
+            }
+        }
+    }
 }
 
+function fntViewInfo(prodId){
+    let request = (window.XMLHttpRequest) ? 
+                    new XMLHttpRequest() : 
+                    new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Productos/getProducto/'+prodId;
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            let objData = JSON.parse(request.responseText);
+            if(objData.status)
+            {
+                let htmlImage = "";
+                let objProducto = objData.data;
+                let estadoProducto = objProducto.status == 1 ? 
+                '<span class="badge badge-success">Activo</span>' : 
+                '<span class="badge badge-danger">Inactivo</span>';
 
+                document.querySelector("#celCodigo").innerHTML = objProducto.codigo;
+                document.querySelector("#celNombre").innerHTML = objProducto.prodNomb;
+                document.querySelector("#celPrecio").innerHTML = objProducto.prodPrec;
+                document.querySelector("#celStock").innerHTML = objProducto.prodStock;
+                document.querySelector("#celCategoria").innerHTML = objProducto.categoria;
+                document.querySelector("#celStatus").innerHTML = estadoProducto;
+                document.querySelector("#celDescripcion").innerHTML = objProducto.descripcion;
 
+                if(objProducto.images.length > 0){
+                    let objProductos = objProducto.images;
+                    for (let p = 0; p < objProductos.length; p++) {
+                        htmlImage +=`<img src="${objProductos[p].url_image}"></img>`;
+                    }
+                }
+                document.querySelector("#celFotos").innerHTML = htmlImage;
+                $('#ModalViewProducto').modal('show');
 
+            }else{
+                swal("Error", objData.msg , "error");
+            }
+        }
+    } 
+}
 
+function fntEditInfo(element,prodId){
+    rowTable = element.parentNode.parentNode.parentNode;
+    document.querySelector('#titleModal').innerHTML ="Actualizar Producto";
+    document.querySelector('.modal-header').classList.replace("headerRegister", "headerUpdate");
+    document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
+    document.querySelector('#btnText').innerHTML ="Actualizar";
+    let request = (window.XMLHttpRequest) ? 
+                    new XMLHttpRequest() : 
+                    new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = base_url+'/Productos/getProducto/'+prodId;
+    request.open("GET",ajaxUrl,true);
+    request.send();
+    request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+            let objData = JSON.parse(request.responseText);
+            if(objData.status)
+            {
+                console.log(objData);
+                let htmlImage = "";
+                let objProducto = objData.data;
+                document.querySelector("#prodId").value = objProducto.prodId;
+                document.querySelector("#txtNombre").value = objProducto.prodNomb;
+                document.querySelector("#txtDescripcion").value = objProducto.descripcion;
+                document.querySelector("#txtCodigo").value = objProducto.codigo;
+                document.querySelector("#txtPrecio").value = objProducto.prodPrec;
+                document.querySelector("#txtStock").value = objProducto.prodStock;
+                document.querySelector("#listProd").value = objProducto.cateNomb;
+                document.querySelector("#listStatus").value = objProducto.status;
+                tinymce.activeEditor.setContent(objProducto.descripcion); 
+                fntBarcode();
 
-function openModal()
-{
-	document.querySelector('#idproductos').value="";
-	document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister"); 
-	document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-primary"); 
-	document.querySelector('#btnText').innerHTML = "Guardar";
-	document.querySelector('#titleModal').innerHTML = "Nuevo usuario";
-	document.querySelector("#formProductos").reset();
+                if(objProducto.images.length > 0){
+                    let objProductos = objProducto.images;
+                    for (let p = 0; p < objProductos.length; p++) {
+                        let key = Date.now()+p;
+                        htmlImage +=`<div id="div${key}">
+                            <div class="prevImage">
+                            <img src="${objProductos[p].url_image}"></img>
+                            </div>
+                            <button type="button" class="btnDeleteImage" onclick="fntDelItem('#div${key}')" imgname="${objProductos[p].img}">
+                            <i class="fas fa-trash-alt"></i></button></div>`;
+                    }
+                }
+                document.querySelector("#containerImages").innerHTML = htmlImage; 
+                document.querySelector("#divBarCode").classList.remove("notBlock");
+                document.querySelector("#containerGallery").classList.remove("notBlock");           
+                $('#modalProductos').modal('show');
+            }else{
+                swal("Error", objData.msg , "error");
+            }
+        }
+    }
+}
 
-	$('#ModalProductos').modal('show');
+function fntDelInfo(prodId){
+    swal({
+        title: "Eliminar Producto",
+        text: "¿Realmente quiere eliminar el producto?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Si, eliminar!",
+        cancelButtonText: "No, cancelar!",
+        closeOnConfirm: false,
+        closeOnCancel: true
+    }, function(isConfirm) {    
+        if (isConfirm) 
+        {
+            let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            let ajaxUrl = base_url+'/Productos/delProducto';
+            let strData = "prodId="+prodId;
+            request.open("POST",ajaxUrl,true);
+            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            request.send(strData);
+            request.onreadystatechange = function(){
+                if(request.readyState == 4 && request.status == 200){
+                    let objData = JSON.parse(request.responseText);
+                    if(objData.status)
+                    {
+                        swal("Eliminar!", objData.msg , "success");
+                        tableProductos.api().ajax.reload();
+                    }else{
+                        swal("Atención!", objData.msg , "error");
+                    }
+                }
+            }
+        }
+
+    });
+}
+
+function fntCategorias(){
+    if(document.querySelector('#listProd')){
+        let ajaxUrl = base_url+'/Categorias/getSelectCategorias';
+        let request = (window.XMLHttpRequest) ? 
+                    new XMLHttpRequest() : 
+                    new ActiveXObject('Microsoft.XMLHTTP');
+        request.open("GET",ajaxUrl,true);
+        request.send();
+        request.onreadystatechange = function(){
+            if(request.readyState == 4 && request.status == 200){
+                document.querySelector('#listProd').innerHTML = request.responseText;
+            }
+        }
+    }
+}
+
+function fntBarcode(){
+    let codigo = document.querySelector("#txtCodigo").value;
+    JsBarcode("#barcode", codigo);
+}
+
+function fntPrintBarcode(area){
+    let elemntArea = document.querySelector(area);
+    let vprint = window.open(' ', 'popimpr', 'height=400,width=600');
+    vprint.document.write(elemntArea.innerHTML );
+    vprint.document.close();
+    vprint.print();
+    vprint.close();
+}
+
+function openModal(){
+    rowTable = "";
+	document.querySelector('#prodId').value="";
+	document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
+    document.querySelector('#btnActionForm').classList.replace("btn-info", "btn-primary");
+    document.querySelector('#btnText').innerHTML ="Guardar";
+    document.querySelector('#titleModal').innerHTML = "Nuevo Producto";
+    document.querySelector("#formProductos").reset();
+    document.querySelector("#divBarCode").classList.add("notBlock");
+    document.querySelector("#containerGallery").classList.add("notBlock");
+    document.querySelector("#containerImages").innerHTML = "";
+	$('#modalProductos').modal('show');
 }
 
 

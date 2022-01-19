@@ -1,50 +1,24 @@
-<?php
-
-class Home extends Controllers
-{
-	
-	public function __construct()
-	{
-		parent::__construct();
-		session_start();
-        if(empty($_SESSION['login']))
-        {
-			header('Location: '.base_url().'/login');
-	    }
-
-	}
-	public function home()
-	{
-		
-		$data['page_tag'] = "Home";
-		$data['page_title'] ="Bienvenido al Sistema de Información Surti Osorio";
-		$data['page_name'] = "home";
-		$data['page_content'] = "Este sistema sirve para la gestion y control de las diversas operaciones de las tiendas asociadas, en el siguiente botón podras encontar un manual de usuario para ayudarte a comenzar en el sistema";
-		$this->views->getView($this,"home", $data);
-	}
-	
-	public function getProductos(){
-
-		$arrData =$this->model->selectProductos();
-		for($i = 0; $i < count($arrData); $i++)
-			{
-				if($arrData[$i]['status'] == 1)
-				{
-					$arrData[$i]['status'] = '<span class="badge badge-success">Activo</span>';
-				}else{
-					$arrData[$i]['status'] = '<span class="badge badge-danger">Inactivo</span>';
-				}
-
-				$arrData[$i]['options'] = '<div class="text-center">
-				<button class="btn btn-secondary btn-sm btnCarrito" pr="'.$arrData[$i]['prodCodi'].'" title="Ver productos"><i class="fa fa-shopping-cart"></i>&nbsp; Añadir</button> 
-				<button class="btn btn-primary btn-sm btnEditProductos" pr="'.$arrData[$i]['prodCodi'].'" title="Editar"><i class="fa fa-shopping-cart aria-hidden="true"></i></button>
-				<button class="btn btn-danger btn-sm btnDelUsuario" pr="'.$arrData[$i]['prodCodi'].'" title="Eliminar"><i class="fa fa-trash-o" aria-hidden="true"></i></button> 
-				</div>';
+<?php 
+ require_once("Models/TCategoria.php");
+  require_once("Models/TProducto.php");
+	class Home extends Controllers{
+		use TCategoria, TProducto;
+		public function __construct(){
+			parent::__construct();
+			session_start();
+		}
+       
+		public function home(){
+			///muestra la información de otro modelo dep($this->model->getCategorias());
+			//dep($this->getCategoriasT(CAT_SLIDER));
+			$data['page_tag'] = "SISO";
+			$data['page_title'] = "Sitio oficial";
+			$data['page_name'] = "SISO";
+			$data['slider'] = $this->getCategoriasT(CAT_SLIDER);
+			$data['banner'] = $this->getCategoriasT(CAT_BANNER);
+			$data['producto'] = $this->getProductosT();
+			$this->views->getView($this,"Home",$data);
 		}
 
-        echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
-        die();
 	}
-}
-
-  ?>
+ ?>

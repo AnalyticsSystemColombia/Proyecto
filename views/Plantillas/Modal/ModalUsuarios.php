@@ -1,5 +1,5 @@
 
-<div class="modal fade" id="ModalUsuarios" name="ModalUsuarios" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="modalUsuarios" name="modalUsuarios" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header headerRegister">
@@ -15,29 +15,29 @@
              
              <div class="form-row">
                  <div class="form-group col-md-6">
-                     <label for="txtIdentificacion">Identificacion</label>
-                     <input type="text" class="form-control" id="txtpersIden" name="txtpersIden" required="">
+                     <label for="txtIdentificacion">Identificación</label>
+                     <input type="text" class="form-control valid validNumber" id="txtIdentificacion" name="txtIdentificacion" required="">
                  </div>
              </div>
 
              <div class="form-row">
                  <div class="form-group col-md-6">
                      <label for="txtNombre">Nombre</label>
-                     <input type="text" class="form-control" id="txtpersNomb" name="txtpersNomb" required="">
+                     <input type="text" class="form-control valid validText" id="txtNombre" name="txtNombre" required="">
                  </div>
                  <div class="form-group col-md-6">
                      <label for="txtApellido">Apellidos</label>
-                     <input type="text" class="form-control" id="txtpersApel" name="txtpersApel" required="">
+                     <input type="text" class="form-control valid validText" id="txtApellido" name="txtApellido" required="">
                  </div>
              </div>
              <div class="form-row">
                  <div class="form-group col-md-6">
                      <label for="txtTelefono">Teléfono</label>
-                     <input type="text" class="form-control" id="txtpersTele" name="txtpersTele" required="">
+                     <input type="text" class="form-control valid validNumber" id="txtTelefono" name="txtTelefono" required="" onkeypress="return controlTag(event);">
                  </div>
                  <div class="form-group col-md-6">
                      <label for="txtEmail">Email</label>
-                     <input type="email" class="form-control" id="txtpersEmail" name="txtpersEmail" required="">
+                     <input type="email" class="form-control valid validEmail" id="txtEmail" name="txtEmail" required="">
                  </div>
              </div>
              <div class="form-row">
@@ -57,7 +57,7 @@
              <div class="form-row">
                  <div class="form-group col-md-6">
                      <label for="txtPassword">Password</label>
-                     <input type="password" class="form-control" id="txtpersPass" name="txtpersPass" required="">
+                     <input type="password" class="form-control" id="txtPassword" name="txtPassword">
                  </div>
              </div>
              
@@ -75,7 +75,7 @@
 
 
 
-<div class="modal fade" id="ModalViewUser"  tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="modalViewUser"  tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header headerRegister">
@@ -93,11 +93,11 @@
             </tr>
             <tr>
                <td>Nombres</td>
-                <td id=celNombres></td>
+                <td id=celNombre></td>
             </tr>
             <tr>
                 <td>Apellidos</td>
-                <td id=celApellidos></td>
+                <td id=celApellido></td>
             </tr>
             <tr>
                 <td>Teléfono</td>

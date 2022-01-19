@@ -1,25 +1,32 @@
 <?php
 
-class Dashboard extends Controllers
-{
-	
-	public function __construct()
-	{
+class Dashboard extends Controllers{	
+	public function __construct(){
 		parent::__construct();
 		session_start();
+		session_regenerate_id(true);
 		if(empty($_SESSION['login'])){
 			header('Location: '.base_url().'/login');
 		}
-
+		getPermisos(2);
 	}
-	public function Dashboard()
-	{
-		$data['page_id'] = 2;
-		$data['page_tag'] = "Dashboard-SISO";
-		$data['page_title'] ="Bienvenido al sitio";
+	public function Dashboard(){
+		// $data['page_id'] = 2;
+		$data['page_tag'] = "Dashboard - Tienda Virtual";
+		$data['page_title'] = "Dashboard - Tienda Virtual";
 		$data['page_name'] = "dashboard";
-		///$data['page_content'] = "Informacion de la pagina";
-		$this->views->getView($this,"dashboard", $data);
+		$data['page_functions_js'] = "functions_dashboard.js";
+		$data['consultaUsuariosDashboard']="total";
+		$this->views->getView($this,"dashboard",$data);
+	}
+	public function consultaUsuariosDashboard(){	
+		$arrData = $this->model->getUsuariosDashboard();
+		if($arrData != 0){
+			$total = $arrData;
+			dep($total);
+			echo json_encode($total,JSON_UNESCAPED_UNICODE);
+		}
+		die();
 	}
 	
 	// public function insertar()
@@ -49,6 +56,6 @@ class Dashboard extends Controllers
 	// 	print_r($data);
 	// }
 
-}
+	}
 
   ?>

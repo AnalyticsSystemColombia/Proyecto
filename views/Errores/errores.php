@@ -35,20 +35,11 @@
 				<div  class="alert alert-danger" role="alert" style="text-align: center;">
 				<h1>Pagina no encontrada 404</h1>
 				</div>
-				<div class="content" style="text-align: center;" >
-					<a href="<?= base_url(); ?>/Dashboard"><img src="Public/Imagenes/siso.png" width="300" height="150"></a>
-				</div>
-				<br/>
-				<div style="text-align: center;">
-					Ir <a href="<?= base_url(); ?>/Dashboard" class="btn btn-primary stretched-link">Menu Principal</a>
-				</div>
-                <br/>
-				<div style="text-align: center;">
-					Ir <a href="#" class="btn btn-primary stretched-link">Soporte de Técnico</a>
-				</div>
+					<div class="content" style="text-align: center;" >
+						<a href="<?= base_url(); ?>/Dashboard"><img src="Public/Imagenes/siso.png" width="300" height="150"></a>
+					</div>
 			</div>
 		</main>
-	</div>
 	</body>
 </html>
 

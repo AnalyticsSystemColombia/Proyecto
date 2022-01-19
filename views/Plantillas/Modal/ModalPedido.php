@@ -1,141 +1,89 @@
-
-<div class="modal fade modal-lx" id="ModalPedidos" name="ModalPedidos" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
+<!-- Modal -->
+<div class="modal fade" id="modalFormPedido" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" >
     <div class="modal-content">
-      <div class="modal-header headerRegister">
-        <h5 class="modal-title" id="titleModal">Agregar al carrito</h5>
+      <div class="modal-header headerUpdate">
+        <h5 class="modal-title" id="titleModal">Actualizar Pedido</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">  
-      <table class="table table-hover  table-bordered" id="">
-            <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Producto</th> 
-                  <th>Precio</th>
-                  <th>Cantidad</th>
-                </tr>
-            </thead>
-              <tbody>      
-              </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-<div class="modal fade" id="ModalAgregar" name="ModalAgregar" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header headerRegister">
-        <h5 class="modal-title" id="titleModal">Agregar al carrito</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">  
-        <form id="formPedidos" name="formPedidos">
-            <input type="hidden" id="idproductos" name="idproductos" class="form-horizontal" value="">
-            <p class="text-primary">Desea agregar el producto</p>
-             
-             <div class="form-row">
-                 <div class="form-group col-md-6">
-                     <label for="txtprodNomb"></label>
-                     <input type="hidden" class="form-control" id="txtprodNomb" name="txtprodNomb">
-                 </div>
-             </div>
-
-             <div class="form-row">
-                 <div class="form-group col-md-6">
-                     <label for="txtprodPrec"></label>
-                     <input type="hidden" class="form-control" id="txtprodPrec" name="txtprodPrec">
-                 </div>
-             </div>
-             <div class="form-row">
-                
-                 <div class="form-group col-md-6">
-                     <label for="txtprodStock"></label>
-                     <input type="hidden" class="form-control" id="txtprodStock" name="txtprodStock">
-                 </div>
-                 <div class="form-group col-md-6">
-                     <label for="txtprodMode">Ingrese cantidad</label>
-                     <input type="num" class="form-control" id="txtCant" name="txtCant" required="">
-                 </div>
-             </div>
-             
-            <div class="tile-footer">
-            <button class="btn btn-primary" id="btnActionForm" type="submit">
-                <span id="btnText">Guardar</span>
-            </button>
-            <button class="btn btn-secondary" data-dismiss="modal" type="submit">Cancelar</button>
+      <div class="modal-body">
+            <form id="formUpdatePedido" name="formUpdatePedido" class="form-horizontal">
+              <input type="hidden" id="idpedido" name="idpedido" value="<?= $data['orden']['idpedido'] ?>" required="">
+              <table class="table table-bordered">
+                  <tbody>
+                      <tr>
+                          <td width="210">No. Pedido</td>
+                          <td><?= $data['orden']['idpedido'] ?></td>
+                      </tr>
+                      <tr>
+                          <td>Cliente:</td>
+                          <td><?= $data['cliente']['nombres'].' '.$data['cliente']['apellidos'] ?></td>
+                      </tr>
+                      <tr>
+                          <td>Importe total:</td>
+                          <td><?= SMONEY.' '.$data['orden']['monto'] ?></td>
+                      </tr>
+                      <tr>
+                          <td>Transacción:</td>
+                          <td>
+                            <?php 
+                                if($data['orden']['tipopagoid'] == 1){
+                                    echo $data['orden']['idtransaccionpaypal'];
+                                }else{
+                            ?>
+                            <input type="text" name="txtTransaccion" id="txtTransaccion" class="form-control" value="<?= $data['orden']['referenciacobro'] ?>" required="">
+                                <?php } ?>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Tipo pago:</td>
+                          <td>
+                            <?php 
+                                if($data['orden']['tipopagoid'] == 1){
+                                    echo $data['orden']['tipopago'];
+                                }else{
+                            ?>
+                              <select name="listTipopago" id="listTipopago" class="form-control selectpicker" data-live-search="true" required="">
+                                  <?php 
+                                    for ($i=0; $i < count($data['tipospago']) ; $i++) {
+                                        $selected = "";
+                                        if( $data['tipospago'][$i]['idtipopago'] == $data['orden']['tipopagoid']){
+                                            $selected = " selected ";
+                                        }
+                                   ?>
+                                    <option value="<?= $data['tipospago'][$i]['idtipopago'] ?>" <?= $selected ?> ><?= $data['tipospago'][$i]['tipopago'] ?></option>
+                                <?php } ?>
+                              </select>
+                          <?php } ?>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Estado:</td>
+                          <td>
+                              <select name="listEstado" id="listEstado" class="form-control selectpicker" data-live-search="true" required="">
+                                  <?php 
+                                    for ($i=0; $i < count(STATUS) ; $i++) {
+                                        $selected = "";
+                                        if( STATUS[$i] == $data['orden']['status']){
+                                            $selected = " selected ";
+                                        }
+                                   ?>
+                                   <option value="<?= STATUS[$i] ?>" <?= $selected ?> ><?= STATUS[$i] ?></option>
+                               <?php } ?>
+                              </select>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+              <div class="tile-footer">
+                <button id="btnActionForm" class="btn btn-info" type="submit" ><i class="fa fa-fw fa-lg fa-check-circle"></i><span>Actualizar</span></button>&nbsp;&nbsp;&nbsp;
+                <button class="btn btn-danger" type="button" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cerrar</button>
             </div>
-        </form>
+              
+            </form>
       </div>
     </div>
   </div>
 </div>
-
-
-
-<div class="modal fade" id="ModalViewProductos"  tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header primary" style="background-color:#009688">
-        <h5 class="modal-title" id="titleModal">Datos del producto</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">  
-       <table class="table table-bordered">
-        <tbody class="table-responsive-x">
-            <tr>
-                <td >Categoría</td>
-                <td id=celIdentificacion></td>
-            </tr>
-            <tr>
-                <td>Nombre Producto</td>
-                <td id=celNombres></td>
-            </tr>
-            <tr>
-                <td>Precio</td>
-                <td id=celApellidos></td>
-            </tr>
-            <tr>
-                <td>Descripción</td>
-                <td id=celTelefono></td>
-            </tr>
-            <tr>
-                <td>Cantidad</td>
-                <td id=celEmail></td>
-            </tr>
-            <tr>
-                <td>Estado</td>
-                <td id=celEstado></td>
-            </tr>
-            <tr>
-                <td>Fech registro</td>
-                <td id=celFechaRegistro></td>
-            </tr>
-        </tbody>
-       </table>
-      </div>
-    <div class="modal-footer">
-    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cerrar</button>
-    </div>
-  </div>
-</div>
-</div>
-
-
-
-
-
-
