@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function(){
         "bDestroy": true,
         "iDisplayLength": 10,
         "order":[[0,"desc"]]  
-    });
+});
 
 
 /////insertar facturas

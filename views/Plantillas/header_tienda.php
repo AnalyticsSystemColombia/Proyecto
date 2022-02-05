@@ -5,6 +5,7 @@
       $cantCarrito += $product['cantidad'];
     }
    } 
+   ///dep($_SESSION['userData']);
 ?>
 
 
@@ -57,6 +58,26 @@
   </div> 
 <body class="animsition">
  
+ <div class="modal fade" id="modalAyuda" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Preguntas frecuentes</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis sunt, corrupti hic aspernatur cumque alias, ipsam omnis iure ipsum, nostrum labore obcaecati natus repellendus consequatur est nemo sapiente dolorem dicta. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi, voluptas, consectetur iusto delectus quaerat ullam nesciunt! Quae doloribus deserunt qui fugit illo nobis ipsum, accusamus eius perferendis beatae culpa molestias!</p>
+          <br>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing, elit. Nostrum, ipsa. Corporis ratione consectetur cum ipsa vitae repudiandae sed placeat soluta minus. Ex dicta neque, modi voluptatibus error commodi laudantium nobis!</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
   
   <!-- Header -->
   <header>
@@ -66,20 +87,31 @@
       <div class="top-bar">
         <div class="content-topbar flex-sb-m h-full container">
           <div class="left-top-bar">
-            
+            <?php if(isset($_SESSION['login'])){ ?>
+            Bienvenido: <?= $_SESSION['userData']['nombres'].' '.$_SESSION['userData']['apellidos'] ?>
+            <?php } ?>
           </div>
           <div class="right-top-bar flex-w h-full">
-            <a href="#" class="flex-c-m trans-04 p-lr-25">
+            <a href="#" class="flex-c-m trans-04 p-lr-25" data-toggle="modal" data-target="#modalAyuda" >
               Help & FAQs
             </a>
-
-            <a href="#" class="flex-c-m trans-04 p-lr-25">
+            <?php 
+              if(isset($_SESSION['login'])){
+            ?>
+            <a href="<?= base_url() ?>/dashboard" class="flex-c-m trans-04 p-lr-25">
               Mi cuenta
             </a>
-
-            <a href="#" class="flex-c-m trans-04 p-lr-25">
+            <?php } 
+              if(isset($_SESSION['login'])){
+            ?>
+            <a href="<?= base_url() ?>/logout" class="flex-c-m trans-04 p-lr-25">
               Salir
             </a>
+            <?php }else{ ?>
+            <a href="<?= base_url() ?>/login" class="flex-c-m trans-04 p-lr-25">
+              Iniciar Sesión
+            </a>
+            <?php } ?>
           </div>
         </div>
       </div>
@@ -166,23 +198,34 @@
       <ul class="topbar-mobile">
         <li>
           <div class="left-top-bar">
-            Bienvenido al sitio harold
+            <?php if(isset($_SESSION['login'])){ ?>
+            Bienvenido: <?= $_SESSION['userData']['nombres'].' '.$_SESSION['userData']['apellidos'] ?>
+            <?php } ?>
           </div>
         </li>
 
         <li>
-          <div class="right-top-bar flex-w h-full">
-            <a href="#" class="flex-c-m p-lr-10 trans-04">
+         <div class="right-top-bar flex-w h-full">
+            <a href="#" class="flex-c-m trans-04 p-lr-25" data-toggle="modal" data-target="#modalAyuda" >
               Help & FAQs
             </a>
-
-            <a href="#" class="flex-c-m p-lr-10 trans-04">
+            <?php 
+              if(isset($_SESSION['login'])){
+            ?>
+            <a href="<?= base_url() ?>/dashboard" class="flex-c-m trans-04 p-lr-25">
               Mi cuenta
             </a>
-
-            <a href="#" class="flex-c-m p-lr-10 trans-04">
+            <?php } 
+              if(isset($_SESSION['login'])){
+            ?>
+            <a href="<?= base_url() ?>/logout" class="flex-c-m trans-04 p-lr-25">
               Salir
             </a>
+            <?php }else{ ?>
+            <a href="<?= base_url() ?>/login" class="flex-c-m trans-04 p-lr-25">
+              Iniciar Sesión
+            </a>
+            <?php } ?>
           </div>
         </li>
       </ul>
@@ -246,4 +289,21 @@
       </div>
   </div>
 
- 
+ <style type="text/css">
+   #divLoading {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(254,254,255, .65);
+  z-index: 9999;
+  display: none;
+}
+#divLoading img {
+  width: 50px;
+  height: 50px;
+}
+ </style>

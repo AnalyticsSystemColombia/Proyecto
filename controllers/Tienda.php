@@ -20,26 +20,51 @@
 		$data['page_tag'] = "SISO";
 		$data['page_title'] = "Sitio oficial";
 		$data['page_name'] = "tienda";
-		$data['productos'] = $this->getProductosT();
+		$pagina = 1;
+		$cantProductos = $this->cantProductos();
+		$total_registro = $cantProductos['total_registro'];
+		$desde = ($pagina-1) * PROPORPAGINA;
+		$total_paginas = ceil($total_registro / PROPORPAGINA);
+		
+		$data['productos'] = $this->getProductosPage($desde,PROPORPAGINA);
+		//dep($data['productos']);exit;
+		//$data['productos'] = $this->getProductosT();
+		$data['pagina'] = $pagina;
+		$data['total_paginas'] = $total_paginas;
 		$this->views->getView($this,"tienda",$data);
 	}
 	public function categoria($params){
-		if(empty($params)){
-			header("Location:".base_url());
-		}else{
+			if(empty($params)){
+				header("Location:".base_url());
+			}else{
 			//echo $params;
 			//exit();
 			$arrParams = explode(",", $params);
-			$IdCategoria = intval($arrParams[0]);
+			$idcategoria = intval($arrParams[0]);
 			$ruta       = strClean($arrParams[1]);
-			$infoCategoria = $this->getProductosCategoriaT($IdCategoria, $ruta );
+			$pagina = 1;
+			if(count($arrParams) > 2 AND is_numeric($arrParams[2])){
+				$pagina = $arrParams[2];
+			}
+
+			$cantProductos = $this->cantProductos($idcategoria);
+			$total_registro = $cantProductos['total_registro'];
+			$desde = ($pagina-1) * PROCATEGORIA;
+			$total_paginas = ceil($total_registro / PROCATEGORIA);
+            $infoCategoria = $this->getProductosCategoriaT($idcategoria, $ruta, $desde, PROCATEGORIA );
+            //dep($infoCategoria);exit();
             //dep($infoCategoria);
-            exit();
 			$categoria = strClean($params);
+			//dep($categoria);
 			$data['page_tag'] = NOMBRE_EMPRESA."-".$infoCategoria['categoria'];
 			$data['page_title'] =  $infoCategoria['categoria'];
-			$data['page_name'] = "tienda";
+			$data['page_name'] = "categoria";
 			$data['productos'] = $infoCategoria['productos'];
+			$data['infoCategoria'] = $infoCategoria;
+			$data['pagina'] = $pagina;
+			$data['total_paginas'] = $total_paginas;
+            $data['categorias'] = $this->getCategorias();
+            //dep($data);exit();
 			$this->views->getView($this,"categoria",$data);
 		}
 	}
@@ -382,6 +407,24 @@
 			}
 			unset($_SESSION['dataorden']);
 	}
+
+	public function page($pagina = null){
+
+			$pagina = is_numeric($pagina) ? $pagina : 1;
+			$cantProductos = $this->cantProductos();
+			$total_registro = $cantProductos['total_registro'];
+			$desde = ($pagina-1) * PROPORPAGINA;
+			$total_paginas = ceil($total_registro / PROPORPAGINA);
+			$data['productos'] = $this->getProductosPage($desde,PROPORPAGINA);
+			//dep($data['productos']);exit;
+			$data['page_tag'] = NOMBRE_EMPRESA;
+			$data['page_title'] = NOMBRE_EMPRESA;
+			$data['page_name'] = "tienda";
+			$data['pagina'] = $pagina;
+			$data['total_paginas'] = $total_paginas;
+			//$data['categorias'] = $this->getCategorias();
+			$this->views->getView($this,"tienda",$data);
+		}
 
   }
 ?>

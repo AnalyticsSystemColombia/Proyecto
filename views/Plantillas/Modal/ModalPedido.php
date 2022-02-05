@@ -23,7 +23,7 @@
                       </tr>
                       <tr>
                           <td>Importe total:</td>
-                          <td><?= SMONEY.' '.$data['orden']['monto'] ?></td>
+                          <td><?= SMONEY.' '.formatMoney($data['orden']['monto']) ?></td>
                       </tr>
                       <tr>
                           <td>Transacción:</td>

@@ -24,7 +24,7 @@ trait TProducto{
           FROM productos p 
           INNER JOIN categorias c
           ON p.prodIdCate = c.cateCodi 
-          WHERE p.status != 0 ";
+          WHERE p.status != 0 ORDER BY p.prodId DESC LIMIT ".CANTPORDHOME;
           $request = $this->con->select_all($sql);
           if(count($request)> 0){
             for ($c=0; $c < count($request) ; $c++) { 
@@ -42,9 +42,13 @@ trait TProducto{
       return $request;
   }
 
-  public function getProductosCategoriaT(int $Idcategoria, string $ruta){
+  public function getProductosCategoriaT(int $Idcategoria, string $ruta, $desde = null, $porpagina = null){
     $this->intIdCategoria = $Idcategoria;
     $this->strRuta = $ruta;
+    $where = "";
+    if(is_numeric($desde) AND is_numeric($porpagina)){
+      $where = " LIMIT ".$desde.",".$porpagina;
+    }
     $this->con = new Mysql();
     $sql_cate ="SELECT cateCodi, cateNomb FROM categorias WHERE cateCodi = '{$this->intIdCategoria}'";
     $request = $this->con->select($sql_cate);
@@ -62,7 +66,8 @@ trait TProducto{
           FROM productos p 
           INNER JOIN categorias c
           ON p.prodIdCate = c.cateCodi 
-          WHERE p.status != 0  AND p.prodIdCate = $this->intIdCategoria AND c.ruta = '{$this->strRuta}'";
+          WHERE p.status != 0  AND p.prodIdCate = $this->intIdCategoria AND c.ruta = '{$this->strRuta}'
+          ORDER BY p.prodId DESC ".$where;
           $request = $this->con->select_all($sql);
           if(count($request)> 0){
             for ($c=0; $c < count($request) ; $c++) { 
@@ -113,12 +118,46 @@ trait TProducto{
                 $arrImg[$i]['url_image']= media().'/images/uploads/'.$arrImg[$i]['img'];
               }
             }else{
-               $arrImg[0]['url_image']= media().'/images/uploads/product.pnp';
+               $arrImg[0]['url_image']= media().'/images/uploads/product.png';
             }
             $request['images']=$arrImg;
         }
     return $request;
   } 
+
+  public function getProductosPage($desde, $porpagina){
+    $this->con = new Mysql();
+    $sql = "SELECT p.prodId,
+            p.codigo,
+            p.prodNomb,
+            p.descripcion,
+            p.prodIdCate,
+            c.cateNomb as categoria,
+            p.prodPrec,
+            p.ruta,
+            p.prodStock
+        FROM productos p 
+        INNER JOIN categorias c
+        ON p.prodIdCate = c.cateCodi
+        WHERE p.status = 1 ORDER BY p.prodId DESC LIMIT $desde,$porpagina";
+        $request = $this->con->select_all($sql);
+        if(count($request) > 0){
+          for ($c=0; $c < count($request) ; $c++) { 
+            $intIdProducto = $request[$c]['prodId'];
+            $sqlImg = "SELECT img
+                FROM images
+                WHERE productoid = $intIdProducto";
+            $arrImg = $this->con->select_all($sqlImg);
+            if(count($arrImg) > 0){
+              for ($i=0; $i < count($arrImg); $i++) { 
+                $arrImg[$i]['url_image'] = media().'/images/uploads/'.$arrImg[$i]['img'];
+              }
+            }
+            $request[$c]['images'] = $arrImg;
+          }
+        }
+    return $request;
+  }
 
   public function getProductosRandom(int $Idcategoria, int $cant, string $option){
     $this->intIdCategoria = $Idcategoria;
@@ -190,11 +229,24 @@ trait TProducto{
                   $arrImg[$i]['url_image']= media().'/images/uploads/'.$arrImg[$i]['img'];
                 }
               }else{
-                 $arrImg[0]['url_image']= media().'/images/uploads/product.pnp';
+                 $arrImg[0]['url_image']= media().'/images/uploads/product.png';
               }
               $request['images']=$arrImg;
           }
       return $request;
+  }
+
+  public function cantProductos($categoria = null){
+    $where = "";
+    if($categoria != null){
+      $where = " AND prodIdCate = ".$categoria;
+    }
+    $this->con = new Mysql();
+    $sql = "SELECT COUNT(*) as total_registro FROM productos WHERE status = 1 ".$where;
+    $result_register = $this->con->select($sql);
+    $total_registro = $result_register;
+    return $total_registro;
+
   } 
      
 }

@@ -7,7 +7,13 @@
         </div>
       </div>
       <ul class="app-menu">
-         <?php if(!empty($_SESSION['permisos'][3]['r'])) { ?>
+        <li>
+            <a class="app-menu__item" href="<?= base_url(); ?>" target="_blank">
+                <i class="app-menu__icon fa fas fa-globe" aria-hidden="true"></i>
+                <span class="app-menu__label">Ver sitio web</span>
+            </a>
+        </li>
+         <?php if(!empty($_SESSION['permisos'][2]['r'])) { ?>
           <li>
               <a class="app-menu__item" href="<?= base_url(); ?>/dashboard">
                   <i class="app-menu__icon fa fa-dashboard"></i>
@@ -71,19 +77,6 @@
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="<?= base_url(); ?>proveedores"><i class="icon fa fa-circle-o"></i>Proveedores</a></li>
             <li><a class="treeview-item" href="<?= base_url(); ?>facturas"><i class="icon fa fa-circle-o"></i>Facturas</a></li>
-          </ul>
-        </li>
-        <?php } ?>
-         <?php if(!empty($_SESSION['permisos'][14]['r'])){ ?>
-        <li class="treeview">
-            <a class="app-menu__item" href="#" data-toggle="treeview">
-                <i class="app-menu__icon fa fa-archive" aria-hidden="true"></i>
-                <span class="app-menu__label">Tienda</span>
-                <i class="treeview-indicator fa fa-angle-right"></i>
-            </a>
-          <ul class="treeview-menu">
-            <li><a class="treeview-item" href="<?= base_url(); ?>tienda"><i class="icon fa fa-circle-o"></i>Tienda</a></li>
-            <li><a class="treeview-item" href="<?= base_url(); ?>home"><i class="icon fa fa-circle-o"></i>Home</a></li>
           </ul>
         </li>
         <?php } ?>

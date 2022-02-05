@@ -16,10 +16,12 @@
         $view_footer = "Views/Plantillas/footer_admin.php";
         require_once ($view_footer);        
     }
-     function headerTienda($data=""){
+
+    function headerTienda($data=""){
         $view_header = "Views/Plantillas/header_tienda.php";
         require_once ($view_header);
     }
+
     function footerTienda($data=""){
         $view_footer = "Views/Plantillas/footer_tienda.php";
         require_once ($view_footer);        
@@ -274,6 +276,21 @@ function CurlConnectionPost(string $ruta, string $contentType = null, string $to
     }
     return $request;
 }
+function Meses(){
+        $meses = array("Enero", 
+                      "Febrero", 
+                      "Marzo", 
+                      "Abril", 
+                      "Mayo", 
+                      "Junio", 
+                      "Julio", 
+                      "Agosto", 
+                      "Septiembre", 
+                      "Octubre", 
+                      "Noviembre", 
+                      "Diciembre");
+        return $meses;
+    }
     
 
  ?>

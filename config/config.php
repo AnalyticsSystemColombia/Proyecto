@@ -65,4 +65,9 @@ const MFACTURAS = 14;
 
 const STATUS = array('Completo','Aprobado','Cancelado','Reembolsado','Pendiente','Entregado');
 
+//Productos por página
+	const CANTPORDHOME = 8;
+	const PROPORPAGINA = 8;
+	const PROCATEGORIA = 4;
+
 ?>

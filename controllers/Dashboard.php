@@ -1,61 +1,81 @@
 <?php
 
-class Dashboard extends Controllers{	
-	public function __construct(){
-		parent::__construct();
-		session_start();
-		session_regenerate_id(true);
-		if(empty($_SESSION['login'])){
-			header('Location: '.base_url().'/login');
-		}
-		getPermisos(2);
+class Dashboard extends Controllers{
+
+public function __construct(){
+	parent::__construct();
+	session_start();
+	session_regenerate_id(true);
+	if(empty($_SESSION['login'])){
+		header('Location: '.base_url().'/login');
 	}
-	public function Dashboard(){
-		// $data['page_id'] = 2;
-		$data['page_tag'] = "Dashboard - Tienda Virtual";
-		$data['page_title'] = "Dashboard - Tienda Virtual";
-		$data['page_name'] = "dashboard";
-		$data['page_functions_js'] = "functions_dashboard.js";
-		$data['consultaUsuariosDashboard']="total";
-		$this->views->getView($this,"dashboard",$data);
-	}
-	public function consultaUsuariosDashboard(){	
-		$arrData = $this->model->getUsuariosDashboard();
-		if($arrData != 0){
-			$total = $arrData;
-			dep($total);
-			echo json_encode($total,JSON_UNESCAPED_UNICODE);
-		}
-		die();
+	getPermisos(3);
+}
+public function Dashboard(){
+	// $data['page_id'] = 2;
+	$data['page_tag'] = "Dashboard - SISO";
+	$data['page_title'] = "Dashboard-SISO";
+	$data['page_name'] = "dashboard-SISO";
+	$data['page_functions_js'] = "functions_dashboard.js";
+	$data['usuarios'] = $this->model->cantUsuarios();
+	$data['clientes'] = $this->model->cantClientes();
+	$data['productos'] = $this->model->cantProductos();
+	$data['pedidos'] = $this->model->cantPedidos();
+	$data['lastOrders'] = $this->model->lastOrders();
+	$data['productosTen'] = $this->model->productosTen();
+	$anio = date('Y');
+	$mes = date('m');
+	$data['pagosMes'] = $this->model->selectPagosMes($anio,$mes);
+	//dep($data['pagosMes']);exit;
+	$data['ventasMDia'] = $this->model->selectVentasMes($anio,$mes);
+
+	$data['ventasAnio'] = $this->model->selectVentasAnio($anio);
+    if( $_SESSION['userData']['idrol'] == RCLIENTES ){
+			$this->views->getView($this,"dashboardCliente",$data);
+		}else{
+			$this->views->getView($this,"dashboard",$data);
 	}
 	
-	// public function insertar()
-	// {
-	// 	$data = $this->model->setUser("carlos",18);
-	// }
-
-	// public function verusuario($id)
-	// {
-	// 	$data = $this->model->getUser($id);
-	// 	print_r($data);
-	// }
-	// public function actualizar()
-	// {
-	// 	$data = $this->model->updateUser(1, "emilio",40);
-	// 	print_r($data);
-	// }
-
-	// public function verusuarios()
-	// {
-	// 	$data = $this->model->getUsers();
-	// 	print_r($data);
-	// }
-	// public function eliminarusuario($id)
-	// {
-	// 	$data = $this->model->delUser($id);
-	// 	print_r($data);
-	// }
-
+}
+public function tipoPagoMes(){
+	if($_POST){
+		$grafica = "tipoPagoMes";
+		$nFecha = str_replace(" ","",$_POST['fecha']);
+		$arrFecha = explode('-',$nFecha);
+		$mes = $arrFecha[0];
+		$anio = $arrFecha[1];
+		$pagos = $this->model->selectPagosMes($anio,$mes);
+		$script = getFile("Plantillas/Modal/graficas",$pagos);
+		echo $script;
+		die();
 	}
+}
 
+public function ventasMes(){
+	if($_POST){
+		$grafica = "ventasMes";
+		$nFecha = str_replace(" ","",$_POST['fecha']);
+		$arrFecha = explode('-',$nFecha);
+		$mes = $arrFecha[0];
+		$anio = $arrFecha[1];
+		$pagos = $this->model->selectVentasMes($anio,$mes);
+		$script = getFile("Plantillas/Modal/graficas",$pagos);
+		echo $script;
+		die();
+	}
+}
+public function ventasAnio(){
+	if($_POST){
+		$grafica = "ventasAnio";
+		$anio = intval($_POST['anio']);
+		$pagos = $this->model->selectVentasAnio($anio);
+		$script = getFile("Plantillas/Modal/graficas",$pagos);
+		echo $script;
+		die();
+	}
+}
+	
+	
+	
+}
   ?>
