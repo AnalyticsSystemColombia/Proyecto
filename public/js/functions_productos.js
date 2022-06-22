@@ -85,7 +85,7 @@ window.addEventListener('load', function() {
             let intCodigo = document.querySelector('#txtCodigo').value;
             let strPrecio = document.querySelector('#txtPrecio').value;
             let intStock = document.querySelector('#txtStock').value;
-            let intlistProd = document.querySelector('#listProd').value;
+            let intlistProd = document.querySelector('#listCategoria').value;
 
             let intStatus = document.querySelector('#listStatus').value;
             if(strNombre == '' || intCodigo == '' || strPrecio == '' || intStock == '' )
@@ -124,7 +124,7 @@ window.addEventListener('load', function() {
                             rowTable.cells[1].textContent = intCodigo;
                             rowTable.cells[2].textContent = strNombre;
                             rowTable.cells[3].textContent = intStock;
-                            rowTable.cells[4].textContent = document.querySelector("#listProd").selectedOptions[0].text;
+                            rowTable.cells[4].textContent = document.querySelector("#listCategoria").selectedOptions[0].text;
                             rowTable.cells[5].textContent = smony+strPrecio;
                             rowTable.cells[6].innerHTML =  htmlStatus;
                             rowTable = ""; 
@@ -244,7 +244,7 @@ function fntDelItem(element){
     let ajaxUrl = base_url+'/Productos/delFile'; 
 
     let formData = new FormData();
-    formData.append('prodid',prodId);
+    formData.append('prodId',prodId);
     formData.append("file",nameImg);
     request.open("POST",ajaxUrl,true);
     request.send(formData);
@@ -285,7 +285,7 @@ function fntViewInfo(prodId){
                 document.querySelector("#celNombre").innerHTML = objProducto.prodNomb;
                 document.querySelector("#celPrecio").innerHTML = objProducto.prodPrec;
                 document.querySelector("#celStock").innerHTML = objProducto.prodStock;
-                document.querySelector("#celCategoria").innerHTML = objProducto.categoria;
+                document.querySelector("#celCategoria").innerHTML = objProducto.cateNomb;
                 document.querySelector("#celStatus").innerHTML = estadoProducto;
                 document.querySelector("#celDescripcion").innerHTML = objProducto.descripcion;
 
@@ -331,7 +331,7 @@ function fntEditInfo(element,prodId){
                 document.querySelector("#txtCodigo").value = objProducto.codigo;
                 document.querySelector("#txtPrecio").value = objProducto.prodPrec;
                 document.querySelector("#txtStock").value = objProducto.prodStock;
-                document.querySelector("#listProd").value = objProducto.cateNomb;
+                document.querySelector("#listCategoria").value = objProducto.prodIdCate;
                 document.querySelector("#listStatus").value = objProducto.status;
                 tinymce.activeEditor.setContent(objProducto.descripcion); 
                 fntBarcode();
@@ -396,7 +396,7 @@ function fntDelInfo(prodId){
 }
 
 function fntCategorias(){
-    if(document.querySelector('#listProd')){
+    if(document.querySelector('#listCategoria')){
         let ajaxUrl = base_url+'/Categorias/getSelectCategorias';
         let request = (window.XMLHttpRequest) ? 
                     new XMLHttpRequest() : 
@@ -405,7 +405,7 @@ function fntCategorias(){
         request.send();
         request.onreadystatechange = function(){
             if(request.readyState == 4 && request.status == 200){
-                document.querySelector('#listProd').innerHTML = request.responseText;
+                document.querySelector('#listCategoria').innerHTML = request.responseText;
             }
         }
     }

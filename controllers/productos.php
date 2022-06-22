@@ -9,7 +9,7 @@ class Productos extends Controllers{
          {
 		 	header('Location: '.base_url().'/login');
 	     }
-		 getPermisos(9);
+		 getPermisos(MPRODUCTOS);
 	}
 
 	public function Productos(){
@@ -54,7 +54,7 @@ class Productos extends Controllers{
 	
 	public function setProducto(){
 		if($_POST) {
-		if(empty($_POST['txtNombre'])  ||  empty($_POST['txtDescripcion'])  || empty($_POST['txtPrecio'])  || empty($_POST['txtCodigo'])  || 
+		if(empty($_POST['txtNombre'])  ||  empty($_POST['txtDescripcion'])  || empty($_POST['txtPrecio'])  || empty($_POST['txtCodigo'])  || empty($_POST['listCategoria'])  ||
 		     empty($_POST['txtStock']) ||  empty($_POST['listStatus'])) {
 			$arrResponse = array("status" => false, "msg" => 'Datos incorrectos');
 		}else{
@@ -63,7 +63,7 @@ class Productos extends Controllers{
 			//$strprodMode = strClean($_POST['txtMedidas']);
 			$strprodDesc = strClean($_POST['txtDescripcion']);
 			$strCodigo = intval($_POST['txtCodigo']);
-			$intlistProd = intval($_POST['listProd']);
+			$intlistProd = intval($_POST['listCategoria']);
             $intProdPrec = intval($_POST['txtPrecio']);
             $intprodStock = intval($_POST['txtStock']);
 			$intStatus = intval($_POST['listStatus']);
@@ -72,6 +72,7 @@ class Productos extends Controllers{
 			$ruta = str_replace("","-", $ruta);
 			if($intProdcodi == 0){
 				$options = 1;
+				if($_SESSION['permisosMod']['w']){
 				$request_productos = $this->model->insertProductos(
 													$strprodNomb,
 													//$strprodMode,
@@ -82,6 +83,7 @@ class Productos extends Controllers{
 													$intprodStock,
 													$ruta,
 													$intStatus);
+				}
 
 			}else{
 				$options = 2;

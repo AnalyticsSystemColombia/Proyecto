@@ -291,6 +291,13 @@ function Meses(){
                       "Diciembre");
         return $meses;
     }
+
+    function getCatFooter(){
+        require_once ("Models/CategoriasModel.php");
+        $objCategoria = new CategoriasModel();
+        $request = $objCategoria->getCategoriasFooter();
+        return $request;
+    }
     
 
  ?>

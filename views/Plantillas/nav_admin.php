@@ -13,7 +13,13 @@
                 <span class="app-menu__label">Ver sitio web</span>
             </a>
         </li>
-         <?php if(!empty($_SESSION['permisos'][2]['r'])) { ?>
+        <li>
+            <a class="app-menu__item" href="<?= base_url(); ?>/monitor">
+                <i class="app-menu__icon fa fas fa-globe" aria-hidden="true"></i>
+                <span class="app-menu__label">Monitor</span>
+            </a>
+        </li>
+         <?php if(!empty($_SESSION['permisos'][MDASHBOARD]['r'])) { ?>
           <li>
               <a class="app-menu__item" href="<?= base_url(); ?>/dashboard">
                   <i class="app-menu__icon fa fa-dashboard"></i>
@@ -21,7 +27,7 @@
               </a>
           </li>
         <?php } ?> 
-        <?php if(!empty($_SESSION['permisos'][1]['r']) || !empty($_SESSION['permisos'][4]['r'])|| !empty($_SESSION['permisos'][7]['r']) || !empty($_SESSION['permisos'][5]['r'])){ ?>
+        <?php if(!empty($_SESSION['permisos'][MCATEGORIAS]['r']) || !empty($_SESSION['permisos'][MUSUARIOS]['r'])|| !empty($_SESSION['permisos'][MROLES]['r']) || !empty($_SESSION['permisos'][MMODULOS]['r'])){ ?>
         <li class="treeview">
             <a class="app-menu__item" href="#" data-toggle="treeview">
                 <i class="app-menu__icon fa fa-cog" aria-hidden="true"></i>
@@ -36,7 +42,7 @@
               </ul>
         </li>
         <?php } ?>
-        <?php if(!empty($_SESSION['permisos'][8]['r'])){ ?>
+        <?php if(!empty($_SESSION['permisos'][MCLIENTES]['r'])){ ?>
         <li>
             <a class="app-menu__item" href="<?= base_url(); ?>clientes">
                 <i class="app-menu__icon fa fa fa-users" aria-hidden="true"></i>
@@ -44,7 +50,7 @@
             </a>
         </li>
         <?php } ?>
-        <?php if(!empty($_SESSION['permisos'][9]['r'])){ ?>
+        <?php if(!empty($_SESSION['permisos'][MPRODUCTOS]['r'])){ ?>
         <li>
             <a class="app-menu__item" href="<?= base_url(); ?>productos">
                 <i class="app-menu__icon fa fa-shopping-cart" aria-hidden="true"></i>
@@ -78,6 +84,14 @@
             <li><a class="treeview-item" href="<?= base_url(); ?>proveedores"><i class="icon fa fa-circle-o"></i>Proveedores</a></li>
             <li><a class="treeview-item" href="<?= base_url(); ?>facturas"><i class="icon fa fa-circle-o"></i>Facturas</a></li>
           </ul>
+        </li>
+        <?php } ?>
+        <?php if(!empty($_SESSION['permisos'][MSUSCRIPTOR]['r'])){ ?>
+        <li>
+            <a class="app-menu__item" href="<?= base_url(); ?>suscriptores">
+                <i class="app-menu__icon fas fa-user-tie" aria-hidden="true"></i>
+                <span class="app-menu__label">Suscriptores</span>
+            </a>
         </li>
         <?php } ?>
         <li>

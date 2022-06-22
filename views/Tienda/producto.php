@@ -7,6 +7,8 @@
   //dep($arrProducto);
  $arrImg = $arrProducto['images'];
  $rutacategoria= $arrProducto['prodIdCate'].'/'.$arrProducto['ruta_categoria'];
+ $urlShared = base_url()."/tienda/producto/".$arrProducto['prodId']."/".$arrProducto['ruta'];
+   //dep($arrProducto);
  //echo $rutacategoria;
 ?>
 
@@ -80,7 +82,6 @@
 						
 						<!--  -->
 						<div class="p-t-33">
-							
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-204 flex-w flex-m respon6-next">
 									<div class="wrap-num-product flex-w m-r-20 m-tb-10">
@@ -88,14 +89,14 @@
 											<i class="fs-16 zmdi zmdi-minus"></i>
 										</div>
 
-										<input id="cant-product"  class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1" min="1">
+										<input id="cant-product" class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1" min="1">
 
 										<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 											<i class="fs-16 zmdi zmdi-plus"></i>
 										</div>
 									</div>
 
-									<button id="<?= openssl_encrypt($arrProducto['prodId'], METHODENCRIPT, KEY); ?>" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+									<button id="<?= openssl_encrypt($arrProducto['prodId'],METHODENCRIPT,KEY); ?>" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 										Agregar al carrito
 									</button>
 								</div>
@@ -118,8 +119,8 @@
 								<i class="fa fa-twitter"></i>
 							</a>
 
-							<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
-								<i class="fa fa-google-plus"></i>
+							<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="whatsapp">
+								<i class="fab fa-whatsapp"></i>
 							</a>
 						</div>
 					</div>
@@ -128,7 +129,7 @@
 		</div>
 
 		<div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
-         <h3>Productoos relaccionados</h3>
+         	<h3>Productoos relaccionados</h3>
 		</div>
 	</section>
 
@@ -156,14 +157,14 @@
 							<div class="block2-pic hov-img0">
 								<img src="<?= $portada ?>" alt="IMG-PRODUCT">
 
-								<a href="<?= base_url().'/tienda/producto/'.$arrProductos[$p]['prodCodi'].'/'.$ruta; ?>" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
+								<a href="<?= base_url().'/tienda/producto/'.$arrProductos[$p]['prodId'].'/'.$ruta; ?>" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
 									Ver productos
 								</a>
 							</div>
 
 							<div class="block2-txt flex-w flex-t p-t-14">
 								<div class="block2-txt-child1 flex-col-l ">
-									<a href="<?= base_url().'/tienda/producto/'.$arrProductos[$p]['prodCodi'].'/'.$ruta; ?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+									<a href="<?= base_url().'/tienda/producto/'.$arrProductos[$p]['prodId'].'/'.$ruta; ?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 										<?= $arrProductos[$p]['prodNomb']; ?>
 									</a>
 

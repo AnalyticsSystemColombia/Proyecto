@@ -25,10 +25,10 @@
     $('.js-addwish-b2').each(function(){
       var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
       $(this).on('click', function(){
-        swal(nameProduct, "is added to wishlist !", "success");
+        swal(nameProduct, "¡Se agrego al corrito!", "success");
 
-        $(this).addClass('js-addedwish-b2');
-        $(this).off('click');
+        // $(this).addClass('js-addedwish-b2');
+        // $(this).off('click');
       });
     });
 
@@ -45,44 +45,50 @@
 
     /*--------------------Modal carrito-------------------------*/
 
-  $('.js-addcart-detail').each(function(){
-  var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-  $(this).on('click', function(){
-    let id = this.getAttribute('id');
-    let cant = document.querySelector('#cant-product').value;
-
-    if(isNaN(cant) || cant < 1){
-      swal("","La cantidad debe ser mayor o igual que 1" , "error");
-      return;
-    } 
-    let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-      let ajaxUrl = base_url+'/Tienda/addCarrito'; 
-      let formData = new FormData();
-      formData.append('id',id);
-      formData.append('cant',cant);
-      request.open("POST",ajaxUrl,true);
-      request.send(formData);
-      request.onreadystatechange = function(){
-          if(request.readyState != 4) return;
-          if(request.status == 200){
-            let objData = JSON.parse(request.responseText);
-            if(objData.status){
-                document.querySelector("#productosCarrito").innerHTML = objData.htmlCarrito;
-                //document.querySelectorAll(".cantCarrito")[0].setAttribute("data-notify",objData.cantCarrito);
-                //document.querySelectorAll(".cantCarrito")[1].setAttribute("data-notify",objData.cantCarrito);
-                const cants = document.querySelectorAll(".cantCarrito");
-          cants.forEach(element => {
-            element.setAttribute("data-notify",objData.cantCarrito)
-          });
-          swal(nameProduct, "¡Se agrego al corrito!", "success");
-            }else{
-              swal("", objData.msg , "error");
-            }
-          } 
-          return false;
-      }
-  });
-});
+    $('.js-addcart-detail').each(function(){
+      let nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+      let cant = 1;
+      $(this).on('click', function(){
+        let id = this.getAttribute('id');
+        if(document.querySelector('#cant-product')){
+          cant = document.querySelector('#cant-product').value;
+        }
+        if(this.getAttribute('pr')){
+          cant = this.getAttribute('pr');
+        }
+    
+        if(isNaN(cant) || cant < 1){
+          swal("","La cantidad debe ser mayor o igual que 1" , "error");
+          return;
+        } 
+        let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+          let ajaxUrl = base_url+'/Tienda/addCarrito'; 
+          let formData = new FormData();
+          formData.append('id',id);
+          formData.append('cant',cant);
+          request.open("POST",ajaxUrl,true);
+          request.send(formData);
+          request.onreadystatechange = function(){
+              if(request.readyState != 4) return;
+              if(request.status == 200){
+                let objData = JSON.parse(request.responseText);
+                if(objData.status){
+                    document.querySelector("#productosCarrito").innerHTML = objData.htmlCarrito;
+                    //document.querySelectorAll(".cantCarrito")[0].setAttribute("data-notify",objData.cantCarrito);
+                    //document.querySelectorAll(".cantCarrito")[1].setAttribute("data-notify",objData.cantCarrito);
+                    const cants = document.querySelectorAll(".cantCarrito");
+              cants.forEach(element => {
+                element.setAttribute("data-notify",objData.cantCarrito)
+              });
+              swal(nameProduct, "¡Se agrego al corrito!", "success");
+                }else{
+                  swal("", objData.msg , "error");
+                }
+              } 
+              return false;
+          }
+      });
+    });
 
   /*---------------------------------------------*/   
 
@@ -342,4 +348,50 @@ if(document.querySelector("#txtDireccion")){
                }
         }
   },false);
+}
+
+
+if(document.querySelector("#frmSuscripcion")){
+	let frmSuscripcion = document.querySelector("#frmSuscripcion");
+	frmSuscripcion.addEventListener('submit',function(e) { 
+		e.preventDefault();
+
+		let nombre = document.querySelector("#nombreSuscripcion").value;
+		let email = document.querySelector("#emailSuscripcion").value;
+
+		if(nombre == ""){
+			swal("", "El nombre es obligatorio" ,"error");
+			return false;
+		}
+
+		if(!fntEmailValidate(email)){
+			swal("", "El email no es válido." ,"error");
+			return false;
+		}	
+		
+		divLoading.style.display = "flex";
+		let request = (window.XMLHttpRequest) ? 
+                    new XMLHttpRequest() : 
+                    new ActiveXObject('Microsoft.XMLHTTP');
+		let ajaxUrl = base_url+'/../Tienda/suscripcion';
+		let formData = new FormData(frmSuscripcion);
+	   	request.open("POST",ajaxUrl,true);
+	    request.send(formData);
+	    request.onreadystatechange = function(){
+	    	if(request.readyState != 4) return;
+	    	if(request.status == 200){
+	    		let objData = JSON.parse(request.responseText);
+	    		if(objData.status){
+	    			swal("", objData.msg , "success");
+                	document.querySelector("#frmSuscripcion").reset();
+	    		}else{
+	    			swal("", objData.msg , "error");
+	    		}
+	    	}
+	    	divLoading.style.display = "none";
+        	return false;
+	    
+		}
+
+	},false);
 }

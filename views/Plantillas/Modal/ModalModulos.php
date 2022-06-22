@@ -15,11 +15,11 @@
                   <input type="hidden" id="idmodulo" name="idmodulo" value="">
                   <div class="form-group">
                     <label for="control-label">Nombre del módulo</label>
-                    <input class="form-control" id="txtmoduTitu" name="txtmoduTitu" type="text"  placeholder="Nombre del rol" required=""/>
+                    <input class="form-control" id="txtmoduTitu" name="txtmoduTitu" type="text"  placeholder="Nombre del módulo" required=""/>
                   </div>
                   <div class="form-group">
-                    <label for="control-label">Descripción</label>
-                    <textarea class="form-control" id="txtmoduDesc" name="txtmoduDesc" rows="2" placeholder="Descripción del rol" required=""></textarea>
+                    <label for="control-label">Descripción módulo</label>
+                    <textarea class="form-control" id="txtmoduDesc" name="txtmoduDesc" rows="2" placeholder="Descripción el módulo" required=""></textarea>
                   </div>
                   <div class="form-group">
                     <label for="eje">Estado</label>

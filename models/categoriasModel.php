@@ -85,6 +85,17 @@
 		}
 		return $request;
 	}	
+	public function getCategoriasFooter(){
+		$sql = "SELECT cateCodi, cateNomb, cateDesc, portada, ruta
+				FROM categorias WHERE  status = 1 AND cateCodi IN (".CAT_FOOTER.")";
+		$request = $this->select_all($sql);
+		if(count($request) > 0){
+			for ($c=0; $c < count($request) ; $c++) { 
+				$request[$c]['portada'] = BASE_URL.'/Public/images/uploads/'.$request[$c]['portada'];		
+			}
+		}
+		return $request;
+	}
 }
 
 ?>

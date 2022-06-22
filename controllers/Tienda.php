@@ -31,40 +31,41 @@
 		//$data['productos'] = $this->getProductosT();
 		$data['pagina'] = $pagina;
 		$data['total_paginas'] = $total_paginas;
+		$data['categorias'] = $this->getCategorias();
 		$this->views->getView($this,"tienda",$data);
 	}
 	public function categoria($params){
-			if(empty($params)){
-				header("Location:".base_url());
-			}else{
-			//echo $params;
-			//exit();
-			$arrParams = explode(",", $params);
+		//dep($params);
+		if(empty($params)){
+			header("Location:".base_url());
+		}else{
+            
+			$arrParams = explode(",",$params);
+			//dep($arrParams);
 			$idcategoria = intval($arrParams[0]);
-			$ruta       = strClean($arrParams[1]);
+			//dep($idcategoria);
+			$ruta = strClean($arrParams[1]);
+			//dep($ruta );
 			$pagina = 1;
-			if(count($arrParams) > 2 AND is_numeric($arrParams[2])){
+			//dep($pagina);
+			if(count($arrParams) > 2 && is_numeric($arrParams[2])){
 				$pagina = $arrParams[2];
 			}
-
 			$cantProductos = $this->cantProductos($idcategoria);
 			$total_registro = $cantProductos['total_registro'];
 			$desde = ($pagina-1) * PROCATEGORIA;
 			$total_paginas = ceil($total_registro / PROCATEGORIA);
-            $infoCategoria = $this->getProductosCategoriaT($idcategoria, $ruta, $desde, PROCATEGORIA );
-            //dep($infoCategoria);exit();
-            //dep($infoCategoria);
+			$infoCategoria = $this->getProductosCategoriaT($idcategoria,$ruta,$desde,PROCATEGORIA);
+			//dep($infoCategoria );
 			$categoria = strClean($params);
-			//dep($categoria);
-			$data['page_tag'] = NOMBRE_EMPRESA."-".$infoCategoria['categoria'];
-			$data['page_title'] =  $infoCategoria['categoria'];
+			$data['page_tag'] = NOMBRE_EMPRESA." - ".$infoCategoria['Idcategoria'];
+			$data['page_title'] = $infoCategoria['cateNomb'];
 			$data['page_name'] = "categoria";
 			$data['productos'] = $infoCategoria['productos'];
 			$data['infoCategoria'] = $infoCategoria;
 			$data['pagina'] = $pagina;
 			$data['total_paginas'] = $total_paginas;
-            $data['categorias'] = $this->getCategorias();
-            //dep($data);exit();
+			$data['categorias'] = $this->getCategorias();
 			$this->views->getView($this,"categoria",$data);
 		}
 	}
@@ -422,8 +423,53 @@
 			$data['page_name'] = "tienda";
 			$data['pagina'] = $pagina;
 			$data['total_paginas'] = $total_paginas;
-			//$data['categorias'] = $this->getCategorias();
+			$data['categorias'] = $this->getCategorias();
 			$this->views->getView($this,"tienda",$data);
+		}
+		public function search(){
+			if(empty($_REQUEST['s'])){
+				header("Location: ".base_url());
+			}else{
+				$busqueda = strClean($_REQUEST['s']);
+			}
+
+			$pagina = empty($_REQUEST['p']) ? 1 : intval($_REQUEST['p']);
+			$cantProductos = $this->cantProdSearch($busqueda);
+			$total_registro = $cantProductos['total_registro'];
+			$desde = ($pagina-1) * PROBUSCAR;
+			$total_paginas = ceil($total_registro / PROBUSCAR);
+			$data['productos'] = $this->getProdSearch($busqueda,$desde,PROBUSCAR);
+			$data['page_tag'] = NOMBRE_EMPESA;
+			$data['page_title'] = "Resultado de: ".$busqueda;
+			$data['page_name'] = "tienda";
+			$data['pagina'] = $pagina;
+			$data['total_paginas'] = $total_paginas;
+			$data['busqueda'] = $busqueda;
+			$data['categorias'] = $this->getCategorias();
+			$this->views->getView($this,"search",$data);
+
+		}
+		public function suscripcion(){
+			if($_POST){
+				$nombre = ucwords(strtolower(strClean($_POST['nombreSuscripcion'])));
+				$email  = strtolower(strClean($_POST['emailSuscripcion']));
+
+				$suscripcion = $this->setSuscripcion($nombre,$email);
+				if($suscripcion > 0){
+					$arrResponse = array('status' => true, 'msg' => "Gracias por tu suscripción.");
+					//Enviar correo
+					 $dataUsuario = array('asunto' => "Nueva suscripción",
+					 					'email' => EMAIL_SUSCRIPCION,
+					 					'nombreSuscriptor' => $nombre,
+					 					'emailSuscriptor' => $email );
+					 sendEmail($dataUsuario,"email_suscripcion");
+				}else{
+					$arrResponse = array('status' => false, 'msg' => "El email ya fue registrado.");
+				}
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
+			}
+			die();
 		}
 
   }

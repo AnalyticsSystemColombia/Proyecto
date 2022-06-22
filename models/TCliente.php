@@ -157,5 +157,21 @@ public function getPedido(int $idpedido){
 		}
 		return $request;
     }
+	public function setSuscripcion(string $nombre, string $email){
+		$this->con = new Mysql();
+		$sql = 	"SELECT * FROM suscripciones WHERE email = '{$email}'";
+		$request = $this->con->select_all($sql);
+		if(empty($request)){
+			$query_insert  = "INSERT INTO suscripciones(nombre,email) 
+							  VALUES(?,?)";
+			$arrData = array($nombre,$email);
+			$request_insert = $this->con->insert($query_insert,$arrData);
+			$return = $request_insert;
+		}else{
+			$return = false;
+		}
+		return $return;
+	}
+
 }
  ?>

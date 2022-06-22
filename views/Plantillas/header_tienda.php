@@ -13,10 +13,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+<title><?= $data['page_tag']; ?></title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+  
 <!--===============================================================================================-->  
   <link rel="icon" type="image/png" href="<?= media();?>/../Public/images/favicon.ico"/>
 <!--===============================================================================================-->
@@ -258,11 +259,12 @@
           <img src="<?= media()?>/tienda/images/icons/icon-close2.png" alt="CLOSE">
         </button>
 
-        <form class="wrap-search-header flex-w p-l-15">
+        <form class="wrap-search-header flex-w p-l-15" method="get" action="<?= base_url() ?> Tienda/search">
           <button class="flex-c-m trans-04">
             <i class="zmdi zmdi-search"></i>
+            <input  type="hidden" name ="p" value="1">
           </button>
-          <input class="plh3" type="text" name="search" placeholder="Search...">
+          <input class="plh3" type="text" name="s" placeholder="Buscar...">
         </form>
       </div>
     </div>

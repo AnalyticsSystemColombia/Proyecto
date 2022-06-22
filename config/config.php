@@ -33,12 +33,14 @@
  const WEB_EMPRESA = "www.siso.com";
 
  const DIRECCION = "Carrera 78 F # 38-A 10 Bogotá";
- const TELEMPRESA = "57+3214241953";
+ const TELEMPRESA = "(57)+3214241953";
  const EMAIL_EMPRESA = "harold_uruena@yahoo.com";
  const EMAIL_PEDIDOS = "harold_uruena@yahoo.com";
+ const EMAIL_SUSCRIPCION = "harold_uruena@yahoo.com";
 
 const CAT_SLIDER = "5,6,12";
 const CAT_BANNER = "12,5,6";
+const CAT_FOOTER = "1,2,4,5";
 
 const KEY ='HRD';
 const METHODENCRIPT ="AES-128-ECB";
@@ -62,6 +64,7 @@ const MCOMERCIAL = 10;
 const MVENTAS = 11;
 const MPEDIDOS = 12;
 const MFACTURAS = 14;
+const MSUSCRIPTOR =16;
 
 const STATUS = array('Completo','Aprobado','Cancelado','Reembolsado','Pendiente','Entregado');
 
@@ -69,5 +72,7 @@ const STATUS = array('Completo','Aprobado','Cancelado','Reembolsado','Pendiente'
 	const CANTPORDHOME = 8;
 	const PROPORPAGINA = 8;
 	const PROCATEGORIA = 4;
+
+	const PROBUSCAR =2;
 
 ?>

@@ -1,5 +1,7 @@
 
 var tableModulos;
+let divLoading = document.querySelector("#divLoading");
+let rowTable ="";
 
 document.addEventListener('DOMContentLoaded', function() 
 {

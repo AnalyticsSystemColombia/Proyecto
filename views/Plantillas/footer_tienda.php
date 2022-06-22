@@ -1,39 +1,28 @@
 
   <!-- Footer -->
+  <?php
+   $catFotter =getCatFooter();
+   //dep($catFotter);
+  ?>
   <footer class="bg3 p-t-75 p-b-32">
     <div class="container">
       <div class="row">
         <div class="col-sm-6 col-lg-4 p-b-50">
-          <h4 class="stext-301 cl0 p-b-30">
-            Categorías
-          </h4>
-
-          <ul>
-            <li class="p-b-10">
-              <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                Mujer
-              </a>
-            </li>
-
-            <li class="p-b-10">
-              <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                Hombre
-              </a>
-            </li>
-
-            <li class="p-b-10">
-              <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                Tienda
-              </a>
-            </li>
-
-            <li class="p-b-10">
-              <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                Otros
-              </a>
-            </li>
-          </ul>
-        </div>
+        <h4 class="stext-301 cl0 p-b-30">
+						Categorías
+					</h4>
+					<?php if(count($catFotter) > 0){ ?>
+            <ul>
+              <?php foreach ($catFotter as $cat) { ?>
+                <li class="p-b-10">
+                  <a href="<?= base_url() ?>/tienda/categoria/<?= $cat['cateCodi'].'/'.$cat['ruta'] ?>" class="stext-107 cl7 hov-cl1 trans-04">
+                    <?= $cat['cateNomb'] ?>
+                  </a>
+                </li>
+              <?php } ?>
+            </ul>
+					<?php } ?>
+          </div>
 
         <div class="col-sm-6 col-lg-4 p-b-50">
           <h4 class="stext-301 cl0 p-b-30">
@@ -41,7 +30,9 @@
           </h4>
 
           <p class="stext-107 cl7 size-201">
-            Carrera 78 F # 38-a-34 cali Colombia
+          <?= DIRECCION ?> <br>
+            Tel: <a class="linkFooter" href="tel:<?= TELEMPRESA ?>"><?= TELEMPRESA ?></a><br>
+						Email: <a class="linkFooter" href="mailto:<?= EMAIL_EMPRESA ?>"><?= EMAIL_EMPRESA ?></a>
           </p>
 
           <div class="p-t-27">
@@ -52,6 +43,9 @@
             <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
               <i class="fa fa-instagram"></i>
             </a>
+            <a href="https://wa.me/<?= WHATSAPP ?>" target="_blanck"  class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+							<i class="fab fa-whatsapp"></i>
+						</a>
 
           </div>
         </div>
@@ -61,9 +55,14 @@
             suscribirse
           </h4>
 
-          <form>
+          <form id="frmSuscripcion" name="frmSuscripcion">
+          <div class="wrap-input1 w-full p-b-4">
+              <input class="input1 bg-none plh1 stext-107 cl7" type="text" name="nombreSuscripcion" id="nombreSuscripcion" placeholder="Nombre completo" required>
+              <div class="focus-input1 trans-04"></div>
+            </div>
+            <br>
             <div class="wrap-input1 w-full p-b-4">
-              <input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="email@example.com">
+              <input class="input1 bg-none plh1 stext-107 cl7" type="email" name="emailSuscripcion" id="emailSuscripcion" placeholder="email@example.com" required>
               <div class="focus-input1 trans-04"></div>
             </div>
 

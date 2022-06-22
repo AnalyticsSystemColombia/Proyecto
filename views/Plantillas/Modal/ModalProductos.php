@@ -48,8 +48,8 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="listProd">Categoría <span class="required">*</span></label>
-                            <select class="form-control"  id="listProd" name="listProd"></select>
+                            <label for="listCategoria">Categoría <span class="required">*</span></label>
+                            <select class="form-control"  id="listCategoria" name="listCategoria"></select>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="listStatus">Estado <span class="required">*</span></label>
