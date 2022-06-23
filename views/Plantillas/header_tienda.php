@@ -122,12 +122,14 @@
           
           <!-- Logo desktop -->   
           <a href="<?= base_url(); ?>" class="logo">
-            <img src="<?= media() ?>/tienda/images/logo.png" alt="SISO">
+            <img src="<?= media() ?>/imagenes/siso1.png" alt="SISO">
           </a>
-
+             
+             
           <!-- Menu desktop -->
           <div class="menu-desktop">
             <ul class="main-menu">
+              
               <li class="active-menu">
                 <a href="<?= base_url()?>">Inicio</a>
               </li>

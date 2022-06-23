@@ -105,11 +105,7 @@
 
 						<!--  -->
 						<div class="flex-w flex-m p-l-100 p-t-40 respon7">
-							<div class="flex-m bor9 p-r-10 m-r-11">
-								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
-									<i class="zmdi zmdi-favorite"></i>
-								</a>
-							</div>
+							<a class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Redes sociales">Compartir en:</a>
 
 							<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
 								<i class="fa fa-facebook"></i>
@@ -119,7 +115,7 @@
 								<i class="fa fa-twitter"></i>
 							</a>
 
-							<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="whatsapp">
+							<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Whatsapp">
 								<i class="fab fa-whatsapp"></i>
 							</a>
 						</div>
@@ -129,7 +125,7 @@
 		</div>
 
 		<div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
-         	<h3>Productoos relaccionados</h3>
+         	<h3>Productos relaccionados</h3>
 		</div>
 	</section>
 
@@ -156,10 +152,6 @@
 						<div class="block2">
 							<div class="block2-pic hov-img0">
 								<img src="<?= $portada ?>" alt="IMG-PRODUCT">
-
-								<a href="<?= base_url().'/tienda/producto/'.$arrProductos[$p]['prodId'].'/'.$ruta; ?>" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
-									Ver productos
-								</a>
 							</div>
 
 							<div class="block2-txt flex-w flex-t p-t-14">
@@ -174,10 +166,14 @@
 								</div>
 
 								<div class="block2-txt-child2 flex-r p-t-3">
-									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-										<img class="icon-heart1 dis-block trans-04" src="<?= media()?>/tienda/images/icons/icon-heart-01.png" alt="ICON">
-										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="<?= media()?>/tienda/images/icons/icon-heart-02.png" alt="ICON">
-									</a>
+								<a href="#"
+								 id="<?= openssl_encrypt($arrProductos[$p]['prodId'],METHODENCRIPT,KEY); ?>"
+								 pr = "1"
+								 class="btn-addwish-b2 dis-block pos-relative js-addwish-b2 js-addcart-detail
+								 icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11
+								 ">
+									<i class="zmdi zmdi-shopping-cart"></i>
+								</a>
 								</div>
 							</div>
 						</div>

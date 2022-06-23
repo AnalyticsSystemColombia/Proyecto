@@ -26,13 +26,14 @@
  //const URLPAYPAL = "https://api-m.paypal.com";
  //const SECRET = "EIk2jqgFPlI54cJ9FbBshSEmTWFx7JjX9JSM2uqILEW3jQujfqyqqqxwRWhdBHY01avt-re0rWIxyyej";
 
+ const WHATSAPP ="";
 
  const NOMBRE_REMITENTE = "SISO";
  const EMAIL_REMITENTE ="no-reply@siso.com";
  const NOMBRE_EMPRESA = "SISO";
  const WEB_EMPRESA = "www.siso.com";
 
- const DIRECCION = "Carrera 78 F # 38-A 10 Bogotá";
+ const DIRECCION = "Carrera 77  # 36-A-76 Bogotá";
  const TELEMPRESA = "(57)+3214241953";
  const EMAIL_EMPRESA = "harold_uruena@yahoo.com";
  const EMAIL_PEDIDOS = "harold_uruena@yahoo.com";
