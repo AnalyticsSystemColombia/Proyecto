@@ -38,6 +38,7 @@
  const EMAIL_EMPRESA = "harold_uruena@yahoo.com";
  const EMAIL_PEDIDOS = "harold_uruena@yahoo.com";
  const EMAIL_SUSCRIPCION = "harold_uruena@yahoo.com";
+ const EMAIL_CONTACTO = "harold_uruena@yahoo.com";
 
 const CAT_SLIDER = "5,6,12";
 const CAT_BANNER = "12,5,6";
@@ -66,6 +67,7 @@ const MVENTAS = 11;
 const MPEDIDOS = 12;
 const MFACTURAS = 14;
 const MSUSCRIPTOR =16;
+const MCONTACTOS = 17;
 
 const STATUS = array('Completo','Aprobado','Cancelado','Reembolsado','Pendiente','Entregado');
 

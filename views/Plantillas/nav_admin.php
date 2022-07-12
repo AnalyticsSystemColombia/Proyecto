@@ -15,7 +15,7 @@
         </li>
         <li>
             <a class="app-menu__item" href="<?= base_url(); ?>/monitor">
-                <i class="app-menu__icon fa fas fa-globe" aria-hidden="true"></i>
+                <i class="app-menu__icon fa fa-briefcase" aria-hidden="true"></i>
                 <span class="app-menu__label">Monitor</span>
             </a>
         </li>
@@ -91,6 +91,14 @@
             <a class="app-menu__item" href="<?= base_url(); ?>suscriptores">
                 <i class="app-menu__icon fas fa-user-tie" aria-hidden="true"></i>
                 <span class="app-menu__label">Suscriptores</span>
+            </a>
+        </li>
+        <?php } ?>
+        <?php if(!empty($_SESSION['permisos'][MCONTACTOS]['r'])){ ?>
+        <li>
+            <a class="app-menu__item" href="<?= base_url(); ?>Contactos">
+                <i class="app-menu__icon fas fa-envelope" aria-hidden="true"></i>
+                <span class="app-menu__label">Contactos</span>
             </a>
         </li>
         <?php } ?>

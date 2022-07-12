@@ -439,7 +439,7 @@
 			$desde = ($pagina-1) * PROBUSCAR;
 			$total_paginas = ceil($total_registro / PROBUSCAR);
 			$data['productos'] = $this->getProdSearch($busqueda,$desde,PROBUSCAR);
-			$data['page_tag'] = NOMBRE_EMPESA;
+			$data['page_tag'] = NOMBRE_EMPRESA;
 			$data['page_title'] = "Resultado de: ".$busqueda;
 			$data['page_name'] = "tienda";
 			$data['pagina'] = $pagina;
@@ -467,6 +467,43 @@
 					$arrResponse = array('status' => false, 'msg' => "El email ya fue registrado.");
 				}
 				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
+			}
+			die();
+		}
+		public function contacto(){
+			if($_POST){
+				// dep($_POST);
+			 $nombre = ucwords(strtolower(strClean($_POST['nombreContacto'])));
+			 $email  = strtolower(strClean($_POST['emailContacto']));
+			 $mensaje  = strClean($_POST['mensaje']);
+			 $useragent =$_SERVER['HTTP_USER_AGENT'];
+			 $ip        =$_SERVER['REMOTE_ADDR'];
+			 $dispositivo = "PC";
+			 if(preg_match("/mobile/i",$useragent)){
+				$dispositivo ="Movil";
+			 }else if(preg_match("/tablet/i",$useragent)){
+				$dispositivo ="Tablet";
+			 }else if(preg_match("/iPhone/i",$useragent)){
+				$dispositivo ="iPhone";
+			 }else if(preg_match("/iPad/i",$useragent)){
+				$dispositivo ="iPad";
+			 }
+			 $userContact = $this->setContacto($nombre, $email, $mensaje, $ip, $dispositivo, $useragent);
+			 //dep($userContact);
+			 if($userContact > 0){
+			 	$arrResponse = array('status' => true, 'msg' => "Gracias por escribirmos");
+					//Enviar correo
+			//   $dataUsuario = array('asunto' => "Mensaje de contacto",
+			//   					'email' => EMAIL_CONTACTO,
+			//   					'nombreContacto' => $nombre,
+			//   					'emailContacto' => $email,
+			// 					'mensaje' => $mensaje );
+			//   sendEmail($dataUsuario,"email_contacto");
+			 }else{
+			 	$arrResponse = array('status' => false, 'msg' => "No es posible enviar el mensaje.");
+			 }
+			 echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 
 			}
 			die();

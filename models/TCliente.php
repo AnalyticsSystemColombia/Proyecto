@@ -172,6 +172,20 @@ public function getPedido(int $idpedido){
 		}
 		return $return;
 	}
+	public function setContacto(string $nombre, string $email, string $mensaje, string $ip, string $dispositivo, string $useragent){
+		$this->con = new Mysql();
+		$nombre 		= $nombre != "" ? $nombre : "";
+	    $email  		= $email != "" ? $email : "";
+		$mensaje 		= $mensaje != "" ? : "";
+		$ip      		= $ip != "" ? : "";
+		$dispositivo	= $dispositivo != "" ? : "";
+		$useragent		= $useragent != "" ? : "";
+		$query_insert =" INSERT INTO contactos( nombre, email, mensaje,ip,dispositivo,useragent)
+		                VALUES(?,?,?,?,?,?)";
+		$arrData = array($nombre, $email, $mensaje,$ip,$dispositivo,$useragent);
+		$request_insert = $this->con->insert($query_insert,$arrData);
+		return  $request_insert;
+	}
 
 }
  ?>
