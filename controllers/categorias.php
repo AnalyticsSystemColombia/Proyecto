@@ -40,7 +40,7 @@ class Categorias extends Controllers{
                 $imgPortada     = 'portada_categoria.png';
                 $request_categoria = "";
                 if($nombre_foto != ''){
-                    $imgPortada = 'img_'.md5(date('d-m-Y H:m:s')).'.jpg';
+                    $imgPortada = 'img_'.md5(date('d-m-Y H:i:s')).'.jpg';
                 }
 
                 if($intIdcategoria == 0) {

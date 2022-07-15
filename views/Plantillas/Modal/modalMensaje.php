@@ -17,7 +17,7 @@
             </tr>
             <tr>
                <td>Nombres:</td>
-                <td id=celNombres></td>
+                <td id=celNombre></td>
             </tr>
             <tr>
                 <td>Email:</td>

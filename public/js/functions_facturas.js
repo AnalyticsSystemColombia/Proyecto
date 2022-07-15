@@ -1,4 +1,4 @@
-////cargar la tabla de la categoria
+////cargar la tabla
 let tableFacturas;
 let rowTable = "";
 let divLoading = document.querySelector("#divLoading");
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function(){
             {"data":"provValoFact"},
             {"data":"provFactFech"},
             {"data":"status"},
-            {"data":"options"}
+            {"data":"options"},
         ],
         'dom': 'lBfrtip',
         'buttons': [
@@ -75,7 +75,7 @@ formFacturas.onsubmit = function(e) {
 
 		request.onreadystatechange = function(){
 			if(request.readyState == 4 && request.status == 200){
-				var objData = JSON.parse(request.responseText);
+				let objData = JSON.parse(request.responseText);
 				if(objData.status){
 					if(rowTable == ""){
                         tableFacturas.api().ajax.reload();
@@ -103,7 +103,6 @@ formFacturas.onsubmit = function(e) {
             return false;
 		}
 	}
-
 }, false);
 
 
@@ -132,9 +131,9 @@ function fntSelectProveedores(){
 }
 
 function fntViewFacturas() {
-	var btnViewFacturas = document.querySelectorAll(".btnViewFacturas");
-	btnViewFacturas.forEach(function(btnViewFacturas){
-		btnViewFacturas.addEventListener('click', function(){
+	let btnView = document.querySelectorAll(".btnView");
+	btnView.forEach(function(btnViewFacturas){
+		btnView.addEventListener('click', function(){
 		var provFactId = this.getAttribute("pr");
 		var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('microsoft.XMLHTTP');
 		var ajaxUrl = base_url+'/Facturas/getFacturas/'+provFactId;
@@ -168,7 +167,7 @@ function fntViewFacturas() {
 
 function fntEditInfo(element,provFactId){
     rowTable = element.parentNode.parentNode.parentNode;
-    document.querySelector('#titleModal').innerHTML ="Actualizar Categoría";
+    document.querySelector('#titleModal').innerHTML ="Actualizar Factura";
     document.querySelector('.modal-header').classList.replace("headerRegister", "headerUpdate");
     document.querySelector('#btnActionForm').classList.replace("btn-primary", "btn-info");
     document.querySelector('#btnText').innerHTML ="Actualizar";

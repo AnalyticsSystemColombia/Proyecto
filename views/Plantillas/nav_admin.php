@@ -102,6 +102,15 @@
             </a>
         </li>
         <?php } ?>
+
+        <?php if(!empty($_SESSION['permisos'][MPAGINAS]['r'])){ ?>
+        <li>
+            <a class="app-menu__item" href="<?= base_url(); ?>Paginas">
+                <i class="app-menu__icon fas fa-file-alt" aria-hidden="true"></i>
+                <span class="app-menu__label">Paginas</span>
+            </a>
+        </li>
+        <?php } ?>
         <li>
             <a class="app-menu__item" href="<?= base_url(); ?>logout">
                 <i class="app-menu__icon fa fa-sign-in" aria-hidden="true"></i>

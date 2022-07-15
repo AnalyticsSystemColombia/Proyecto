@@ -100,6 +100,15 @@
     function deleteFile(string $name){
         unlink('Public/images/uploads/'.$name);
     }
+    function uploadImagePagina(array $data, string $name){
+        $url_temp = $data['tmp_name'];
+        $destino    = 'Public/tienda/images/'.$name;        
+        $move = move_uploaded_file($url_temp, $destino);
+        return $move;
+    }
+    function deleteFilePagina(string $name){
+        unlink('Public/images/uploads/'.$name);
+    }
 
     //Elimina exceso de espacios entre palabras
     function strClean($strCadena){
@@ -296,6 +305,13 @@ function Meses(){
         require_once ("Models/CategoriasModel.php");
         $objCategoria = new CategoriasModel();
         $request = $objCategoria->getCategoriasFooter();
+        return $request;
+    }
+    function getInfoPage(int $idpagina){
+        require_once("Libraries/Core/Mysql.php");
+        $con = new Mysql();
+        $sql = "SELECT * FROM post WHERE idpost = $idpagina";
+        $request = $con->select($sql);
         return $request;
     }
     

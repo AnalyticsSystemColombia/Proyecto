@@ -68,6 +68,7 @@ const MPEDIDOS = 12;
 const MFACTURAS = 14;
 const MSUSCRIPTOR =16;
 const MCONTACTOS = 17;
+const MPAGINAS = 18;
 
 const STATUS = array('Completo','Aprobado','Cancelado','Reembolsado','Pendiente','Entregado');
 

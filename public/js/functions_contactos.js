@@ -57,21 +57,19 @@ tableContactos = $('#tableContactos').dataTable( {
         request.onreadystatechange = function(){
             if(request.readyState == 4 && request.status == 200){
                 let objData = JSON.parse(request.responseText);
-                $('#ModalViewMensaje').modal('show');
-                // if(objData.status)
-                // {
-                //     document.querySelector("#celId").innerHTML = objProducto.codigo;
-                //     document.querySelector("#celNombre").innerHTML = objProducto.prodNomb;
-                //     document.querySelector("#celEmail").innerHTML = objProducto.prodPrec;
-                //     document.querySelector("#celFecha").innerHTML = objProducto.prodStock;
-                //     document.querySelector("#celMensaje").innerHTML = objProducto.cateNomb;
-                //     document.querySelector("#celStatus").innerHTML = estadoProducto;
-                //     document.querySelector("#celDescripcion").innerHTML = objProducto.descripcion;
-                //     $('#ModalViewMensaje').modal('show');
+                 if(objData.status)
+                  {
+                     let objMensaje = objData.data;
+                     document.querySelector("#celId").innerHTML = objMensaje.id;
+                     document.querySelector("#celNombre").innerHTML = objMensaje.nombre;
+                     document.querySelector("#celEmail").innerHTML = objMensaje.email;
+                     document.querySelector("#celFecha").innerHTML = objMensaje.fecha;
+                     document.querySelector("#celMensaje").innerHTML = objMensaje.mensaje;
+                     $('#ModalViewMensaje').modal('show');
     
-                // }else{
-                //     swal("Error", objData.msg , "error");
-                // }
+                 }else{
+                     swal("Error", objData.msg , "error");
+                 }
             }
         } 
     }
