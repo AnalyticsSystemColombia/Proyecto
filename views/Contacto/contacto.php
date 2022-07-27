@@ -1,12 +1,20 @@
 <?php
    headerTienda($data);       
+   $banner = $data['page']['portada'];
+   $idpagina = $data['page']['idpost'];
 ?>
 <br><br><br>
+<script>
+ 	document.querySelector('header').classList.add('header-v4');
+ </script>
 <section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('Public/tienda/images/bg-01.jpg');">
     <h2 class="ltext-105 cl0 txt-center">
         Puedes contactarnos
     </h2>
 </section>	
+<?php
+	if(viewPage($idpagina)){	
+ ?>
 
 <!-- Content page -->
 <section class="bg0 p-t-104 p-b-116">
@@ -89,13 +97,17 @@
 			</div>
 		</div>
 	</section>	
-	
-	
-	<!-- Map -->
-	<div class="map">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.8486971462485!2d-74.154313277535!3d4.621069132914397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9e98f86548db%3A0xc6b47b593120f895!2sCra.%2077%20%233646%2C%20Bogot%C3%A1!5e0!3m2!1ses!2sco!4v1655973591017!5m2!1ses!2sco" width="1920" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+	<?php 
+		echo $data['page']['contenido'];
+	}else{
+?>
+<div>
+	<div class="container-fluid py-5 text-center" >
+		<img src="<?= media() ?>/images/construction.png" alt="En construcción">
+		<h3>Estamos trabajando para usted.</h3>
 	</div>
-
+</div>
 <?php
+	}
    footerTienda($data);
 ?>

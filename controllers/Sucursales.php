@@ -1,16 +1,15 @@
 <?php 
- 
-	class Contacto extends Controllers{
-		public function __construct(){
+	class Sucursales extends Controllers{
+		public function __construct()
+		{
 			parent::__construct();
 			session_start();
 			getPermisos(MPAGINAS);
 		}
-       
-		public function contacto(){
-			///muestra la información de otro modelo dep($this->model->getCategorias());
-			//dep($this->getCategoriasT(CAT_SLIDER));
-			$pageContent = getPageRout('contacto');
+
+		public function sucursales()
+		{
+			$pageContent = getPageRout('sucursales');
 			if(empty($pageContent)){
 				header("Location: ".base_url());
 			}else{
@@ -18,7 +17,8 @@
 				$data['page_title'] = NOMBRE_EMPRESA." - ".$pageContent['titulo'];
 				$data['page_name'] = $pageContent['titulo'];
 				$data['page'] = $pageContent;
-			}	$this->views->getView($this,"contacto",$data);
+				$this->views->getView($this,"sucursales",$data);  
+			}
 		}
 
 	}

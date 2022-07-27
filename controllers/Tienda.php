@@ -17,8 +17,8 @@
 	public function tienda(){
 		///muestra la información de otro modelo dep($this->model->getCategorias());
 		//dep($this->getCategoriasT(CAT_SLIDER));
-		$data['page_tag'] = "SISO";
-		$data['page_title'] = "Sitio oficial";
+		$data['page_tag'] = NOMBRE_EMPRESA;
+		$data['page_title'] = NOMBRE_EMPRESA;
 		$data['page_name'] = "tienda";
 		$pagina = 1;
 		$cantProductos = $this->cantProductos();

@@ -5,6 +5,8 @@
       $cantCarrito += $product['cantidad'];
     }
    } 
+   $tituloPreguntas = !empty(getInfoPage(PPREGUNTAS)) ? getInfoPage(PPREGUNTAS)['titulo'] : "";
+	 $infoPreguntas = !empty(getInfoPage(PPREGUNTAS)) ? getInfoPage(PPREGUNTAS)['contenido'] : "";
    ///dep($_SESSION['userData']);
 ?>
 
@@ -13,10 +15,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title><?= $data['page_tag']; ?></title>
+<title> <?= $data['page_tag']; ?></title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+  <?php 
+		$nombreSitio = NOMBRE_EMPRESA;
+		$descripcion = DESCRIPCION;
+		$nombreProducto = NOMBRE_EMPRESA;
+		$urlWeb = base_url();
+		$urlImg = media()."/images/portada.jpg";
+		if(!empty($data['producto'])){
+			//$descripcion = $data['producto']['descripcion'];
+			$descripcion = DESCRIPCION;
+			$nombreProducto = $data['producto']['nombre'];
+			$urlWeb = base_url()."/tienda/producto/".$data['producto']['idproducto']."/".$data['producto']['ruta'];
+			$urlImg = $data['producto']['images'][0]['url_image'];
+		}
+	?>
   
 <!--===============================================================================================-->  
   <link rel="icon" type="image/png" href="<?= media();?>/../Public/images/favicon.ico"/>
@@ -63,15 +79,15 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Preguntas frecuentes</h5>
+          <h5 class="modal-title"><?= $tituloPreguntas ?></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis sunt, corrupti hic aspernatur cumque alias, ipsam omnis iure ipsum, nostrum labore obcaecati natus repellendus consequatur est nemo sapiente dolorem dicta. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi, voluptas, consectetur iusto delectus quaerat ullam nesciunt! Quae doloribus deserunt qui fugit illo nobis ipsum, accusamus eius perferendis beatae culpa molestias!</p>
-          <br>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing, elit. Nostrum, ipsa. Corporis ratione consectetur cum ipsa vitae repudiandae sed placeat soluta minus. Ex dicta neque, modi voluptatibus error commodi laudantium nobis!</p>
+        <div class="page-content">
+	        		<?= $infoPreguntas; ?>
+	      		</div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -143,6 +159,9 @@
 
               <li>
                 <a href="<?= base_url()?>/nosotros">Nosotros</a>
+              </li>
+              <li>
+                <a href="<?= base_url()?>/sucursales">Sucursales</a>
               </li>
 
               <li>
@@ -246,6 +265,9 @@
         </li>
         <li>
           <a href="<?= base_url()?>/nosotros">Nosotros</a>
+        </li>
+        <li>
+            <a href="<?= base_url()?>/sucursales">Sucursales</a>
         </li>
 
         <li>
