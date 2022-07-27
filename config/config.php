@@ -11,6 +11,9 @@
  const DB_PASSWORD = "";
  const DB_CHARSET = "utf8";
 
+ //Para envío de correo
+const ENVIRONMENT = 1; // Local: 0, Produccón: 1;
+
  const SPD = ".";
  const SPM = ",";
  const SMONEY = "$";
@@ -65,8 +68,10 @@ const MCLIENTES = 8;
 const MPRODUCTOS = 9;
 const MCOMERCIAL = 10;
 const MVENTAS = 11;
+
 const MPEDIDOS = 12;
 const MFACTURAS = 14;
+const MMONITOR =15;
 const MSUSCRIPTOR =16;
 const MCONTACTOS = 17;
 const MPAGINAS = 18;
@@ -76,6 +81,8 @@ const MPAGINAS = 18;
 const PPREGUNTAS = 3;
 const PTERMINOS =4;
 const PSUCURSALES = 5;
+const PINICIO = 6;
+const PERROR = 7;
 
 const STATUS = array('Completo','Aprobado','Cancelado','Reembolsado','Pendiente','Entregado');
 
@@ -83,6 +90,7 @@ const STATUS = array('Completo','Aprobado','Cancelado','Reembolsado','Pendiente'
 	const CANTPORDHOME = 8;
 	const PROPORPAGINA = 8;
 	const PROCATEGORIA = 4;
+	
 
 	const PROBUSCAR =2;
 

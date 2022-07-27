@@ -280,7 +280,7 @@ footer{
 	margin-left: 15px; 
  }
  
- /* .page-error {
+  .page-error {
 	 display: -webkit-box;
 	 display: -ms-flexbox;
 	 display: flex;
@@ -302,4 +302,4 @@ footer{
 	 margin: 10px;
 	 color: #dc3545;
 	 font-size: 42px;
- } */
+ } 

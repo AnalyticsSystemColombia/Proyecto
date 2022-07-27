@@ -13,12 +13,14 @@
                 <span class="app-menu__label">Ver sitio web</span>
             </a>
         </li>
+        <?php if(!empty($_SESSION['permisos'][MMONITOR]['r'])) { ?>
         <li>
             <a class="app-menu__item" href="<?= base_url(); ?>/monitor">
                 <i class="app-menu__icon fa fa-briefcase" aria-hidden="true"></i>
                 <span class="app-menu__label">Monitor</span>
             </a>
         </li>
+        <?php } ?> 
          <?php if(!empty($_SESSION['permisos'][MDASHBOARD]['r'])) { ?>
           <li>
               <a class="app-menu__item" href="<?= base_url(); ?>/dashboard">

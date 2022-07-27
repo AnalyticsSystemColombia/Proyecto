@@ -4,8 +4,7 @@ $('.login-content [data-toggle="flip"]').click(function() {
 });
 
 var divLoading = document.querySelector("#divLoading");
-document.addEventListener('DOMContentLoaded', function()
-{
+document.addEventListener('DOMContentLoaded', function(){
 	if(document.querySelector("#formLogin")){
 		let formLogin = document.querySelector("#formLogin");
 		formLogin.onsubmit = function(e) {
@@ -46,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function()
 			}
 		}
 	}
-	
+
 	if(document.querySelector("#formRecetPass")){		
 		let formRecetPass = document.querySelector("#formRecetPass");
 		formRecetPass.onsubmit = function(e) {

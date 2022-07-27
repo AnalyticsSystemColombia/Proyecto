@@ -1,27 +1,27 @@
-<?php
+<?php 
 
+	class Errores extends Controllers{
+		public function __construct()
+		{
+			parent::__construct();
+		}
 
-class Errores extends Controllers
-{
-	
-	public function __construct()
-	{
-		parent::__construct();
-		// session_start();
-        // if(empty($_SESSION['login']))
-        // {
-		// 	header('Location: '.base_url().'/login');
-	    // }
-
+		public function notFound()
+		{
+			$pageContent = getPageRout('notfount');
+			if(empty($pageContent)){
+				header("Location: ".base_url());
+			}else{
+				$data['page_tag'] = NOMBRE_EMPRESA;
+				$data['page_title'] = NOMBRE_EMPRESA." - ".$pageContent['titulo'];
+				$data['page_name'] = $pageContent['titulo'];
+				$data['page'] = $pageContent;
+				$this->views->getView($this,"errores",$data);
+			}
+		}
 	}
-	
-	public function notFound()
-	{
-		$this->views->getView($this,"Errores");
-	}
 
-}
-$notFound = new Errores();
-$notFound->notFound();
 
-  ?>
+	$notFound = new Errores();
+	$notFound->notFound();
+ ?>
