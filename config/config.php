@@ -90,8 +90,6 @@ const STATUS = array('Completo','Aprobado','Cancelado','Reembolsado','Pendiente'
 	const CANTPORDHOME = 8;
 	const PROPORPAGINA = 8;
 	const PROCATEGORIA = 4;
-	
-
 	const PROBUSCAR =2;
 
 ?>

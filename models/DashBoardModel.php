@@ -127,7 +127,7 @@ public function selectVentasAnio(int $anio){
 }
 
 public function productosTen(){
-      $sql = "SELECT * FROM productos WHERE status = 1 ORDER BY prodId DESC LIMIT 1,10 ";
+      $sql = "SELECT * FROM productos WHERE status = 1 ORDER BY prodId DESC LIMIT 10 ";
       $request = $this->select_all($sql);
       return $request;
     }

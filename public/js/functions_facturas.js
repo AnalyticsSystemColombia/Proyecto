@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function(){
         ],
         "resonsieve":"true",
         "bDestroy": true,
-        "iDisplayLength": 10,
+        "iDisplayLength": 1,
         "order":[[0,"desc"]]  
 });
 
@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function(){
 /////insertar facturas
 formFacturas.onsubmit = function(e) {
 	  e.preventDefault();
-	    
 	  var listEmpresa = document.querySelector('#listEmpresa').value;
 	  var intprovNumeFact = document.querySelector('#txtprovNumeFact').value;
 	  var intprovValoFact = document.querySelector('#txtprovValoFact').value;

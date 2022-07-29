@@ -28,7 +28,6 @@
                       <tr>
                         <th>#</th>
                         <th>Nombre empresa</th> 
-                        <th>Número</th>
                         <th>valor</th>
                         <th>Fecha</th>
                         <th>status</th>

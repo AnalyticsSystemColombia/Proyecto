@@ -9,6 +9,7 @@ public function __construct(){
 	 	header('Location: '.base_url().'/login');
      }
      getPermisos(MFACTURAS);
+     
 }
 public function Facturas(){
 	if(empty($_SESSION['permisosMod']['r'])){
@@ -19,15 +20,16 @@ public function Facturas(){
 	$data['page_name'] = "Facturas";
 	$data['page_functions_js'] = "functions_facturas.js";
 	$this->views->getView($this,"facturas", $data);
+    
 }
 
 	
 public function setFactura(){
-	 if($_POST){
+
+	if($_POST){
             if(empty($_POST['listEmpresa']) || empty($_POST['txtprovNumeFact']) || empty($_POST['txtprovValoFact'])|| empty($_POST['listStatus'])){
                 $arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
             }else{
-     
                 $intprovFactId = intval($_POST['provFactId']);
                 $intEmpresa=  intval($_POST['listEmpresa']);
                 $intprovNumeFact = intval($_POST['txtprovNumeFact']);
@@ -84,10 +86,10 @@ if($_SESSION['permisosMod']['r']){
 	 		$btnView = '<button class="btn btn-info btn-sm" onClick="fntEditInfo('.$arrData[$i]['provFactId'].')" title="Ver usuario"><i class="far fa-eye"></i></button>';
 	 	}
 	 	if($_SESSION['permisosMod']['u']){
-	 			$btnEdit = '<button class="btn btn-primary  btn-sm" onClick="fntEditInfo('.$arrData[$i]['provFactId'].')" title="Editar usuario"><i class="fas fa-pencil-alt"></i></button>';
+	 			$btnEdit = '<button class="btn btn-primary  btn-sm" onClick="fntEditInfo(this,'.$arrData[$i]['provFactId'].')" title="Editar usuario"><i class="fas fa-pencil-alt"></i></button>';
 	 	}
 	 	if($_SESSION['permisosMod']['d']){
-	 			$btnDelete = '<button class="btn btn-danger btn-sm btnDelUsuario" onClick="fntDelFactura('.$arrData[$i]['provFactId'].')" title="Eliminar usuario"><i class="far fa-trash-alt"></i></button>';
+	 			$btnDelete = '<button class="btn btn-danger btn-sm" onClick="fntDelFactura('.$arrData[$i]['provFactId'].')" title="Eliminar usuario"><i class="far fa-trash-alt"></i></button>';
 	 	}
 	 	$arrData[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 	 }
