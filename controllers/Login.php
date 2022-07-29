@@ -78,7 +78,7 @@
 											'asunto' => 'Recuperar cuenta - '.NOMBRE_REMITENTE,
 											'url_recovery' => $url_recovery);
 					if($requestUpdate){
-						//$sendEmail = sendEmail($dataUsuario,'email_cambioPassword');
+						$sendEmail = sendEmail($dataUsuario,'email_cambioPassword');
 
 						if($sendEmail){
 							$arrResponse = array('status' => true, 

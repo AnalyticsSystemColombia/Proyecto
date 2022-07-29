@@ -7,7 +7,7 @@ class Usuarios extends Controllers{
 		if(empty($_SESSION['login'])){
 			header('Location: '.base_url().'/login');
 		}
-		getPermisos(4);
+		getPermisos(MUSUARIOS);
 	}
 	public function Usuarios(){
 		if(empty($_SESSION['permisosMod']['r'])){
@@ -22,7 +22,8 @@ class Usuarios extends Controllers{
 
 	public function setUsuario(){
 		if($_POST){
-			if(empty($_POST['txtIdentificacion']) || empty($_POST['txtNombre']) || empty($_POST['txtApellido']) || empty($_POST['txtTelefono']) || empty($_POST['txtEmail']) || empty($_POST['listRolid']) || empty($_POST['listStatus']) ){
+			if(empty($_POST['txtIdentificacion']) || empty($_POST['txtNombre']) || empty($_POST['txtApellido']) || empty($_POST['txtTelefono']) || empty($_POST['txtEmail']) || empty($_POST['listRolid']) || empty($_POST['listStatus']) )
+			{
 				$arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
 			}else{ 
 				$idUsuario = intval($_POST['idUsuario']);
@@ -34,9 +35,11 @@ class Usuarios extends Controllers{
 				$intTipoId = intval(strClean($_POST['listRolid']));
 				$intStatus = intval(strClean($_POST['listStatus']));
 				$request_user ="";
-				if($idUsuario == 0){
+				if($idUsuario == 0)
+				{
 					$option = 1;
-					$strPassword =  empty($_POST['txtPassword']) ? hash("SHA256",passGenerator()) : hash("SHA256",$_POST['txtPassword']);
+					$strPassword =  empty($_POST['txtPassword']) ? hash("SHA256", passGenerator()) : hash("SHA256",$_POST['txtPassword']);
+					
 					if(empty($_SESSION['permisosMod']['w'])){
 						$request_user = $this->model->insertUsuario($strIdentificacion,
 						$strNombre, 

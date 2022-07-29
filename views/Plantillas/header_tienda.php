@@ -28,8 +28,9 @@
 		if(!empty($data['producto'])){
 			//$descripcion = $data['producto']['descripcion'];
 			$descripcion = DESCRIPCION;
-			$nombreProducto = $data['producto']['nombre'];
-			$urlWeb = base_url()."/tienda/producto/".$data['producto']['idproducto']."/".$data['producto']['ruta'];
+			$nombreProducto = $data['producto']['prodNomb'];
+      //dep($nombreProducto);
+			$urlWeb = base_url()."/tienda/producto/".$data['producto']['prodId']."/".$data['producto']['ruta'];
 			$urlImg = $data['producto']['images'][0]['url_image'];
 		}
 	?>

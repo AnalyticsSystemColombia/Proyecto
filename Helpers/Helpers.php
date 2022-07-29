@@ -100,6 +100,7 @@
                 $mail->Body    = $mensaje;
                 
                 $mail->send();
+                die();
                 return true;
             } catch (Exception $e) {
                 return false;
