@@ -5,11 +5,11 @@ class Dashboard extends Controllers{
 public function __construct(){
 	parent::__construct();
 	session_start();
-	session_regenerate_id(true);
+	//session_regenerate_id(true);
 	if(empty($_SESSION['login'])){
 		header('Location: '.base_url().'/login');
 	}
-	getPermisos(3);
+	getPermisos(MDASHBOARD);
 }
 public function Dashboard(){
 	// $data['page_id'] = 2;

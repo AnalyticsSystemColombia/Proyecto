@@ -9,7 +9,7 @@
 			if(empty($_SESSION['login'])) {
 	 	       header('Location: '.base_url().'/login');
              }
-         getPermisos(MPEDIDOS);
+         getPermisos(MFACTURAS);
 		}
 
 		public function generarFactura($idpedido){

@@ -8,7 +8,7 @@ public function __construct(){
      if(empty($_SESSION['login'])) {
 	 	header('Location: '.base_url().'/login');
      }
-     getPermisos(13);
+     getPermisos(MFACTURAS);
 }
 public function Facturas(){
 	if(empty($_SESSION['permisosMod']['r'])){

@@ -232,7 +232,7 @@
 					$strApellido = ucwords(strClean($_POST['txtApellido']));
 					$intTelefono = intval(strClean($_POST['txtTelefono']));
 					$strEmail = strtolower(strClean($_POST['txtEmailCliente']));
-					$intTipoId = 6;
+					$intTipoId = MCLIENTES;
 					$request_user = "";
 					
 					$strPassword =  passGenerator();

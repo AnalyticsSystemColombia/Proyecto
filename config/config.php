@@ -68,13 +68,13 @@ const MCLIENTES = 8;
 const MPRODUCTOS = 9;
 const MCOMERCIAL = 10;
 const MVENTAS = 11;
-
 const MPEDIDOS = 12;
-const MFACTURAS = 14;
+const MFACTURAS = 13;
 const MMONITOR =15;
 const MSUSCRIPTOR =16;
 const MCONTACTOS = 17;
 const MPAGINAS = 18;
+const MTPAGOS = 19;
 
 
 //paginas

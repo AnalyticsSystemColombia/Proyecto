@@ -1,6 +1,6 @@
 <?php
 
-class Roles extends Controllers{
+class TipoPagos extends Controllers{
 
     public function __construct(){
         parent::__construct();
@@ -8,23 +8,23 @@ class Roles extends Controllers{
         if(empty($_SESSION['login'])) {
         header('Location: '.base_url().'/login');
         }
-        getPermisos(MROLES);
+        getPermisos(MTPAGOS);
     }
-    public function Roles(){
+    public function tipopagos(){
         if(empty($_SESSION['permisosMod']['r'])){
             header("Location:".base_url().'/dashboard');
         }
-        $data['page_tag'] = "Roles";
-        $data['page_title'] ="Roles";
-        $data['page_name'] = "Roles";
-        $data['page_functions_js'] = "functions_roles.js";
+        $data['page_tag'] = "TipoPagos";
+        $data['page_title'] ="TipoPagos";
+        $data['page_name'] = "TipoPagos";
+        $data['page_functions_js'] = "functions_tipopagos.js";
         ///$data['page_content'] = "Informacion de la pagina";
-        $this->views->getView($this,"roles", $data);
+        $this->views->getView($this,"tipoPagos", $data);
     }
 
-    public function getRoles(){
+    public function getTipoPagos(){
         if($_SESSION['permisosMod']['r']){
-            $arrData = $this->model->selectRoles();
+            $arrData = $this->model->selectTipopagos();
             for($i = 0; $i < count($arrData); $i++) { 
                 $btnView = '';
                 $btnEdit ='';
@@ -35,15 +35,10 @@ class Roles extends Controllers{
                     $arrData[$i]['status'] = '<span class="badge badge-danger">Inactivo</span>';
                 }
                 if($_SESSION['permisosMod']['r']){
-                    $btnView= '<button class="btn btn-secondary btn-sm btnPermisoRol" onClick="fntPermisos('.$arrData[$i]['idrol'].')" title="Permisos"><i class="fa fa-user-secret" aria-hidden="true"></i></button>';
+                    $btnView= '<button class="btn btn-secondary btn-sm btnPermisoRol" onClick="fntPermisos('.$arrData[$i]['idtipopago'].')" title="Permisos"><i class="fa fa-user-secret" aria-hidden="true"></i></button>';
                 }
                 if($_SESSION['permisosMod']['u']){
-                    if(($_SESSION['idUser'] == 3 and $_SESSION['userData']['idrol'] == 3) ||
-                        ($_SESSION['userData']['idrol'] == 3 and $arrData[$i]['idrol'] != 3) ){
-                        $btnEdit = '<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelRol('.$arrData[$i]['idrol'].')" title="Eliminar"><i class="fa fa-trash-o" aria-hidden="true"></i></button>';
-                    }else{
-                        $btnEdit = '<button class="btn btn-secondary btn-sm" disabled ><i class="fas fa-pencil-alt"></i></button>';
-                    }
+                    $btnEdit = '<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelRol('.$arrData[$i]['idtipopago'].')" title="Eliminar"><i class="fa fa-trash-o" aria-hidden="true"></i></button>';
                 }
                 $arrData[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
             }
@@ -51,47 +46,18 @@ class Roles extends Controllers{
         }
         die();
     }
-
-    public function getSelectRoles(){
-        $htmlOptions = "";
-        $arrData = $this->model->selectRoles();
-        if(count($arrData) > 0){
-            for($i=0; $i < count($arrData); $i++){
-                $htmlOptions .= '<option value="'.$arrData[$i]['idrol'].'">'.$arrData[$i]['roleNomb'].'</option>';
-            }
-        }
-        echo $htmlOptions;
-        die();
-    }
     
-    public function getRol( int $idrol){
-        if(empty($_SESSION['permisosMod']['r'])){
-            $intIdrol = intval(strClean($idrol));
-            if($intIdrol > 0){   
-                $arrData = $this->model->selectRol($intIdrol);
-                if(empty($arrData)) { 
-                $arrResponse = array('status' => false, 'msg' => 'Datos no encontrados.');
-                }else{
-                $arrResponse = array('status' => true, 'data' => $arrData);
-                }
-                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-            }
-        }
-        die();
-    }
-
-    public function setRol(){
-            ///dep($_POST);
+    public function setTipoPagos(){
+            //dep($_POST);
         if(empty($_SESSION['permisosMod']['w'])){
-                $intIdrol = intval($_POST['idrol']);
-                $strRol = strClean($_POST['txtroleNomb']);
-                $strDescripcion = strClean($_POST['txtroleDesc']);
+                $intIdrol = intval($_POST['idtipopago']);
+                $strTipopagp = strClean($_POST['txtroleNomb']);
                 $intStatus = intval($_POST['listStatus']);
                 if($intIdrol == 0){
-                    $request_rol = $this->model->insertRol($strRol, $strDescripcion, $intStatus);
+                    $request_rol = $this->model->insertTipopago($strTipopagp, $intStatus);
                     $option = 1;
                 }else{
-                    $request_rol = $this->model->updateRol($intIdrol, $strRol, $strDescripcion, $intStatus);
+                    $request_rol = $this->model->updateRol($intIdrol, $strTipopagp, $intStatus);
                     $option = 2;
                 }
                 if($request_rol > 0) {

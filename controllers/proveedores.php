@@ -9,7 +9,7 @@ class Proveedores extends Controllers
          if(empty($_SESSION['login'])) {
 			header('Location: '.base_url().'/login');
 	     }
-		 getPermisos(3);
+		 getPermisos(MPROVEEDORES);
 	}
 	public function Proveedores()
 	{

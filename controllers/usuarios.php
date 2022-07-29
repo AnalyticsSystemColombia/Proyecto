@@ -18,9 +18,11 @@ class Usuarios extends Controllers{
 		$data['page_name'] = "usuarios";
 		$data['page_functions_js'] = "functions_usuarios.js";
 		$this->views->getView($this,"usuarios",$data);
+		//dep(phpinfo());
 	}
 
 	public function setUsuario(){
+		
 		if($_POST){
 			if(empty($_POST['txtIdentificacion']) || empty($_POST['txtNombre']) || empty($_POST['txtApellido']) || empty($_POST['txtTelefono']) || empty($_POST['txtEmail']) || empty($_POST['listRolid']) || empty($_POST['listStatus']) )
 			{

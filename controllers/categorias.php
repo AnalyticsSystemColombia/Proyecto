@@ -9,7 +9,7 @@ class Categorias extends Controllers{
         {
             header('Location: '.base_url().'/login');
         }
-        getPermisos(1);
+        getPermisos(MCATEGORIAS);
     }
 
     public function Categorias() {

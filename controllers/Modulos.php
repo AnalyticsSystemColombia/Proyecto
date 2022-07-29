@@ -9,7 +9,7 @@ public function __construct(){
      if(empty($_SESSION['login'])) {
 	 	header('Location: '.base_url().'/login');
 	}
-    getPermisos(5);
+    getPermisos(MMODULOS);
 }
 public function Modulos()
 {

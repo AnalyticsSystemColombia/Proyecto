@@ -9,7 +9,7 @@ class Monitor extends Controllers{
           if(empty($_SESSION['login'])) {
           	header('Location: '.base_url().'/login');
           }
-         getPermisos(15);
+         getPermisos(MMONITOR);
     }
     public function monitor(){
          if(empty($_SESSION['permisosMod']['r'])){

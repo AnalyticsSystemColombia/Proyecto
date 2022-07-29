@@ -29,7 +29,7 @@
               </a>
           </li>
         <?php } ?> 
-        <?php if(!empty($_SESSION['permisos'][MCATEGORIAS]['r']) || !empty($_SESSION['permisos'][MUSUARIOS]['r'])|| !empty($_SESSION['permisos'][MROLES]['r']) || !empty($_SESSION['permisos'][MMODULOS]['r'])){ ?>
+        <?php if(!empty($_SESSION['permisos'][MCATEGORIAS]['r']) || !empty($_SESSION['permisos'][MUSUARIOS]['r'])|| !empty($_SESSION['permisos'][MROLES]['r']) || !empty($_SESSION['permisos'][MMODULOS]['r'])|| !empty($_SESSION['permisos'][MTPAGOS]['r'])){ ?>
         <li class="treeview">
             <a class="app-menu__item" href="#" data-toggle="treeview">
                 <i class="app-menu__icon fa fa-cog" aria-hidden="true"></i>
@@ -41,6 +41,7 @@
                 <li><a class="treeview-item" href="<?= base_url(); ?>roles"><i class="icon fa fa-circle-o"></i>roles</a></li>
                 <li><a class="treeview-item" href="<?= base_url(); ?>modulos"><i class="icon fa fa-circle-o"></i>Modulos</a></li>
                 <li><a class="treeview-item" href="<?= base_url(); ?>categorias"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
+                <li><a class="treeview-item" href="<?= base_url(); ?>TipoPagos"><i class="icon fa fa-circle-o"></i>Tipo pagos</a></li>
               </ul>
         </li>
         <?php } ?>
