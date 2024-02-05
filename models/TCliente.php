@@ -47,7 +47,7 @@ public function insertCliente(string $nombre, string $apellido, int $telefono, s
 
 public function insertPedido(string $idtransaccionpaypal = NULL, string $datospaypal = NULL, int $personaid, float $costo_envio, string $monto, int $tipopagoid, string $direccionenvio, string $status){
 		$this->con = new Mysql();
-		$query_insert  = "INSERT INTO pedidos (idtransaccionpaypal,datospaypal,personaid,costo_envio,
+		$query_insert  = "INSERT INTO pedidos (idtransaccionpaypal,datospaypal,pedi_PersId,costo_envio,
 		monto,tipopagoid,direccion_envio,status) 
 							  VALUES(?,?,?,?,?,?,?,?)";
 		$arrData = array($idtransaccionpaypal,
@@ -124,10 +124,10 @@ public function insertDetalleTemp(array $pedido){
 public function getPedido(int $idpedido){
 		$this->con = new Mysql();
 		$request = array();
-		$sql = "SELECT p.idpedido,
+		$sql = "SELECT  p.idpedido,
 						p.referenciacobro,
 						p.idtransaccionpaypal,
-						p.personaid,
+						p.pedi_PersId,
 						p.fecha,
 						p.costo_envio,
 						p.monto,

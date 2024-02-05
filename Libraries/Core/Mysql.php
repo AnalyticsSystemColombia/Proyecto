@@ -4,7 +4,7 @@
 	{
 		private $conexion;
 		private $strquery;
-		private $arrValues;
+		private $arrVAlues;
 
 		function __construct()
 		{
@@ -66,4 +66,3 @@
 
 
  ?>
-

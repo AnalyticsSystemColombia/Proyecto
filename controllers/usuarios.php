@@ -24,7 +24,10 @@ class Usuarios extends Controllers{
 	public function setUsuario(){
 		
 		if($_POST){
-			if(empty($_POST['txtIdentificacion']) || empty($_POST['txtNombre']) || empty($_POST['txtApellido']) || empty($_POST['txtTelefono']) || empty($_POST['txtEmail']) || empty($_POST['listRolid']) || empty($_POST['listStatus']) )
+			if(empty($_POST['txtIdentificacion']) || empty($_POST['txtNombre']) 
+			|| empty($_POST['txtApellido']) || empty($_POST['txtTelefono']) 
+		    || empty($_POST['txtEmail']) || empty($_POST['listRolid']) 
+			|| empty($_POST['listStatus']) )
 			{
 				$arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
 			}else{ 

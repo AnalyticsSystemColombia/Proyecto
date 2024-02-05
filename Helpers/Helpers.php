@@ -271,13 +271,11 @@
         return $cadena;
     }
     //Genera una contraseña de 10 caracteres
-	function passGenerator($length = 10)
-    {
+	function passGenerator($length = 10){
         $pass = "";
         $longitudPass=$length;
         $cadena = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         $longitudCadena=strlen($cadena);
-
         for($i=1; $i<=$longitudPass; $i++)
         {
             $pos = rand(0,$longitudCadena-1);

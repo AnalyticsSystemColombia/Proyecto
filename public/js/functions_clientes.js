@@ -95,10 +95,11 @@ let divLoading = document.querySelector("#divLoading");
                                 rowTable.cells[2].textContent = strNombre;
                                 rowTable.cells[3].textContent = strApellido;
                                 rowTable.cells[4].textContent = strEmail;
-                                rowTable.cells[5].textContent = intTelefono;
-                                rowTable.cells[6].textContent = strNit;
-                                rowTable.cells[7].textContent = strNombreFiscal;
-                                rowTable.cells[8].textContent = strDirFiscal;
+                                rowTable.cells[5].textContent = strPassword;
+                                rowTable.cells[6].textContent = intTelefono;
+                                rowTable.cells[7].textContent = strNit;
+                                rowTable.cells[8].textContent = strNombreFiscal;
+                                rowTable.cells[9].textContent = strDirFiscal;
                                 rowTable = "";
                             }
                             $('#modalClientes').modal("hide");

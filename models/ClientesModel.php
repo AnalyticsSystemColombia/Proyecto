@@ -11,15 +11,16 @@
 		private $strToken;
 		private $intStatus;
 		private $strNit;
-		private $strNomFiscal;
+		private $strNombreFiscal;
 		private $strDirFiscal;
+		private $intTipoId;
 
 	public function __construct(){
 		parent::__construct();
 	}	
-	public function insertCliente(string $identificacion, string $nombre, string $apellido, int $telefono, string $email, 
+	public function insertCliente(int $idpersona,string $identificacion, string $nombre, string $apellido, int $telefono, string $email, 
 	string $password, int $tipoid, string $nit, string $NomFiscal, string $DirFiscal ){
-
+        $this->intIdUsuario = $idpersona;
 		$this->strIdentificacion = $identificacion;
 		$this->strNombre = $nombre;
 		$this->strApellido = $apellido;
@@ -37,9 +38,11 @@
 		$request = $this->select_all($sql);
 
 		if(empty($request)){
-			$query_insert  = "INSERT INTO personas(identificacion,nombres,apellidos,telefono,email,password,rolid,nit, nombrefiscal, direccionfiscal) 
-								VALUES(?,?,?,?,?,?,?,?,?,?)";
-			$arrData = array($this->strIdentificacion,
+			$query_insert  = "INSERT INTO personas(idpersona,identificacion,nombres,apellidos,telefono,email,password,rolid,nit, nombrefiscal, direccionfiscal) 
+								VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+			$arrData = array(
+							$this->intIdUsuario,
+				            $this->strIdentificacion,
 							$this->strNombre,
 							$this->strApellido,
 							$this->intTelefono,

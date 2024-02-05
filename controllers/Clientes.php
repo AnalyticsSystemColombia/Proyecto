@@ -23,9 +23,14 @@ class Clientes extends Controllers{
 	}
 	public function setCliente(){
 		if($_POST){
-			if(empty($_POST['txtIdentificacion']) || empty($_POST['txtNombre']) || empty($_POST['txtApellido']) || empty($_POST['txtTelefono']) || empty($_POST['txtEmail']) || empty($_POST['txtNit']) || empty($_POST['txtNombreFiscal'])||empty($_POST['txtDirFiscal'])){
+			
+			if(empty($_POST['txtIdentificacion']) || empty($_POST['txtNombre']) 
+			|| empty($_POST['txtApellido']) || empty($_POST['txtTelefono']) 
+		    || empty($_POST['txtEmail']) || empty($_POST['txtNit']) 
+			|| empty($_POST['txtNombreFiscal'])||empty($_POST['txtDirFiscal'])){
 				$arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
 			}else{ 
+
 				$idUsuario = intval($_POST['idUsuario']);
 				$strIdentificacion = strClean($_POST['txtIdentificacion']);
 				$strNombre = ucwords(strClean($_POST['txtNombre']));
@@ -42,7 +47,8 @@ class Clientes extends Controllers{
 					$strPassword =  empty($_POST['txtPassword']) ? passGenerator() : $_POST['txtPassword'];
 						$strPasswordEncript = hash("SHA256",$strPassword());
 						if($_SESSION['permisosMod']['w']){  
-							$request_user = $this->model->insertCliente($strIdentificacion,
+							$request_user = $this->model->insertCliente(
+							$strIdentificacion,
 							$strNombre, 
 							$strApellido, 
 							$intTelefono, 
