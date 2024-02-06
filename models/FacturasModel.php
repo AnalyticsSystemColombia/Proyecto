@@ -1,5 +1,6 @@
 <?php 
 class FacturasModel extends Mysql{
+  private $intIdfactura;
   private $NombEmpresa;
   private $Nfactura;
   private $ValorFact;
@@ -58,7 +59,20 @@ class FacturasModel extends Mysql{
     return $request;
   }
 
-  
+  public function selectFactura(int $provFactId )
+  {
+    //dep($provFactId);
+    $this->intIdfactura = $provFactId ;
+    $sql ="SELECT p.provNomb as Nombre, pf.provFactCodi, pf.provNumeFact, pf.provValoFact,
+    DATE_FORMAT(pf.provFactFech, '%d-%m-%Y') as fechaRegistro, pf.status
+    FROM proveedores_facturas pf
+	  join proveedores  p
+    on p.provCodi = pf.provFactCodi
+    WHERE pf.provFactId  = $this->intIdfactura";
+    ///echo $sql;exit; 
+    $request = $this->select($sql);
+    return $request;
+  }
 
   
 

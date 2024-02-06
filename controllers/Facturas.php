@@ -37,7 +37,7 @@ class Facturas extends Controllers{
                     $arrData[$i]['status'] = '<span class="badge badge-danger">Inactivo</span>';
                 }
                 $arrData[$i]['options'] = '<div class="text-center">
-                <button class="btn btn-secondary btn-sm btnViewProveedor" pv="'.$arrData[$i]['provFactId'].'" title="Ver usuario"><i class="fa fa-address-book-o" aria-hidden="true"></i></button> 
+                <button class="btn btn-secondary btn-sm btnViewFacturas" pv="'.$arrData[$i]['provFactId'].'" title="Ver usuario"><i class="fa fa-address-book-o" aria-hidden="true"></i></button> 
                 <button class="btn btn-primary btn-sm btnEditProveedor" pv="'.$arrData[$i]['provFactId'].'" title="Editar"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                 <button class="btn btn-danger btn-sm btnDelProveedor" pv="'.$arrData[$i]['provFactId'].'" title="Eliminar"><i class="fa fa-trash-o" aria-hidden="true"></i></button> 
                 </div>';
@@ -96,5 +96,23 @@ class Facturas extends Controllers{
         echo json_encode($arrData, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    public function getFactura(int $provFactId){
+        //dep($provFactId);
+        $provFactId = intval($provFactId);
+        if($provFactId > 0)
+        {
+         $arrData = $this->model->selectFactura($provFactId);
+         //dep($arrData);
+         if(empty($arrData))
+         {
+             $arrResponse = array('status' => false, 'msg' => 'Datos incorrectos');
+         }else{
+             $arrResponse = array('status' => true,  'data' => $arrData);
+         }
+         echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+        }
+        die();
+       }
 }
 ?>

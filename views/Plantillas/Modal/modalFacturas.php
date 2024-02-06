@@ -57,7 +57,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header primary" style="background-color:#009688">
-        <h5 class="modal-title" id="titleModal">Datos del proveedor</h5>
+        <h5 class="modal-title" id="titleModal">Datos de la Factura</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -66,28 +66,28 @@
        <table class="table table-bordered">
         <tbody>
             <tr>
-                <td>Nit del proveedor</td>
-                <td id=celprovNit></td>
+                <td>N Proveedor</td>
+                <td id=provNombre></td>
             </tr>
             <tr>
-               <td>Nombre proveedor</td>
-                <td id=celprovNomb></td>
+               <td>Código</td>
+                <td id=provCodigo></td>
             </tr>
             <tr>
-                <td>Dirección</td>
-                <td id=celprovDire></td>
+                <td>Número</td>
+                <td id=provNumero></td>
             </tr>
             <tr>
-                <td>Teléfono</td>
-                <td id=celprovTele></td>
+                <td>Valor</td>
+                <td id=provValor></td>
             </tr>
             <tr>
-                <td>Email</td>
-                <td id=celprovEmail></td>
+                <td>Fecha</td>
+                <td id=provFecha></td>
             </tr>
             <tr>
-                <td>Detalle proveedor</td>
-                <td id=celprovDeta></td>
+                <td>Estado</td>
+                <td id=provEstado></td>
             </tr>
         </tbody>
        </table>

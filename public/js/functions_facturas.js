@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
 window.addEventListener('load', function(){
 	fntSelectProveedores();
-	//btnViewProveedor();
+	btnViewFacturas();
 	//fntEditProveedor();
 }, false);
 
@@ -115,6 +115,39 @@ function fntSelectProveedores(){
 			// $('.selectpicker').addClass('col-lg-13').selectpicker('setStyle');
 		}
 	}
+}
+
+function btnViewFacturas() {
+	var btnViewFacturas = document.querySelectorAll(".btnViewFacturas");
+	btnViewFacturas.forEach(function(btnViewFacturas){
+		btnViewFacturas.addEventListener('click', function(){
+		var provFactId = this.getAttribute("pv");
+		var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('microsoft.XMLHTTP');
+		var ajaxUrl = base_url+'/Facturas/getFactura/'+provFactId;
+		request.open("GET",ajaxUrl,true);
+		request.send();
+		request.onreadystatechange = function(){
+			if(request.status == 200){
+				var objData = JSON.parse(request.responseText);
+				if(objData.status){
+					var estadoF = objData.data.status == 1 ?
+					'<span class="badge badge-success">Activo</span>':
+					'<span class="badge badge-danger">Inactivo</span>';
+					document.querySelector("#provNombre").innerHTML = objData.data.Nombre;
+					document.querySelector("#provCodigo").innerHTML = objData.data.provFactCodi;
+					document.querySelector("#provNumero").innerHTML = objData.data.provNumeFact;
+					document.querySelector("#provValor").innerHTML = objData.data.provValoFact;
+					document.querySelector("#provFecha").innerHTML = objData.data.fechaRegistro;
+                    document.querySelector("#provEstado").innerHTML = estadoF;
+					$('#ModalViewFacturas').modal('show');
+				}else{
+					swal("Error", objData.msg , "error");
+				}
+			}
+		}
+		
+		});
+	});
 }
 
 
