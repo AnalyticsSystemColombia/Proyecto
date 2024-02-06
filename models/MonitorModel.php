@@ -142,7 +142,7 @@
 
     public function selectImages(int $prodId){
       $this->intprodCodi = $prodId;
-      $sql = "SELECT productoId,img FROM images WHERE productoId = $this->intprodCodi";
+  echo    $sql = "SELECT productoId,img FROM images WHERE productoId = $this->intprodCodi";
       $request = $this->select_all($sql);
       return $request;
     }

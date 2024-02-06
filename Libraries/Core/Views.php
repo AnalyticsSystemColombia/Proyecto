@@ -1,18 +1,16 @@
-<?php
-class Views
-{
-	function getView($controller, $view, $data="")
+<?php 
+	
+	class Views
 	{
-		$controller = get_class($controller);
-		if($controller == "Home")
+		function getView($controller,$view,$data="")
 		{
-			$view = "Views/".$view.".php";
-		}else{
-			$view = "Views/".$controller."/".$view.".php";
+			$controller = get_class($controller);
+			if($controller == "Home"){
+				$view = "Views/".$view.".php";
+			}else{
+				$view = "Views/".$controller."/".$view.".php";
+			}
+			require_once ($view);
 		}
-		require_once ($view);
 	}
-}
-
-
-  ?>
+ ?>

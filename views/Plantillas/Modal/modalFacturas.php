@@ -10,13 +10,13 @@
       </div>
       <div class="modal-body">  
         <form id="formFacturas" name="formFacturas">
-            <input type="hidden" id="provFactId" name="provFactId" class="form-horizontal" value="">
+            <input type="hidden" id="idfactura" name="idfactura" class="form-horizontal" value="">
             <p class="text-primary">Todos los campos son obligatorios.</p>
              
             <div class="form-row">
             <div class="form-group col-md-6">
-                     <label for="listEmpresa">Empresa</label>
-                     <select class="form-control" data-live-search="true"  id="listEmpresa"  name="listEmpresa"  required> 
+                     <label for="provCodi">Empresa</label>
+                     <select class="form-control" data-live-search="true"  id="provCodi"  name="provCodi"  required> 
                      </select>
                  </div>
                  <div class="form-group col-md-6">

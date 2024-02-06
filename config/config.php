@@ -4,6 +4,8 @@
  const BASE_URL ="http://localhost/Proyectos/SISO/";
 
  date_default_timezone_set('America/Bogota');
+ //harold_uruena@yahoo.com
+ //Wonica123
  
  const DB_HOST = "localhost";
  const DB_NAME = "SISO";

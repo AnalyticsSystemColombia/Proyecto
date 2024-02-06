@@ -10,7 +10,7 @@
           <button class="btn btn-primary" type="button" onclick="openModal();"><i class="fa fa-plus-square" aria-hidden="true"></i>Nuevo</button>
           </h1>
           <?php } ?>
-          <p>Aqui puedes agregar una factura de un proveedor</p>
+          <p>Aqui puedes agregar una facturas de un proveedor</p>
         </div>
         <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -27,14 +27,24 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Nombre empresa</th> 
+                        <th>Nombre Empresa</th> 
+                        <th>N° Factura</th> 
                         <th>valor</th>
                         <th>Fecha</th>
                         <th>status</th>
                         <th>Acciones</th>
                       </tr>
-                    </thead>
-                    <tbody>      
+                    </thead> 
+                    <tbody>    
+                    </tbody>
+                  </table>
+                  <table class="table table-hover  table-bordered" id="tableResultados">
+                    <thead>
+                      <th>
+                        Total del valor facturas:
+                      </th>
+                    </thead> 
+                    <tbody>    
                     </tbody>
                   </table>
                 </div>
