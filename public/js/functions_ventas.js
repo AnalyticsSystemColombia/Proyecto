@@ -1,22 +1,16 @@
 ////cargar la tabla de la categoria
-var tablepedidos;
+var tableVentas;
 
 document.addEventListener('DOMContentLoaded',function(){
 	////var formUsuarios = document.querySelector("formUsuarios");
-	tablepedidos = $('#tablepedidos').DataTable({	
-		"footerCallback": function ( row, data, start, end, display ) {
-        
-            total = this.api()
-                .column(3)//numero de columna a sumar
-                .column(1, {page: 'current'})//para sumar solo la pagina actual
-                .data()
-                .reduce(function (a, b) {
-                    return parseInt(a) + parseInt(b);S
-                }, 0 );
-
-            $(this.api().column(3).footer()).html(total);
-            
-        },
+	tableVentas = $('#tableVentas').DataTable({	
+            'createdRow':function(row,data,index){
+                if(data['cantidad'] <= 100000){
+                    $('td', row).eq(4).css({
+                        'background-color':'#ff5252'
+                    })
+                }
+            },
 		"aProcessing":true,
 		"aServerSide":true,
 		"language": {
@@ -28,42 +22,28 @@ document.addEventListener('DOMContentLoaded',function(){
 			"dataSrc":""
 		},
 		"columns":[
-		{"data":""}, 
-		{"data":""},
-		{"data":""},
-		{"data":""},
-	// 	{"render": function(data, type, row) {
-	// 		const resume = {
-	// 			prodNomb: row.prodNomb,
-	// 			prodPrec: row.prodPrec,
-	// 			prodStock: row.prodStock,
-	// 		}
-	// 		return `<div class="col-xs-1 col-sm-1 col-md-1">
-	// 					<div class="thumbnail">
-	// 						<div class="caption">
-	// 							<h6 style="text-center">${resume.prodNomb}</h6>
-	// 							<p>Precio: $${resume.prodPrec}</p>
-	// 							<p>Cantidad: ${resume.prodStock}</p>
-	// 							<p class="text-center">
-	// 								<a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>&nbsp; Detalles</a>&nbsp;&nbsp;
-	// 								<button value="" class="btn btn-success btn-sm botonCarrito"><i class="fa fa-shopping-cart"></i>&nbsp; Añadir</button>
-	// 							</p>
-	// 						</div>
-	// 					</div>
-	// 	            </div>`; 
-	//    }
-	
-    //},
-{"data":"options"},
-
+		{"data":"prodNomb"}, 
+		{"data":"prodStock"},
+		{"data":"cantidad" },
+		{"data":"prodPrec",
+		render:function(data){
+			return '$'+data;
+		}},
+		{"data":"monto",
+		render:function(data){
+			return '$'+data;
+		},
+	    },
+		{"data":"fecha"},
+        {"data":"options"},
 		],
-
 		"resonsieve":"true",
 		"bDestroy":true,
 		"iDisplayLength": 10,
-		"order":[[0,"desc"]]
-		
+		"order":[[0,"desc"]],
 	});
+	
+	
 	////insertar productos
 	var formPedidos = document.querySelector("#formPedidos");
 	formPedidos.onsubmit = function(e) {
@@ -98,7 +78,7 @@ document.addEventListener('DOMContentLoaded',function(){
 			}
 		}
 	}
-
+	
 }, false);
 
 window.addEventListener('load', function(){

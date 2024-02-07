@@ -39,9 +39,12 @@ class VentasModel extends Mysql
   } 
 
   public function selectVentas(){
-    $sql ="SELECT pediCodi,  pediNombProd, pediFech, pediPrec, pediCant,
-    status
-    FROM pedidos  WHERE status != 0"  ;
+    $sql ="select dp.pedidoid, p.status, p.fecha, pr.prodNomb, pr.prodStock, pr.prodPrec, p.monto, dp.cantidad, dp.precio
+    from productos pr
+     inner join pedidos p
+    on p.idpedido = pr.prodId
+     inner join detalle_pedido dp
+    on dp.pedidoid = p.idpedido";
     //echo $sql;exit;
     $request = $this->select_all($sql);
     return $request;

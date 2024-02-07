@@ -11,6 +11,7 @@ class Ventas extends Controllers
           {
 		  	header('Location: '.base_url().'/login');
 	      }
+		  getPermisos(MVENTAS);
 
 	}
 	public function Ventas()
@@ -18,6 +19,7 @@ class Ventas extends Controllers
 		$data['page_tag'] = "Ventas";
 		$data['page_title'] ="Ventas";
 		$data['page_name'] = "Ventas";
+		$data['page_functions_js'] = "functions_ventas.js";
 		////$data['page_content'] = "Informacion de la pagina"; sirve para dar informacion.
 		$this->views->getView($this,"Ventas", $data);
 	}
@@ -77,8 +79,8 @@ class Ventas extends Controllers
 				}
 
 				$arrData[$i]['options'] = '<div class="text-center">
-				<button class="btn btn-secondary btn-sm btnViewProductos" pr="'.$arrData[$i]['pediCodi'].'" title="Ver Detalle"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Detalle</button> 
-				<button class="btn btn-primary btn-sm btnCarrito" pr="'.$arrData[$i]['pediCodi'].'" title="Agregar Producto"><i class="fa fa-plus-square"></i>Editar</button>
+				<button class="btn btn-secondary btn-sm btnViewProductos" pr="'.$arrData[$i]['pedidoid'].'" title="Ver Detalle"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Detalle</button> 
+				<button class="btn btn-primary btn-sm btnCarrito" pr="'.$arrData[$i]['pedidoid'].'" title="Agregar Producto"><i class="fa fa-plus-square"></i>Editar</button>
 				
 				</div>';
 		}
