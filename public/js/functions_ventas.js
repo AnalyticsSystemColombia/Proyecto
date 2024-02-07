@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded',function(){
             'createdRow':function(row,data,index){
                 if(data['cantidad'] <= 100000){
                     $('td', row).eq(4).css({
-                        'background-color':'#ff5252'
+                        'background-color':'#008f39'
                     })
                 }
             },
