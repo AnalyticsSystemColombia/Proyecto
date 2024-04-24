@@ -16,7 +16,7 @@ class VentasModel extends Mysql
     $this->intStatus = $status;
     $return = 0;
 
-     $sql = "SELECT * FROM productos WHERE prodCodi =
+     $sql = "SELECT * FROM productos WHERE proId =
      '{$this->strprodNomb}'";
      $request = $this->select_all($sql);
     
@@ -50,25 +50,25 @@ class VentasModel extends Mysql
     return $request;
   }
 
-  public function selectPedido(int $prodCodi ){
-    $this->prodCodi = $prodCodi ;
-    $sql ="SELECT p.prodCodi , p.prodNomb, p.prodMarc, p.prodStock, 
+  public function selectPedido(int $proId ){
+    $this->proId = $proId ;
+    $sql ="SELECT p.proId , p.prodNomb, p.prodMarc, p.prodStock, 
     p.prodMode, c.cateNomb, p.prodPrec, p.status, DATE_FORMAT(p.prodFech, '%d-%m-%Y') 
     as fechaRegistro
     FROM productos p
     INNER JOIN categorias c
     ON   p.prodCodiCate = c.cateCodi
-   WHERE p.status != 0 and prodCodi ={$this->prodCodi}";
+   WHERE p.status != 0 and proId ={$this->proId}";
     ///echo $sql;exit; 
     $request = $this->select($sql);
     return $request;
   }
 
-  public function AgregarProducto(int $prodCodi ){
-    $this->prodCodi = $prodCodi ;
-    $sql ="SELECT prodCodi , prodNomb, prodStock, 
+  public function AgregarProducto(int $proId ){
+    $this->proId = $proId ;
+    $sql ="SELECT proId , prodNomb, prodStock, 
      prodPrec, status FROM productos 
-    WHERE prodCodi = $this->prodCodi";
+    WHERE proId = $this->proId";
     ///echo $sql;exit; 
     $request = $this->select($sql);
     return $request;

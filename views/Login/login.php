@@ -45,7 +45,7 @@
           </div>
           <div id="alertLogin" class="text-center"></div>
           <div class="form-group btn-container">
-            <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> INICIAR SESIÓN</button>
+            <button type="submit" id="buttom" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> INICIAR SESIÓN</button>
           </div>
         </form>
         <form id="formRecetPass" name="formRecetPass" class="forget-form" action="">
@@ -55,7 +55,7 @@
             <input id="txtEmailReset" name="txtEmailReset" class="form-control" type="email" placeholder="Email">
           </div>
           <div class="form-group btn-container">
-            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-unlock fa-lg fa-fw"></i>REINICIAR</button>
+            <button type="submit"   class="btn btn-primary btn-block"><i class="fa fa-unlock fa-lg fa-fw"></i>REINICIAR</button>
           </div>
           <div class="form-group mt-3">
             <p class="semibold-text mb-0"><a href="#" data-toggle="flip"><i class="fa fa-angle-left fa-fw"></i> Iniciar sesión</a></p>
