@@ -150,11 +150,14 @@ public function getPedido(int $idpedido){
 									ON d.productoid = p.prodId
 									WHERE d.pedidoid = $idpedido
 									";
+	
+
 			$requestProductos = $this->con->select_all($sql_detalle);
 			$request = array('orden' => $requestPedido,
 							'detalle' => $requestProductos
 							);
 		}
+		
 		return $request;
     }
 	public function setSuscripcion(string $nombre, string $email){
